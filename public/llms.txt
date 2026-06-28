@@ -20,6 +20,7 @@ Christer Hagen is a Norwegian serial entrepreneur and software developer based i
 - X: https://x.com/CodeHagen
 - Instagram: https://www.instagram.com/christerhagen/
 - Wikidata: https://www.wikidata.org/wiki/Q140373910
+- Crunchbase: https://www.crunchbase.com/person/christer-hagen
 
 ## Norsk
 Christer Hagen er en norsk seriegründer og utvikler fra Bodø. Han er grunnlegger av Codebase og Not Another Venture Capital, og solgte AI-selskapet Docdir til Visma i 2026.

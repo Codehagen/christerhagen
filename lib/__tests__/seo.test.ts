@@ -129,22 +129,25 @@ describe("personGraph()", () => {
     expect(person!["@id"]).toBe(SITE_URL + "/#christer")
   })
 
-  it("Person has 5 sameAs entries", () => {
+  it("Person has 6 sameAs entries", () => {
     const nodes = (graph as { "@graph": Array<Record<string, unknown>> })[
       "@graph"
     ]
     const person = nodes.find((n) => n["@type"] === "Person")!
     expect(Array.isArray(person.sameAs)).toBe(true)
-    expect((person.sameAs as string[]).length).toBe(5)
+    expect((person.sameAs as string[]).length).toBe(6)
   })
 
-  it("Person sameAs includes the Wikidata entity", () => {
+  it("Person sameAs includes the Wikidata and Crunchbase entities", () => {
     const nodes = (graph as { "@graph": Array<Record<string, unknown>> })[
       "@graph"
     ]
     const person = nodes.find((n) => n["@type"] === "Person")!
     expect((person.sameAs as string[])).toContain(
       "https://www.wikidata.org/wiki/Q140373910"
+    )
+    expect((person.sameAs as string[])).toContain(
+      "https://www.crunchbase.com/person/christer-hagen"
     )
   })
 

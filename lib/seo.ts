@@ -139,6 +139,7 @@ export function personGraph(): object {
           "https://x.com/CodeHagen",
           "https://www.instagram.com/christerhagen/",
           "https://www.wikidata.org/wiki/Q140373910",
+          "https://www.crunchbase.com/person/christer-hagen",
         ],
         founder: [
           { "@id": SITE_URL + "/#codebase" },
@@ -197,6 +198,7 @@ export function profilePageLd(lang: Lang = "en"): object {
         "https://x.com/CodeHagen",
         "https://www.instagram.com/christerhagen/",
         "https://www.wikidata.org/wiki/Q140373910",
+        "https://www.crunchbase.com/person/christer-hagen",
       ],
     },
   }
