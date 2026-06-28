@@ -138,6 +138,7 @@ export function personGraph(): object {
           "https://github.com/Codehagen",
           "https://x.com/CodeHagen",
           "https://www.instagram.com/christerhagen/",
+          "https://www.wikidata.org/wiki/Q140373910",
         ],
         founder: [
           { "@id": SITE_URL + "/#codebase" },
@@ -195,6 +196,7 @@ export function profilePageLd(lang: Lang = "en"): object {
         "https://github.com/Codehagen",
         "https://x.com/CodeHagen",
         "https://www.instagram.com/christerhagen/",
+        "https://www.wikidata.org/wiki/Q140373910",
       ],
     },
   }

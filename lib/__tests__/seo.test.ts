@@ -129,13 +129,23 @@ describe("personGraph()", () => {
     expect(person!["@id"]).toBe(SITE_URL + "/#christer")
   })
 
-  it("Person has 4 sameAs entries", () => {
+  it("Person has 5 sameAs entries", () => {
     const nodes = (graph as { "@graph": Array<Record<string, unknown>> })[
       "@graph"
     ]
     const person = nodes.find((n) => n["@type"] === "Person")!
     expect(Array.isArray(person.sameAs)).toBe(true)
-    expect((person.sameAs as string[]).length).toBe(4)
+    expect((person.sameAs as string[]).length).toBe(5)
+  })
+
+  it("Person sameAs includes the Wikidata entity", () => {
+    const nodes = (graph as { "@graph": Array<Record<string, unknown>> })[
+      "@graph"
+    ]
+    const person = nodes.find((n) => n["@type"] === "Person")!
+    expect((person.sameAs as string[])).toContain(
+      "https://www.wikidata.org/wiki/Q140373910"
+    )
   })
 
   it("Person has image and knowsAbout", () => {
