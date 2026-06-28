@@ -17,6 +17,7 @@ export interface UiCopy {
   navPortfolio: string
   navWriting: string
   navContact: string
+  getInTouch: string
   backLabel: string
   visitLabel: string
   nextLabel: string
@@ -51,6 +52,7 @@ export const uiCopy: Record<Lang, UiCopy> = {
     navPortfolio: "Portfolio",
     navWriting: "Writing",
     navContact: "Contact",
+    getInTouch: "Get in touch",
     backLabel: "Portfolio",
     visitLabel: "Visit",
     nextLabel: "Next",
@@ -64,6 +66,7 @@ export const uiCopy: Record<Lang, UiCopy> = {
     navPortfolio: "Portefølje",
     navWriting: "Tekster",
     navContact: "Kontakt",
+    getInTouch: "Ta kontakt",
     backLabel: "Portefølje",
     visitLabel: "Besøk",
     nextLabel: "Neste",

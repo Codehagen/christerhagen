@@ -18,17 +18,27 @@ shadcn tokens are themed in
 `app/globals.css` so every component inherits the aesthetic; the `Badge` and
 `Toggle` components carry small variants (`status`, `plain`) tailored to the design.
 
-## Portfolio pages
+## Pages
 
-The implemented surface is the portfolio company detail page — statically generated
-for each company, with an EN/NO language switch persisted to `localStorage`.
+Every page is statically generated and fully bilingual — an EN/NO switch in the
+header is persisted to `localStorage` and shared across the site.
 
 ```
-/portfolio/<slug>     e.g. /portfolio/codebase, /portfolio/sailsdock, …
-/portfolio            redirects to the first company
+/                     Home — hero, about, now, work, investments, exits, OSS, writing, contact
+/about                Bio + timeline
+/portfolio            Listing: building / angel investments / exits
+/portfolio/<slug>     Company detail (11 companies, e.g. /portfolio/codebase)
+/writing              Essays index
+/writing/<slug>       Post (3 posts) with "read next"
+/process              How I work
+/contact              Email + socials
 ```
 
-Company content lives in `lib/companies.ts` (EN + NO copy, display order, UI labels).
+All copy lives in `lib/` (`companies.ts`, `content.ts`, `posts.ts`) as EN + NO data.
+
+> The portrait photos are placeholders (`public/images/portrait-placeholder.svg`).
+> Drop the real images in and point the `<img src>` in `home-content.tsx` /
+> `about-content.tsx` at them.
 
 ## Project structure
 
@@ -36,16 +46,22 @@ Company content lives in `lib/companies.ts` (EN + NO copy, display order, UI lab
 app/
   layout.tsx                  fonts, theme, language provider
   globals.css                 warm-paper theme tokens
-  portfolio/[slug]/page.tsx   company detail page (SSG)
-  portfolio/page.tsx          redirect to default company
+  page.tsx                    home
+  about|process|contact/      static pages
+  portfolio/page.tsx          listing
+  portfolio/[slug]/page.tsx   company detail (SSG)
+  writing/page.tsx            essays index
+  writing/[slug]/page.tsx     post (SSG)
 components/
-  site-header.tsx             sticky nav + EN/NO ToggleGroup
+  site-header.tsx             sticky nav + EN/NO ToggleGroup (+ home CTA)
   site-footer.tsx
-  company-content.tsx         language-aware article
+  *-content.tsx               language-aware page bodies
   language-provider.tsx       SSR-safe language store
-  ui/                         shadcn components
+  ui/                         shadcn components (Badge, Button, Toggle…)
 lib/
-  companies.ts                bilingual portfolio data
+  companies.ts                portfolio company data + UI labels
+  content.ts                  home/about/portfolio/process/contact copy
+  posts.ts                    writing posts
 ```
 
 ## Development

@@ -31,7 +31,14 @@ function NavLink({
   )
 }
 
-export function SiteHeader({ active }: { active?: NavKey }) {
+export function SiteHeader({
+  active,
+  showCta,
+}: {
+  active?: NavKey
+  /** Show the "Get in touch" pill (home page only — links to #contact). */
+  showCta?: boolean
+}) {
   const { lang, setLang } = useLanguage()
   const t = uiCopy[lang]
 
@@ -89,6 +96,15 @@ export function SiteHeader({ active }: { active?: NavKey }) {
               NO
             </ToggleGroupItem>
           </ToggleGroup>
+
+          {showCta ? (
+            <a
+              href="#contact"
+              className="rounded-full border border-[#D8D2C4] px-[15px] py-2 font-mono text-[12px] leading-none font-medium tracking-[0.02em] text-foreground transition-colors hover:border-foreground"
+            >
+              {t.getInTouch}
+            </a>
+          ) : null}
         </nav>
       </div>
     </header>

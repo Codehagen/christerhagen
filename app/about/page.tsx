@@ -2,19 +2,19 @@ import type { Metadata } from "next"
 
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
-import { PortfolioContent } from "@/components/portfolio-content"
+import { AboutContent } from "@/components/about-content"
 
 export const metadata: Metadata = {
-  title: "Portfolio — Christer Hagen",
+  title: "About — Christer Hagen",
   description:
-    "Companies I've built, backed and sold. Mostly software, mostly Norwegian, mostly pre-seed.",
+    "A serial entrepreneur and angel investor, building from the north of Norway.",
 }
 
-export default function PortfolioPage() {
+export default function AboutPage() {
   return (
     <div className="flex min-h-svh flex-col bg-background text-foreground">
-      <SiteHeader active="portfolio" />
-      <PortfolioContent />
+      <SiteHeader active="about" />
+      <AboutContent />
       <SiteFooter />
     </div>
   )
