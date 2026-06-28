@@ -17,17 +17,17 @@ export function PortfolioContent() {
   const c = portfolioContent[lang]
 
   return (
-    <main className="mx-auto w-full max-w-[740px] flex-1 px-[28px]">
+    <main id="main" className="mx-auto w-full max-w-[740px] flex-1 px-5 sm:px-7">
       <section className="pt-[84px] pb-[56px]">
-        <div className={`${label} mb-[22px]`}>{c.kicker}</div>
-        <p className="m-0 max-w-[24ch] text-[27px] leading-[1.35] font-normal text-(--ink-strong)">
+        <h1 className={`${label} mb-[22px]`}>{c.kicker}</h1>
+        <p className="m-0 max-w-[24ch] text-[clamp(22px,6.5vw,27px)] leading-[1.35] font-normal text-(--ink-strong)">
           {c.intro}
         </p>
       </section>
 
       {/* Building */}
       <section className="mb-16">
-        <div className={`${label} mb-1.5`}>{c.gBuilt}</div>
+        <h2 className={`${label} mb-1.5`}>{c.gBuilt}</h2>
         {c.built.map((b) => (
           <Link key={b.slug} href={`/portfolio/${b.slug}`} className={`${rowLink} py-[18px]`}>
             <span className="flex flex-col gap-[5px]">
@@ -38,7 +38,7 @@ export function PortfolioContent() {
                 {b.desc}
               </span>
             </span>
-            <span className="flex-shrink-0 font-mono text-[11.5px] leading-none font-normal whitespace-nowrap text-[#B0A893]">
+            <span className="flex-shrink-0 font-mono text-[11.5px] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
               {b.meta}
             </span>
           </Link>
@@ -47,7 +47,7 @@ export function PortfolioContent() {
 
       {/* Angel investments */}
       <section className="mb-16">
-        <div className={`${label} mb-1.5`}>{c.gInvest}</div>
+        <h2 className={`${label} mb-1.5`}>{c.gInvest}</h2>
         {c.invest.map((i) => (
           <Link key={i.slug} href={`/portfolio/${i.slug}`} className={`${rowLink} py-4`}>
             <span className="flex flex-col gap-1">
@@ -58,7 +58,7 @@ export function PortfolioContent() {
                 {i.desc}
               </span>
             </span>
-            <span className="flex-shrink-0 font-mono text-[11px] leading-none font-normal tracking-[0.03em] whitespace-nowrap text-[#B0A893]">
+            <span className="flex-shrink-0 font-mono text-[11px] leading-none font-normal tracking-[0.03em] whitespace-nowrap text-(--ink-meta)">
               {i.meta}
             </span>
           </Link>
@@ -67,7 +67,7 @@ export function PortfolioContent() {
 
       {/* Exits */}
       <section className="mb-20">
-        <div className={`${label} mb-1.5`}>{c.gExits}</div>
+        <h2 className={`${label} mb-1.5`}>{c.gExits}</h2>
         {c.exits.map((x) => (
           <Link key={x.slug} href={`/portfolio/${x.slug}`} className={`${rowLink} py-4`}>
             <span className="flex flex-col gap-1">

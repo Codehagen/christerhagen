@@ -5,7 +5,7 @@ import { SiteFooter } from "@/components/site-footer"
 import { ProcessContent } from "@/components/process-content"
 
 export const metadata: Metadata = {
-  title: "How I work — Christer Hagen",
+  title: "How I work",
   description:
     "I invest early and stay close. How I work with the founders I back.",
 }

@@ -5,7 +5,7 @@ import { SiteFooter } from "@/components/site-footer"
 import { ContactContent } from "@/components/contact-content"
 
 export const metadata: Metadata = {
-  title: "Contact — Christer Hagen",
+  title: "Contact",
   description:
     "Building something? I back early-stage technical founders across Norway and the Nordics.",
 }

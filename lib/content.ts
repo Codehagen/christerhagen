@@ -155,7 +155,7 @@ export const homeContent: Record<Lang, HomeContent> = {
       },
       {
         name: "Fotovibe",
-        desc: "Visual content that elevates home sales and the agent experience.",
+        desc: "Visual content that helps sell homes and makes agents look good.",
         url: inv("en", "fotovibe"),
       },
       {
@@ -212,7 +212,7 @@ export const homeContent: Record<Lang, HomeContent> = {
     ],
     ctaHead: "Building something? Let me know.",
     ctaBody:
-      "I back technical founders at pre-seed. A few lines about what you're building is enough.",
+      "I back technical founders at pre-seed. A few lines about what you’re building is enough.",
     ctaBtn: "Get in touch",
   },
   no: {
@@ -370,7 +370,7 @@ export const aboutContent: Record<Lang, AboutContent> = {
     head: "A serial entrepreneur and angel investor, building from the north of Norway.",
     lblBackground: "Background",
     bio: [
-      "I'm from Bodø, in the north of Norway. I grew up in Fauske, swam competitively, and studied entrepreneurship at Nord University before starting my first company.",
+      "I’m from Bodø, in the north of Norway. I grew up in Fauske, swam competitively, and studied entrepreneurship at Nord University before starting my first company.",
       "That company, Refenze, sold fitness apparel across Europe and the US. It taught me how unforgiving real businesses are, and I have been building them ever since.",
       "Through Codebase I build and back software companies. Sailsdock is the CRM I run day to day; Docdir, which I sold to Visma in 2026, automated real-estate documents with Norwegian AI. I am a partner at Advanti Estate and I invest pre-seed through Not Another VC.",
       "I build in the open on GitHub, placed in the top 4% of the Norwegian AI Championship, and I still believe the best companies can be built far from the capital.",
@@ -448,7 +448,7 @@ export const portfolioContent: Record<Lang, PortfolioContent> = {
   en: {
     kicker: "Portfolio",
     intro:
-      "Companies I've built, backed and sold. Mostly software, mostly Norwegian, mostly pre-seed.",
+      "Companies I’ve built, backed and sold. Mostly software, mostly Norwegian, mostly pre-seed.",
     gBuilt: "Building",
     gInvest: "Angel investments",
     gExits: "Exits",
@@ -500,7 +500,7 @@ export const portfolioContent: Record<Lang, PortfolioContent> = {
       {
         slug: "fotovibe",
         name: "Fotovibe",
-        desc: "Visual content that elevates home sales and the agent experience.",
+        desc: "Visual content that helps sell homes and makes agents look good.",
         meta: "Pre-seed",
       },
       {
@@ -700,7 +700,7 @@ export const contactContent: Record<Lang, ContactContent> = {
   en: {
     kicker: "Contact",
     head: "Ready to take the next step?",
-    body: "I'd love to hear what you're building. Tell me about your project — a few lines is enough.",
+    body: "I’d love to hear what you’re building. Tell me about your project — a few lines is enough.",
     availability: "Based in Bodø, Norway · usually replies within a day",
     lookHead: "What I look for",
     lookBody:

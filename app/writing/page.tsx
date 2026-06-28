@@ -5,9 +5,9 @@ import { SiteFooter } from "@/components/site-footer"
 import { WritingContent } from "@/components/writing-content"
 
 export const metadata: Metadata = {
-  title: "Writing — Christer Hagen",
+  title: "Writing",
   description:
-    "Notes on building software companies, real estate and investing — from the north of Norway.",
+    "Notes on building software companies, real estate and investing - from the north of Norway.",
 }
 
 export default function WritingPage() {

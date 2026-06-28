@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 
 import { cn } from "@/lib/utils"
 import { useLanguage } from "@/components/language-provider"
@@ -15,22 +16,26 @@ export function AboutContent() {
   const c = aboutContent[lang]
 
   return (
-    <main className="mx-auto w-full max-w-[740px] flex-1 px-[28px]">
+    <main id="main" className="mx-auto w-full max-w-[740px] flex-1 px-5 sm:px-7">
       <section className="pt-[84px] pb-[56px]">
         <div className={`${label} mb-6`}>{c.kicker}</div>
-        <h1 className="m-0 max-w-[22ch] text-[34px] leading-[1.28] font-normal tracking-[0.004em] text-(--ink-strong)">
+        <h1 className="m-0 max-w-[22ch] text-[clamp(27px,8vw,34px)] leading-[1.28] font-normal tracking-[0.004em] text-(--ink-strong)">
           {c.head}
         </h1>
       </section>
 
-      <section className="mb-16 flex flex-wrap items-start gap-10">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/images/christer-hagen-working.jpg"
-          alt="Christer Hagen"
-          className="h-[360px] w-[280px] flex-shrink-0 rounded-[3px] bg-[#E8E2D5] object-cover [object-position:center_18%]"
-        />
-        <div className="flex min-w-[280px] flex-1 flex-col gap-5">
+      <section className="mb-16 flex flex-col gap-8 sm:flex-row sm:items-start sm:gap-10">
+        <div className="relative aspect-[280/360] w-full max-w-[280px] flex-shrink-0 overflow-hidden rounded-[3px] bg-(--paper-placeholder) sm:w-[280px]">
+          <Image
+            src="/images/christer-hagen-working.jpg"
+            alt="Christer Hagen"
+            fill
+            sizes="280px"
+            priority
+            className="object-cover [object-position:center_18%]"
+          />
+        </div>
+        <div className="flex min-w-0 flex-1 flex-col gap-5">
           {c.bio.map((para, i) => (
             <p
               key={i}
@@ -43,7 +48,7 @@ export function AboutContent() {
       </section>
 
       <section className="mb-16">
-        <div className={`${label} mb-1.5`}>{c.lblBackground}</div>
+        <h2 className={`${label} mb-1.5`}>{c.lblBackground}</h2>
         {c.timeline.map((t) => (
           <div
             key={t.year}

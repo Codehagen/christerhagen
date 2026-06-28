@@ -24,19 +24,19 @@ export function CompanyContent({ slug }: { slug: CompanySlug }) {
       <article className="pt-[72px] pb-6">
         <Link
           href="/portfolio"
-          className="mb-10 inline-block font-mono text-[12px] leading-none font-medium tracking-[0.02em] text-(--ink-faint) transition-colors hover:text-(--rust-strong)"
+          className="mb-10 inline-flex items-center min-h-11 font-mono text-[12px] leading-none font-medium tracking-[0.02em] text-(--ink-faint) transition-colors hover:text-(--rust-strong)"
         >
-          ← {t.backLabel}
+          <span aria-hidden>←</span> {t.backLabel}
         </Link>
 
-        <h1 className="m-0 text-[40px] leading-[1.12] font-semibold tracking-[0.004em] text-(--ink-strong)">
+        <h1 className="m-0 text-[clamp(30px,9vw,40px)] leading-[1.12] font-semibold tracking-[0.004em] text-(--ink-strong)">
           {company.name}
         </h1>
         <p className="mt-[14px] text-[19px] leading-[1.5] font-normal text-(--ink-soft) italic">
           {company.tagline}
         </p>
 
-        <dl className="mt-[38px] mb-[6px] grid grid-cols-2 gap-x-8 gap-y-5 border-y border-border py-[26px]">
+        <dl className="mt-[38px] mb-[6px] grid grid-cols-1 gap-y-5 border-y border-border py-[26px] sm:grid-cols-2 sm:gap-x-8">
           <div>
             <dt className="font-mono text-[10px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
               {t.mRole}
@@ -88,9 +88,9 @@ export function CompanyContent({ slug }: { slug: CompanySlug }) {
             href={company.site}
             target="_blank"
             rel="noopener noreferrer"
-            className="border-b border-primary/40 pb-[2px] font-mono text-[12.5px] leading-none font-medium tracking-[0.02em] text-foreground transition-colors hover:text-(--rust-strong)"
+            className="border-b border-primary/40 pb-[2px] py-2 -my-2 font-mono text-[12.5px] leading-none font-medium tracking-[0.02em] text-foreground transition-colors hover:text-(--rust-strong)"
           >
-            {t.visitLabel} ↗
+            {t.visitLabel} <span aria-hidden>↗</span>
           </a>
         </div>
       </article>
@@ -101,9 +101,9 @@ export function CompanyContent({ slug }: { slug: CompanySlug }) {
         </div>
         <Link
           href={`/portfolio/${nSlug}`}
-          className="text-[24px] leading-[1.25] font-medium text-(--ink-strong) transition-colors hover:text-(--rust-strong)"
+          className="inline-flex items-center min-h-11 text-[24px] leading-[1.25] font-medium text-(--ink-strong) transition-colors hover:text-(--rust-strong)"
         >
-          {next.name} →
+          {next.name} <span aria-hidden>→</span>
         </Link>
       </div>
     </>

@@ -75,3 +75,11 @@ export function useLanguage() {
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   return <>{children}</>
 }
+
+export function HtmlLang() {
+  const { lang } = useLanguage()
+  React.useEffect(() => {
+    document.documentElement.lang = lang
+  }, [lang])
+  return null
+}

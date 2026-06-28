@@ -14,10 +14,10 @@ export function ProcessContent() {
   const c = processContent[lang]
 
   return (
-    <main className="mx-auto w-full max-w-[740px] flex-1 px-[28px]">
+    <main id="main" className="mx-auto w-full max-w-[740px] flex-1 px-5 sm:px-7">
       <section className="pt-[84px] pb-[56px]">
         <div className={`${label} mb-6`}>{c.kicker}</div>
-        <h1 className="m-0 max-w-[20ch] text-[34px] leading-[1.28] font-normal tracking-[0.004em] text-(--ink-strong)">
+        <h1 className="m-0 max-w-[20ch] text-[clamp(27px,8vw,34px)] leading-[1.28] font-normal tracking-[0.004em] text-(--ink-strong)">
           {c.head}
         </h1>
         <p className="mt-5 max-w-[46ch] text-[18px] leading-[1.6] font-normal text-(--ink-muted)">
@@ -35,10 +35,10 @@ export function ProcessContent() {
               {s.no}
             </span>
             <div className="flex-1">
-              <div className="text-[23px] leading-[1.2] font-medium text-(--ink-strong)">
+              <h3 className="text-[23px] leading-[1.2] font-medium text-(--ink-strong)">
                 {s.title}
-              </div>
-              <p className="mt-2.5 max-w-[52ch] text-[16.5px] leading-[1.6] font-normal text-[#4A4539]">
+              </h3>
+              <p className="mt-2.5 max-w-[52ch] text-[16.5px] leading-[1.6] font-normal text-(--ink-body-3)">
                 {s.body}
               </p>
             </div>
@@ -47,7 +47,7 @@ export function ProcessContent() {
       </section>
 
       <section className="mb-16 border-y border-border py-[30px]">
-        <div className={`${label} mb-4`}>{c.lblLook}</div>
+        <h2 className={`${label} mb-4`}>{c.lblLook}</h2>
         <p className="m-0 max-w-[42ch] text-[20px] leading-[1.55] font-normal text-(--ink-body)">
           {c.lookBody}
         </p>

@@ -179,7 +179,7 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
     },
     fotovibe: {
       name: "Fotovibe",
-      tagline: "Visual content that elevates home sales.",
+      tagline: "Visual content that helps sell homes.",
       role: "Angel investor",
       stage: "Pre-seed",
       year: "2024",

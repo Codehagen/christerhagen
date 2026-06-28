@@ -12,19 +12,19 @@ export function ContactContent() {
   const social = socialLinks(lang)
 
   return (
-    <main className="mx-auto w-full max-w-[740px] flex-1 px-[28px]">
+    <main id="main" className="mx-auto w-full max-w-[740px] flex-1 px-5 sm:px-7">
       <section className="pt-[88px] pb-[60px]">
         <div className={`${label} mb-6`}>{c.kicker}</div>
-        <h1 className="m-0 max-w-[16ch] text-[40px] leading-[1.2] font-normal tracking-[0.004em] text-(--ink-strong)">
+        <h1 className="m-0 max-w-[16ch] text-[clamp(30px,9vw,40px)] leading-[1.2] font-normal tracking-[0.004em] text-(--ink-strong)">
           {c.head}
         </h1>
-        <p className="mt-5 max-w-[44ch] text-[18px] leading-[1.6] font-normal text-[#403B31]">
+        <p className="mt-5 max-w-[44ch] text-[18px] leading-[1.6] font-normal text-(--ink-body-2)">
           {c.body}
         </p>
 
         <a
           href={`mailto:${EMAIL}`}
-          className="mt-10 mb-2 inline-block border-b-2 border-primary/40 text-[30px] leading-[1.2] font-normal text-(--ink-strong) transition-colors hover:border-(--rust-strong) hover:text-(--rust-strong)"
+          className="mt-10 mb-2 inline-block max-w-full border-b-2 border-primary/40 text-[clamp(21px,6vw,30px)] leading-[1.2] break-words font-normal text-(--ink-strong) transition-colors hover:border-(--rust-strong) hover:text-(--rust-strong)"
         >
           {EMAIL}
         </a>
@@ -39,7 +39,7 @@ export function ContactContent() {
               href={s.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-baseline gap-[7px] rounded-full border border-[#E0DACC] px-[14px] py-[9px] font-mono text-[12.5px] leading-none font-normal text-(--ink-muted) transition-colors hover:border-foreground hover:text-(--rust-strong)"
+              className="flex min-h-11 items-baseline gap-[7px] rounded-full border border-(--pill-border) px-[14px] py-[9px] font-mono text-[12.5px] leading-none font-normal text-(--ink-muted) transition-colors hover:border-foreground hover:text-(--rust-strong)"
             >
               <span className="text-[9.5px] tracking-[0.06em] text-(--ink-fainter) uppercase">
                 {s.label}
@@ -51,7 +51,7 @@ export function ContactContent() {
       </section>
 
       <section className="border-t border-border pt-11 pb-20">
-        <div className={`${label} mb-[18px]`}>{c.lookHead}</div>
+        <h2 className={`${label} mb-[18px]`}>{c.lookHead}</h2>
         <p className="m-0 max-w-[40ch] text-[20px] leading-[1.55] font-normal text-(--ink-body)">
           {c.lookBody}
         </p>

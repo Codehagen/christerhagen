@@ -14,10 +14,10 @@ export function WritingContent() {
   const list = posts[lang]
 
   return (
-    <main className="mx-auto w-full max-w-[740px] flex-1 px-[28px]">
+    <main id="main" className="mx-auto w-full max-w-[740px] flex-1 px-5 sm:px-7">
       <section className="pt-[84px] pb-10">
-        <div className={`${label} mb-[22px]`}>{t.kicker}</div>
-        <p className="m-0 max-w-[24ch] text-[27px] leading-[1.35] font-normal text-(--ink-strong)">
+        <h1 className={`${label} mb-[22px]`}>{t.kicker}</h1>
+        <p className="m-0 max-w-[24ch] text-[clamp(22px,6.5vw,27px)] leading-[1.35] font-normal text-(--ink-strong)">
           {t.intro}
         </p>
       </section>
@@ -31,12 +31,12 @@ export function WritingContent() {
               href={`/writing/${slug}`}
               className="block border-b border-border py-7 text-(--ink-strong) transition-colors hover:text-(--rust-strong)"
             >
-              <div className="mb-2.5 font-mono text-[11.5px] leading-none font-normal tracking-[0.04em] text-[#B0A893]">
+              <div className="mb-2.5 font-mono text-[11.5px] leading-none font-normal tracking-[0.04em] text-(--ink-meta)">
                 {p.date} · {p.read}
               </div>
-              <div className="mb-[9px] text-[25px] leading-[1.2] font-medium">
+              <h2 className="mb-[9px] text-[25px] leading-[1.2] font-medium">
                 {p.title}
-              </div>
+              </h2>
               <div className="max-w-[54ch] text-[15.5px] leading-[1.5] font-normal text-(--ink-soft)">
                 {p.excerpt}
               </div>

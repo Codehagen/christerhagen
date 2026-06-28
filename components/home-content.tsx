@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 
 import { useLanguage } from "@/components/language-provider"
 import { buttonVariants } from "@/components/ui/button"
@@ -17,10 +18,10 @@ export function HomeContent() {
   const social = socialLinks(lang)
 
   return (
-    <main id="top" className="mx-auto w-full max-w-[740px] px-[28px] pb-10">
+    <main id="main" className="mx-auto w-full max-w-[740px] px-5 sm:px-7 pb-10">
       {/* Hero */}
       <section className="pt-[88px] pb-[70px]">
-        <h1 className="m-0 max-w-[20ch] text-[33px] leading-[1.3] font-normal tracking-[0.004em] text-(--ink-strong)">
+        <h1 className="m-0 max-w-[20ch] text-[clamp(26px,7vw,33px)] leading-[1.3] font-normal tracking-[0.004em] text-(--ink-strong)">
           {c.heroHead}
         </h1>
         <p className="mt-5 max-w-[46ch] text-[18px] leading-[1.62] font-normal text-(--ink-muted)">
@@ -30,22 +31,25 @@ export function HomeContent() {
 
       {/* About */}
       <section className="mb-[72px]">
-        <div className={`${label} mb-6`}>{c.lblAbout}</div>
-        <div className="flex items-start gap-[34px]">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/christer-hagen-portrait.jpg"
-            alt="Christer Hagen"
-            className="h-[300px] w-[236px] flex-shrink-0 rounded-[3px] bg-[#E8E2D5] object-cover [object-position:center_22%]"
-          />
-          <div className="flex-1">
+        <h2 className={`${label} mb-6`}>{c.lblAbout}</h2>
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-[34px]">
+          <div className="relative aspect-[236/300] w-full max-w-[236px] flex-shrink-0 overflow-hidden rounded-[3px] bg-(--paper-placeholder) sm:w-[236px]">
+            <Image
+              src="/images/christer-hagen-portrait.jpg"
+              alt="Christer Hagen"
+              fill
+              sizes="236px"
+              className="object-cover [object-position:center_22%]"
+            />
+          </div>
+          <div className="min-w-0 flex-1">
             <div className="text-[20px] leading-[1.2] font-medium text-(--ink-strong)">
               Christer Hagen
             </div>
             <div className="mt-[7px] font-mono text-[12.5px] leading-[1.4] font-normal text-(--ink-faint)">
               {c.aboutRole}
             </div>
-            <p className="mt-[18px] text-[16.5px] leading-[1.62] font-normal text-[#403B31]">
+            <p className="mt-[18px] text-[16.5px] leading-[1.62] font-normal text-(--ink-body-2)">
               {c.aboutBody}
             </p>
           </div>
@@ -54,14 +58,14 @@ export function HomeContent() {
 
       {/* Now */}
       <section className="mb-[72px]">
-        <div className={`${label} mb-[22px]`}>{c.lblNow}</div>
+        <h2 className={`${label} mb-[22px]`}>{c.lblNow}</h2>
         <ul className="m-0 flex list-none flex-col gap-[13px] p-0">
           {c.now.map((item, i) => (
             <li
               key={i}
-              className="flex gap-[14px] text-[17px] leading-[1.5] font-normal text-[#403B31]"
+              className="flex gap-[14px] text-[17px] leading-[1.5] font-normal text-(--ink-body-2)"
             >
-              <span className="flex-shrink-0 font-mono text-[14px] leading-[1.6] text-(--rust-bright)">
+              <span aria-hidden className="flex-shrink-0 font-mono text-[14px] leading-[1.6] text-(--rust-bright)">
                 →
               </span>
               <span>{item}</span>
@@ -72,7 +76,7 @@ export function HomeContent() {
 
       {/* Work */}
       <section className="mb-[72px]">
-        <div className={`${label} mb-1.5`}>{c.lblWork}</div>
+        <h2 className={`${label} mb-1.5`}>{c.lblWork}</h2>
         {c.work.map((w) => (
           <a
             key={w.name}
@@ -89,7 +93,7 @@ export function HomeContent() {
                 {w.role}
               </span>
             </span>
-            <span className="flex-shrink-0 font-mono text-[11.5px] leading-none font-normal whitespace-nowrap text-[#B0A893]">
+            <span className="flex-shrink-0 font-mono text-[11.5px] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
               {w.period}
             </span>
           </a>
@@ -98,7 +102,7 @@ export function HomeContent() {
 
       {/* Investments */}
       <section className="mb-[72px]">
-        <div className={`${label} mb-1.5`}>{c.lblInvest}</div>
+        <h2 className={`${label} mb-1.5`}>{c.lblInvest}</h2>
         {c.investments.map((i) => (
           <a
             key={i.name}
@@ -115,7 +119,7 @@ export function HomeContent() {
                 {i.desc}
               </span>
             </span>
-            <span className="flex-shrink-0 font-mono text-[13px] leading-none font-normal text-[#C2BBA8]">
+            <span aria-hidden className="flex-shrink-0 font-mono text-[13px] leading-none font-normal text-(--arrow-faint)">
               ↗
             </span>
           </a>
@@ -124,7 +128,7 @@ export function HomeContent() {
 
       {/* Exits */}
       <section className="mb-[72px]">
-        <div className={`${label} mb-1.5`}>{c.lblExits}</div>
+        <h2 className={`${label} mb-1.5`}>{c.lblExits}</h2>
         {c.exits.map((x) => (
           <a
             key={x.name}
@@ -150,7 +154,7 @@ export function HomeContent() {
 
       {/* Open source */}
       <section className="mb-[72px]">
-        <div className={`${label} mb-1.5`}>{c.lblOss}</div>
+        <h2 className={`${label} mb-1.5`}>{c.lblOss}</h2>
         {c.oss.map((o) => (
           <a
             key={o.name}
@@ -167,8 +171,8 @@ export function HomeContent() {
                 {o.desc}
               </span>
             </span>
-            <span className="flex-shrink-0 font-mono text-[11.5px] leading-none font-normal whitespace-nowrap text-[#B0A893]">
-              ★ {o.stars}
+            <span className="flex-shrink-0 font-mono text-[11.5px] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
+              <span aria-hidden>★</span> {o.stars}
             </span>
           </a>
         ))}
@@ -176,17 +180,17 @@ export function HomeContent() {
 
       {/* Writing */}
       <section className="mb-[72px]">
-        <div className={`${label} mb-1.5`}>{c.lblWriting}</div>
+        <h2 className={`${label} mb-1.5`}>{c.lblWriting}</h2>
         {c.writing.map((w) => (
           <Link
             key={w.slug}
             href={`/writing/${w.slug}`}
-            className="flex items-baseline justify-between gap-6 border-b border-border py-[14px] text-[#403B31] transition-colors hover:text-(--rust-strong)"
+            className="flex items-baseline justify-between gap-6 border-b border-border py-[14px] text-(--ink-body-2) transition-colors hover:text-(--rust-strong)"
           >
             <span className="text-[17px] leading-[1.35] font-normal">
               {w.title}
             </span>
-            <span className="flex-shrink-0 font-mono text-[11.5px] leading-none font-normal whitespace-nowrap text-[#B0A893]">
+            <span className="flex-shrink-0 font-mono text-[11.5px] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
               {w.date}
             </span>
           </Link>
@@ -195,11 +199,11 @@ export function HomeContent() {
 
       {/* Contact */}
       <section id="contact" className="mb-10 pt-2">
-        <div className={`${label} mb-[22px]`}>{c.lblContact}</div>
-        <h2 className="m-0 max-w-[16ch] text-[30px] leading-[1.25] font-normal text-(--ink-strong)">
+        <h2 className={`${label} mb-[22px]`}>{c.lblContact}</h2>
+        <p className="m-0 max-w-[16ch] text-[30px] leading-[1.25] font-normal text-(--ink-strong)">
           {c.ctaHead}
-        </h2>
-        <p className="mt-4 mb-[26px] max-w-[42ch] text-[17px] leading-[1.6] font-normal text-[#403B31]">
+        </p>
+        <p className="mt-4 mb-[26px] max-w-[42ch] text-[17px] leading-[1.6] font-normal text-(--ink-body-2)">
           {c.ctaBody}
         </p>
         <a
@@ -215,7 +219,7 @@ export function HomeContent() {
               href={s.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-baseline gap-[7px] rounded-full border border-[#E0DACC] px-[14px] py-[9px] font-mono text-[12.5px] leading-none font-normal text-(--ink-muted) transition-colors hover:border-foreground hover:text-(--rust-strong)"
+              className="flex min-h-11 items-baseline gap-[7px] rounded-full border border-(--pill-border) px-[14px] py-[9px] font-mono text-[12.5px] leading-none font-normal text-(--ink-muted) transition-colors hover:border-foreground hover:text-(--rust-strong)"
             >
               <span className="text-[9.5px] tracking-[0.06em] text-(--ink-fainter) uppercase">
                 {s.label}

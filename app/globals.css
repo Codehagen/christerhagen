@@ -3,6 +3,8 @@
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
+/* Hover only on devices that can actually hover (no sticky hover on touch). */
+@custom-variant hover (@media (hover: hover) and (pointer: fine) { &:hover });
 
 @theme inline {
     --font-heading: var(--font-serif);
@@ -65,6 +67,16 @@
     --rust: oklch(0.52 0.12 44);
     --rust-strong: oklch(0.5 0.13 44);
     --rust-bright: oklch(0.55 0.12 45);
+    --rust-deep: oklch(0.42 0.1 44);
+
+    /* Exact-value tokens for the design's stray browns/lines (no pixels change). */
+    --ink-body-2: #403b31;
+    --ink-body-3: #4a4539;
+    --ink-meta: #b0a893;
+    --arrow-faint: #c2bba8;
+    --line-strong: #d8d2c4;
+    --pill-border: #e0dacc;
+    --paper-placeholder: #e8e2d5;
 
     --background: var(--paper);
     --foreground: var(--ink);
@@ -100,39 +112,9 @@
     --sidebar-ring: var(--rust-bright);
 }
 
-.dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
-}
+/* Light-only, editorial by design. No .dark block: the site forces light, and the
+   shadcn dark defaults shipped an off-brand gray + AI-purple sidebar accent. If a
+   dark theme is ever wanted, author a warm-paper inverse that keeps rust as accent. */
 
 @layer base {
   * {
@@ -144,7 +126,6 @@
     }
   html {
     @apply font-serif;
-    scroll-behavior: smooth;
     }
   a {
     text-decoration: none;
@@ -152,7 +133,43 @@
   p {
     text-wrap: pretty;
     }
+  h1, h2, h3 {
+    text-wrap: balance;
+    }
+  /* Remove the iOS double-tap-zoom delay on the dense, closely-spaced links. */
+  :where(a, button, [role="button"], label, summary, input, select) {
+    touch-action: manipulation;
+    }
+  /* Branded keyboard focus for plain links (buttons/toggles carry their own ring;
+     buttonVariants sets outline-none, so the CTA pills are unaffected). */
+  :where(a):focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 3px;
+    }
+  /* Clear the translucent sticky header when jumping to in-page anchors. */
+  :where([id]) {
+    scroll-margin-top: 5rem;
+    }
   ::selection {
     background: oklch(0.55 0.12 45 / 0.16);
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+    }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
     }
 }

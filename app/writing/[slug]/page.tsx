@@ -17,11 +17,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params
   if (!isPostSlug(slug)) {
-    return { title: "Writing — Christer Hagen" }
+    return { title: "Not found" }
   }
   const post = posts.en[slug]
   return {
-    title: `${post.title} — Christer Hagen`,
+    title: post.title,
     description: post.excerpt,
   }
 }
@@ -36,8 +36,26 @@ export default async function PostPage({
     notFound()
   }
 
+  const post = posts.en[slug]
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    author: {
+      "@type": "Person",
+      name: "Christer Hagen",
+      url: "https://christerhagen.com",
+    },
+    url: "https://christerhagen.com/writing/" + slug,
+  }
+
   return (
     <div className="flex min-h-svh flex-col bg-background text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <SiteHeader active="writing" />
       <PostContent slug={slug} />
       <SiteFooter />

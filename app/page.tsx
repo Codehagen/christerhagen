@@ -5,7 +5,7 @@ import { SiteFooter } from "@/components/site-footer"
 import { HomeContent } from "@/components/home-content"
 
 export const metadata: Metadata = {
-  title: "Christer Hagen — Serial Entrepreneur & Angel Investor",
+  title: "Serial Entrepreneur & Angel Investor",
   description:
     "Norwegian serial entrepreneur and angel investor based in Bodø. Founder of Codebase and Not Another VC.",
 }
@@ -30,7 +30,7 @@ const jsonLd = {
         addressCountry: "NO",
       },
       alumniOf: { "@type": "CollegeOrUniversity", name: "Nord University" },
-      award: "Top 4% — NM i AI 2026",
+      award: "Top 4% - NM i AI 2026",
       sameAs: [
         "https://www.linkedin.com/in/christerhagen",
         "https://github.com/Codehagen",
