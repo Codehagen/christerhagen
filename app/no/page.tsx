@@ -18,7 +18,7 @@ export default function HomePageNo() {
   return (
     <div lang="no" className="min-h-svh bg-background text-foreground">
       <JsonLd data={personGraph()} />
-      <SiteHeader showCta lang="no" />
+      <SiteHeader lang="no" />
       <HomeContent lang="no" />
       <SiteFooter lang="no" />
     </div>

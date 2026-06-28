@@ -100,22 +100,76 @@ function LocaleLinks({
   )
 }
 
+const ctaDesktop =
+  "rounded-full border border-(--line-strong) px-[15px] py-2.5 font-mono text-[12px] leading-none font-medium tracking-[0.02em] text-foreground transition-[color,border-color,transform] duration-150 ease-out hover:border-foreground active:scale-[0.97]"
+
+const ctaMobile =
+  "mt-2 inline-flex min-h-12 w-fit items-center rounded-full border border-(--line-strong) px-[18px] font-mono text-[13px] tracking-[0.02em] text-foreground transition-[color,border-color,transform] duration-150 ease-out hover:border-foreground active:scale-[0.98]"
+
+/**
+ * "Get in touch" pill — present on every page so the header layout never shifts
+ * between routes. On the home page it scrolls to the in-page #contact section;
+ * elsewhere it links to the dedicated /contact page.
+ */
+function GetInTouch({
+  isHome,
+  lang,
+  label,
+  className,
+  onNavigate,
+}: {
+  isHome: boolean
+  lang: Lang
+  label: string
+  className: string
+  onNavigate?: () => void
+}) {
+  if (isHome) {
+    return (
+      <a href="#contact" onClick={onNavigate} className={className}>
+        {label}
+      </a>
+    )
+  }
+  return (
+    <Link
+      href={localizedPath("/contact", lang)}
+      onClick={onNavigate}
+      className={className}
+    >
+      {label}
+    </Link>
+  )
+}
+
 export function SiteHeader({
   active,
-  showCta,
   lang,
 }: {
   active?: NavKey
-  /** Show the "Get in touch" pill (home page only — links to #contact). */
-  showCta?: boolean
   lang: Lang
 }) {
   const t = uiCopy[lang]
   const pathname = usePathname()
   const enPath = enPathOf(pathname ?? "/")
+  const isHome = enPath === "/"
   const activeKey = active ?? activeFromPath(enPath)
   const [open, setOpen] = React.useState(false)
+  const triggerRef = React.useRef<HTMLButtonElement>(null)
   const links = navLinks(t)
+
+  // Esc closes the mobile menu and returns focus to its trigger.
+  React.useEffect(() => {
+    if (!open) return
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setOpen(false)
+        triggerRef.current?.focus()
+      }
+    }
+    document.addEventListener("keydown", onKeyDown)
+    return () => document.removeEventListener("keydown", onKeyDown)
+  }, [open])
 
   return (
     <header className="sticky top-0 z-20 border-b border-border bg-background/85 backdrop-blur-[10px]">
@@ -133,6 +187,7 @@ export function SiteHeader({
             <Link
               key={l.key}
               href={localizedPath(l.href, lang)}
+              aria-current={activeKey === l.key ? "page" : undefined}
               className={cn(
                 navItem,
                 activeKey === l.key ? "text-foreground" : "text-(--ink-muted)"
@@ -142,25 +197,24 @@ export function SiteHeader({
             </Link>
           ))}
           <LocaleLinks lang={lang} enPath={enPath} />
-          {showCta ? (
-            <a
-              href="#contact"
-              className="rounded-full border border-(--line-strong) px-[15px] py-2.5 font-mono text-[12px] leading-none font-medium tracking-[0.02em] text-foreground transition-colors hover:border-foreground"
-            >
-              {t.getInTouch}
-            </a>
-          ) : null}
+          <GetInTouch
+            isHome={isHome}
+            lang={lang}
+            label={t.getInTouch}
+            className={ctaDesktop}
+          />
         </nav>
 
         {/* Mobile controls */}
         <div className="flex items-center gap-1 md:hidden">
           <button
+            ref={triggerRef}
             type="button"
             onClick={() => setOpen((o) => !o)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-menu"
-            className="-mr-2 inline-flex size-11 items-center justify-center rounded-md text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+            className="-mr-2 inline-flex size-11 items-center justify-center rounded-md text-foreground transition-transform duration-150 ease-out active:scale-90 focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
           >
             {open ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
@@ -169,13 +223,17 @@ export function SiteHeader({
 
       {/* Mobile menu */}
       {open ? (
-        <nav id="mobile-menu" className="border-t border-border md:hidden">
+        <nav
+          id="mobile-menu"
+          className="border-t border-border duration-200 ease-out animate-in fade-in-0 slide-in-from-top-1 md:hidden"
+        >
           <div className="mx-auto flex max-w-[740px] flex-col px-5 pt-1 pb-3 sm:px-7">
             {links.map((l) => (
               <Link
                 key={l.key}
                 href={localizedPath(l.href, lang)}
                 onClick={() => setOpen(false)}
+                aria-current={activeKey === l.key ? "page" : undefined}
                 className={cn(
                   "flex min-h-12 items-center font-mono text-[14px] tracking-[0.02em] transition-colors hover:text-(--rust-strong)",
                   activeKey === l.key ? "text-foreground" : "text-(--ink-muted)"
@@ -184,15 +242,13 @@ export function SiteHeader({
                 {l.label}
               </Link>
             ))}
-            {showCta ? (
-              <a
-                href="#contact"
-                onClick={() => setOpen(false)}
-                className="mt-2 inline-flex min-h-12 w-fit items-center rounded-full border border-(--line-strong) px-[18px] font-mono text-[13px] tracking-[0.02em] text-foreground transition-colors hover:border-foreground"
-              >
-                {t.getInTouch}
-              </a>
-            ) : null}
+            <GetInTouch
+              isHome={isHome}
+              lang={lang}
+              label={t.getInTouch}
+              className={ctaMobile}
+              onNavigate={() => setOpen(false)}
+            />
             <div className="mt-1 flex min-h-12 items-center border-t border-border pt-2">
               <LocaleLinks
                 lang={lang}

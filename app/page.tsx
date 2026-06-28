@@ -18,7 +18,7 @@ export default function HomePage() {
   return (
     <div lang="en" className="min-h-svh bg-background text-foreground">
       <JsonLd data={personGraph()} />
-      <SiteHeader showCta lang="en" />
+      <SiteHeader lang="en" />
       <HomeContent lang="en" />
       <SiteFooter lang="en" />
     </div>
