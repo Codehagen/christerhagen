@@ -3,8 +3,8 @@
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
-/* Hover only on devices that can actually hover (no sticky hover on touch). */
-@custom-variant hover (@media (hover: hover) and (pointer: fine) { &:hover });
+/* Note: Tailwind v4's built-in `hover:` already only applies on hover-capable
+   devices (@media (hover: hover)), so hover styles do not stick on touch. */
 
 @theme inline {
     --font-heading: var(--font-serif);

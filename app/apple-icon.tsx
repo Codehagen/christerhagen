@@ -1,9 +1,10 @@
 import { ImageResponse } from "next/og"
 
-export const size = { width: 32, height: 32 }
+export const size = { width: 180, height: 180 }
 export const contentType = "image/png"
 
-export default function Icon() {
+// The CH monogram, matching favicon.svg (ink square, paper serif "CH").
+export default function AppleIcon() {
   return new ImageResponse(
     (
       <div
@@ -11,17 +12,17 @@ export default function Icon() {
           width: "100%",
           height: "100%",
           display: "flex",
-          justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#26231C",
+          justifyContent: "center",
+          background: "#26231C",
           color: "#F5F2EA",
-          borderRadius: "8px",
-          fontSize: "20px",
-          fontWeight: 700,
+          fontSize: 92,
+          fontWeight: 500,
           fontFamily: "Georgia, 'Times New Roman', serif",
+          letterSpacing: "-2px",
         }}
       >
-        C
+        CH
       </div>
     ),
     { ...size }
