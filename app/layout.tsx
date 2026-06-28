@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { Newsreader, JetBrains_Mono } from "next/font/google"
 
 import "./globals.css"
-import { LanguageProvider } from "@/components/language-provider"
+import { LanguageProvider, HtmlLang } from "@/components/language-provider"
 import { cn } from "@/lib/utils"
 import { SITE_URL } from "@/lib/seo"
 
@@ -67,6 +67,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <HtmlLang />
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>

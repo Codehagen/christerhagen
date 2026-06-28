@@ -11,7 +11,7 @@ export const metadata: Metadata = pageMetadata({
   lang: "en",
   titleAbsolute: "Christer Hagen · Serial Entrepreneur & Software Developer",
   description:
-    "Norwegian serial entrepreneur and software developer based in Bodø. Founder of Codebase and Not Another VC.",
+    "Norwegian serial entrepreneur and software developer based in Bodø. Founder of Codebase and Not Another VC; sold his AI company Docdir to Visma in 2026.",
 })
 
 export default function HomePage() {

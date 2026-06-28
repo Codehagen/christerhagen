@@ -9,9 +9,9 @@ import { JsonLd } from "@/components/json-ld"
 export const metadata: Metadata = pageMetadata({
   path: "/",
   lang: "no",
-  titleAbsolute: "Christer Hagen · Serial Entrepreneur & Software Developer",
+  titleAbsolute: "Christer Hagen · Seriegründer og programvareutvikler",
   description:
-    "Norwegian serial entrepreneur and software developer based in Bodø. Founder of Codebase and Not Another VC.",
+    "Norsk seriegründer og programvareutvikler fra Bodø. Grunnlegger av Codebase og Not Another VC; solgte AI-selskapet Docdir til Visma i 2026.",
 })
 
 export default function HomePageNo() {

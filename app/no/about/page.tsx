@@ -10,9 +10,9 @@ import { faqItems } from "@/lib/faq"
 export const metadata: Metadata = pageMetadata({
   path: "/about",
   lang: "no",
-  title: "About",
+  title: "Om",
   description:
-    "A serial entrepreneur and software developer, building from the north of Norway.",
+    "Christer Hagen er en norsk seriegründer og programvareutvikler i Bodø — grunnlegger av Codebase og Not Another VC, som solgte Docdir til Visma i 2026.",
 })
 
 export default function AboutPageNo() {

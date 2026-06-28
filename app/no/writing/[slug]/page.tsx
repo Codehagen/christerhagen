@@ -29,6 +29,7 @@ export async function generateMetadata({
     description: post.excerpt,
     ogType: "article",
     publishedTime: posts.no[slug].dateISO,
+    routeOgImage: true,
   })
 }
 

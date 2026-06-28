@@ -43,6 +43,12 @@ export function pageMetadata(opts: {
   description: string
   ogType?: "website" | "article"
   publishedTime?: string
+  /**
+   * When true, omit the explicit site-wide OG image so the route's own
+   * colocated `opengraph-image.tsx` (file convention) supplies a per-page image.
+   * Used by the writing posts, which render their title into the card.
+   */
+  routeOgImage?: boolean
 }): Metadata {
   const {
     path,
@@ -52,9 +58,11 @@ export function pageMetadata(opts: {
     description,
     ogType,
     publishedTime,
+    routeOgImage,
   } = opts
   const canonical = localizedPath(path, lang)
   const ogTitle = titleAbsolute ?? title
+  const ogImage = routeOgImage ? {} : { images: ["/opengraph-image"] }
   return {
     ...(titleAbsolute
       ? { title: { absolute: titleAbsolute } }
@@ -72,14 +80,14 @@ export function pageMetadata(opts: {
       description,
       type: ogType ?? "website",
       locale: lang === "no" ? "nb_NO" : "en_US",
-      images: ["/opengraph-image"],
+      ...ogImage,
       ...(publishedTime ? { publishedTime } : {}),
     },
     twitter: {
       card: "summary_large_image",
       title: ogTitle,
       description,
-      images: ["/opengraph-image"],
+      ...ogImage,
     },
   }
 }

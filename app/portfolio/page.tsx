@@ -8,9 +8,9 @@ import { pageMetadata } from "@/lib/seo"
 export const metadata: Metadata = pageMetadata({
   path: "/portfolio",
   lang: "en",
-  title: "Portfolio",
+  title: "Portfolio — Companies Founded & Backed",
   description:
-    "Companies I've built, backed and sold. Mostly software, mostly Norwegian, mostly pre-seed.",
+    "Companies I've built, backed and sold — Codebase, Sailsdock and Docdir, acquired by Visma. Mostly software, mostly Norwegian, mostly pre-seed.",
 })
 
 export default function PortfolioPage() {
