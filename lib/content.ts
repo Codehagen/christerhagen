@@ -353,16 +353,75 @@ interface TimelineItem {
   event: string
 }
 
+export interface PressItem {
+  outlet: string
+  title: string
+  url: string
+}
+
 export interface AboutContent {
   kicker: string
   head: string
   lblBackground: string
   bio: string[]
   timeline: TimelineItem[]
+  lblPress: string
+  press: PressItem[]
   ctaLine: string
   ctaPortfolio: string
   ctaProcess: string
 }
+
+// Independent press coverage in named Norwegian outlets. Same list in both
+// locales (the article titles are Norwegian); only the section label localizes.
+// Followed outbound links — these are entity-association signals for search.
+const pressItems: PressItem[] = [
+  {
+    outlet: "Avisa Nordland",
+    title: "Solgt til gigantselskap: – Det største jeg har vært med på",
+    url: "https://www.an.no/solgt-til-gigantselskap-det-storste-jeg-har-vart-med-pa/s/5-4-2368685",
+  },
+  {
+    outlet: "Bodø Nu",
+    title: "Bodø-gründer om det «spektakulære» AI-salget: Fra søndagshobby til suksess",
+    url: "https://www.bodonu.no/bodo-gr-nder-om-det-spektakulare-ai-salget-fra-sondagshobby-til-suksess/s/80-159-2583",
+  },
+  {
+    outlet: "Bodø Nu",
+    title: "Briljerte i AI-mesterskap",
+    url: "https://www.bodonu.no/briljerte-i-ai-mesterskap/s/5-159-249201",
+  },
+  {
+    outlet: "kode24",
+    title: "Setter av 3 timer til familien: – Du har alltid tid til sideprosjekter",
+    url: "https://www.kode24.no/artikkel/setter-av-3-timer-til-familien-du-har-alltid-tid-til-sideprosjekter/186039",
+  },
+  {
+    outlet: "Bodø Nu",
+    title: "Farten øker for gründeren: Christer (35) utvider i nord",
+    url: "https://www.bodonu.no/farten-oker-for-gr-nderen-christer-35-utvider-i-nord/f/5-159-242846",
+  },
+  {
+    outlet: "Avisa Nordland",
+    title: "Mathias Nilssen og Christer Hagen satser sammen",
+    url: "https://www.an.no/mathias-nilssen-og-christer-hagen-satser-sammen/s/5-4-2379116",
+  },
+  {
+    outlet: "Avisa Nordland",
+    title: "Konkurrentene slår seg sammen: – Vi gleder oss stort",
+    url: "https://www.an.no/konkurrentene-slar-seg-sammen-vi-gleder-oss-stort/s/5-4-2138382",
+  },
+  {
+    outlet: "Avisa Nordland",
+    title: "Blir Christer Bodøs neste supermegler?",
+    url: "https://www.an.no/nyheter/okonomi-og-naringsliv/eiendomsmegler/blir-christer-bodos-neste-supermegler/s/5-4-381016",
+  },
+  {
+    outlet: "Avisa Nordland",
+    title: "Christer (25) tar opp kampen med klesgigantene",
+    url: "https://www.an.no/trening-og-kosthold/fauske/jobb/christer-25-tar-opp-kampen-med-klesgigantene/s/5-4-242172",
+  },
+]
 
 export const aboutContent: Record<Lang, AboutContent> = {
   en: {
@@ -386,6 +445,8 @@ export const aboutContent: Record<Lang, AboutContent> = {
       { year: "2024", event: "Became a partner at Advanti Estate." },
       { year: "2026", event: "Sold Docdir to Visma." },
     ],
+    lblPress: "Featured in",
+    press: pressItems,
     ctaLine: "See what I have built and backed, or how I work with founders.",
     ctaPortfolio: "View portfolio",
     ctaProcess: "How I work",
@@ -411,6 +472,8 @@ export const aboutContent: Record<Lang, AboutContent> = {
       { year: "2024", event: "Ble partner i Advanti Estate." },
       { year: "2026", event: "Solgte Docdir til Visma." },
     ],
+    lblPress: "I media",
+    press: pressItems,
     ctaLine:
       "Se hva jeg har bygget og investert i, eller hvordan jeg jobber med gründere.",
     ctaPortfolio: "Se portefølje",

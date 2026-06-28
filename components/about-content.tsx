@@ -63,6 +63,26 @@ export function AboutContent({ lang }: { lang: Lang }) {
         ))}
       </section>
 
+      <section className="mb-16">
+        <h2 className={`${label} mb-1.5`}>{c.lblPress}</h2>
+        {c.press.map((p) => (
+          <a
+            key={p.url}
+            href={p.url}
+            target="_blank"
+            rel="noopener"
+            className="group flex items-baseline justify-between gap-6 border-b border-border py-[14px]"
+          >
+            <span className="text-[17px] leading-[1.4] font-normal text-(--ink-body) underline-offset-[3px] group-hover:text-(--ink-strong) group-hover:underline">
+              {p.title}
+            </span>
+            <span className="flex-shrink-0 font-mono text-[12px] leading-none font-medium tracking-[0.1em] text-(--ink-fainter) uppercase">
+              {p.outlet}
+            </span>
+          </a>
+        ))}
+      </section>
+
       <section className="mb-20 border-t border-border pt-[30px]">
         <p className="mb-[22px] max-w-[34ch] text-[20px] leading-[1.5] font-normal text-(--ink-strong)">
           {c.ctaLine}
