@@ -26,7 +26,7 @@ export function AboutContent() {
       <section className="mb-16 flex flex-wrap items-start gap-10">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/portrait-placeholder.svg"
+          src="/images/christer-hagen-working.jpg"
           alt="Christer Hagen"
           className="h-[360px] w-[280px] flex-shrink-0 rounded-[3px] bg-[#E8E2D5] object-cover [object-position:center_18%]"
         />

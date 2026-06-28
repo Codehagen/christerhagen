@@ -35,10 +35,7 @@ header is persisted to `localStorage` and shared across the site.
 ```
 
 All copy lives in `lib/` (`companies.ts`, `content.ts`, `posts.ts`) as EN + NO data.
-
-> The portrait photos are placeholders (`public/images/portrait-placeholder.svg`).
-> Drop the real images in and point the `<img src>` in `home-content.tsx` /
-> `about-content.tsx` at them.
+Portrait photos live in `public/images/` (web-optimised to 600×900).
 
 ## Project structure
 

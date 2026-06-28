@@ -34,7 +34,7 @@ export function HomeContent() {
         <div className="flex items-start gap-[34px]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/portrait-placeholder.svg"
+            src="/images/christer-hagen-portrait.jpg"
             alt="Christer Hagen"
             className="h-[300px] w-[236px] flex-shrink-0 rounded-[3px] bg-[#E8E2D5] object-cover [object-position:center_22%]"
           />
