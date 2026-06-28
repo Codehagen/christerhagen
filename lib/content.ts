@@ -12,8 +12,8 @@ export function socialLinks(lang: Lang): SocialLink[] {
   return [
     {
       label: lang === "no" ? "E-post" : "Email",
-      handle: "christer@codenord.no",
-      url: "mailto:christer@codenord.no",
+      handle: "christer.hagen@gmail.com",
+      url: "mailto:christer.hagen@gmail.com",
     },
     { label: "X", handle: "@CodeHagen", url: "https://x.com/CodeHagen" },
     { label: "GitHub", handle: "Codehagen", url: "https://github.com/Codehagen" },
@@ -30,7 +30,7 @@ export function socialLinks(lang: Lang): SocialLink[] {
   ]
 }
 
-export const EMAIL = "christer@codenord.no"
+export const EMAIL = "christer.hagen@gmail.com"
 
 /* -------------------------------------------------------------------- home */
 
