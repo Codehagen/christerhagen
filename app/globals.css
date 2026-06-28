@@ -5,8 +5,10 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-heading: var(--font-sans);
-    --font-sans: var(--font-sans);
+    --font-heading: var(--font-serif);
+    --font-serif: var(--font-serif);
+    --font-mono: var(--font-mono);
+    --font-sans: var(--font-serif);
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -48,38 +50,54 @@
 }
 
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
+    /* Christer Hagen — warm paper palette (from Company.dc.html) */
+    --paper: #f5f2ea;
+    --paper-raised: #fbfaf5;
+    --ink: #26231c;
+    --ink-strong: #211e18;
+    --ink-body: #36322a;
+    --ink-muted: #56514a;
+    --ink-soft: #6e685a;
+    --ink-faint: #8a8472;
+    --ink-fainter: #a79f8c;
+    --line: #e6e0d3;
+    --line-soft: #ccc5b5;
+    --rust: oklch(0.52 0.12 44);
+    --rust-strong: oklch(0.5 0.13 44);
+    --rust-bright: oklch(0.55 0.12 45);
+
+    --background: var(--paper);
+    --foreground: var(--ink);
+    --card: var(--paper-raised);
+    --card-foreground: var(--ink);
+    --popover: var(--paper-raised);
+    --popover-foreground: var(--ink);
+    --primary: var(--rust);
+    --primary-foreground: var(--paper);
+    --secondary: #ece7da;
+    --secondary-foreground: var(--ink-body);
+    --muted: #ece7da;
+    --muted-foreground: var(--ink-faint);
+    --accent: #ece7da;
+    --accent-foreground: var(--ink);
     --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
+    --border: var(--line);
+    --input: var(--line);
+    --ring: var(--rust-bright);
+    --chart-1: oklch(0.55 0.12 45);
+    --chart-2: oklch(0.6 0.08 70);
+    --chart-3: oklch(0.65 0.05 90);
+    --chart-4: oklch(0.7 0.04 110);
+    --chart-5: oklch(0.5 0.06 50);
     --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+    --sidebar: var(--paper-raised);
+    --sidebar-foreground: var(--ink);
+    --sidebar-primary: var(--rust);
+    --sidebar-primary-foreground: var(--paper);
+    --sidebar-accent: #ece7da;
+    --sidebar-accent-foreground: var(--ink);
+    --sidebar-border: var(--line);
+    --sidebar-ring: var(--rust-bright);
 }
 
 .dark {
@@ -122,8 +140,19 @@
     }
   body {
     @apply bg-background text-foreground;
+    margin: 0;
     }
   html {
-    @apply font-sans;
+    @apply font-serif;
+    scroll-behavior: smooth;
+    }
+  a {
+    text-decoration: none;
+    }
+  p {
+    text-wrap: pretty;
+    }
+  ::selection {
+    background: oklch(0.55 0.12 45 / 0.16);
     }
 }
