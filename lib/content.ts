@@ -87,7 +87,7 @@ const inv = (lang: Lang, slug: string) =>
 
 export const homeContent: Record<Lang, HomeContent> = {
   en: {
-    heroHead: "Serial entrepreneur and angel investor.",
+    heroHead: "Serial entrepreneur and software developer.",
     heroSub:
       "I start software companies, back technical founders early, and have built and sold several of my own.",
     lblAbout: "About",
@@ -98,9 +98,9 @@ export const homeContent: Record<Lang, HomeContent> = {
     lblOss: "Open source",
     lblWriting: "Writing",
     lblContact: "Contact",
-    aboutRole: "Serial entrepreneur & angel investor · Bodø, Norway",
+    aboutRole: "Serial entrepreneur & software developer · Bodø, Norway",
     aboutBody:
-      "Christer Hagen is a Norwegian serial entrepreneur and angel investor based in Bodø. He founded Codebase and Not Another VC, is a partner at Advanti Estate, and writes software in the open. In 2026 he sold Docdir to Visma and placed in the top 4% of the Norwegian AI Championship.",
+      "Christer Hagen is a Norwegian serial entrepreneur and software developer based in Bodø. He founded Codebase and Not Another VC, is a partner at Advanti Estate, and writes software in the open. In 2026 he sold Docdir to Visma and placed in the top 4% of the Norwegian AI Championship.",
     now: [
       "Building Sailsdock, a CRM for Norwegian sales teams.",
       "Investing pre-seed as an angel through Not Another VC.",
@@ -216,7 +216,7 @@ export const homeContent: Record<Lang, HomeContent> = {
     ctaBtn: "Get in touch",
   },
   no: {
-    heroHead: "Seriegründer og engleinvestor.",
+    heroHead: "Seriegründer og utvikler.",
     heroSub:
       "Jeg starter programvareselskaper, investerer tidlig i tekniske gründere, og har bygget og solgt flere selv.",
     lblAbout: "Om",
@@ -227,9 +227,9 @@ export const homeContent: Record<Lang, HomeContent> = {
     lblOss: "Åpen kildekode",
     lblWriting: "Skriver",
     lblContact: "Kontakt",
-    aboutRole: "Seriegründer & engleinvestor · Bodø, Norge",
+    aboutRole: "Seriegründer & utvikler · Bodø, Norge",
     aboutBody:
-      "Christer Hagen er en norsk seriegründer og engleinvestor fra Bodø. Han grunnla Codebase og Not Another VC, er partner i Advanti Estate, og skriver programvare i åpen kildekode. I 2026 solgte han Docdir til Visma og kom blant de 4 % beste i NM i AI.",
+      "Christer Hagen er en norsk seriegründer og utvikler fra Bodø. Han grunnla Codebase og Not Another VC, er partner i Advanti Estate, og skriver programvare i åpen kildekode. I 2026 solgte han Docdir til Visma og kom blant de 4 % beste i NM i AI.",
     now: [
       "Bygger Sailsdock, en CRM for norske salgsteam.",
       "Investerer pre-seed som engleinvestor gjennom Not Another VC.",
@@ -367,7 +367,7 @@ export interface AboutContent {
 export const aboutContent: Record<Lang, AboutContent> = {
   en: {
     kicker: "About",
-    head: "A serial entrepreneur and angel investor, building from the north of Norway.",
+    head: "A serial entrepreneur and software developer, building from the north of Norway.",
     lblBackground: "Background",
     bio: [
       "I’m from Bodø, in the north of Norway. I grew up in Fauske, swam competitively, and studied entrepreneurship at Nord University before starting my first company.",
@@ -392,7 +392,7 @@ export const aboutContent: Record<Lang, AboutContent> = {
   },
   no: {
     kicker: "Om",
-    head: "En seriegründer og engleinvestor, som bygger fra Nord-Norge.",
+    head: "En seriegründer og utvikler, som bygger fra Nord-Norge.",
     lblBackground: "Bakgrunn",
     bio: [
       "Jeg er fra Bodø, i Nord-Norge. Jeg vokste opp i Fauske, svømte på konkurransenivå, og studerte entreprenørskap ved Nord universitet før jeg startet mitt første selskap.",

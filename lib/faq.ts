@@ -4,7 +4,7 @@ export const faqItems: Record<Lang, { q: string; a: string }[]> = {
   en: [
     {
       q: "Who is Christer Hagen?",
-      a: "I am a Norwegian serial entrepreneur and angel investor based in Bodø. I founded Codebase, run pre-seed investing through Not Another VC, and have built and backed companies across software, proptech, and real estate.",
+      a: "I am a Norwegian serial entrepreneur and software developer based in Bodø. I founded Codebase, run pre-seed investing through Not Another VC, and have built and backed companies across software, proptech, and real estate.",
     },
     {
       q: "What did he sell to Visma?",
@@ -26,7 +26,7 @@ export const faqItems: Record<Lang, { q: string; a: string }[]> = {
   no: [
     {
       q: "Hvem er Christer Hagen?",
-      a: "Jeg er en norsk seriegründer og engleinvestor med base i Bodø. Jeg grunnla Codebase, driver pre-seed-investering gjennom Not Another VC, og har bygget og støttet selskaper innen programvare, proptech og eiendom.",
+      a: "Jeg er en norsk seriegründer og utvikler med base i Bodø. Jeg grunnla Codebase, driver pre-seed-investering gjennom Not Another VC, og har bygget og støttet selskaper innen programvare, proptech og eiendom.",
     },
     {
       q: "Hva solgte han til Visma?",

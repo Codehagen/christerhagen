@@ -1,6 +1,6 @@
 # Christer Hagen
 
-Personal site for Christer Hagen — founder, angel investor, and operator based in
+Personal site for Christer Hagen — founder, software developer, and operator based in
 Bodø, Norway. A warm, editorial, fully bilingual (EN / NO) site.
 
 ## Stack

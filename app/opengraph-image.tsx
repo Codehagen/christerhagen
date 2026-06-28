@@ -49,7 +49,7 @@ export default async function OpengraphImage() {
             marginTop: "36px",
           }}
         >
-          Serial entrepreneur &amp; angel investor · Bodø, Norway
+          Serial entrepreneur &amp; software developer · Bodø, Norway
         </div>
       </div>
     ),

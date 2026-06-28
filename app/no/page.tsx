@@ -9,9 +9,9 @@ import { JsonLd } from "@/components/json-ld"
 export const metadata: Metadata = pageMetadata({
   path: "/",
   lang: "no",
-  titleAbsolute: "Christer Hagen · Serial Entrepreneur & Angel Investor",
+  titleAbsolute: "Christer Hagen · Serial Entrepreneur & Software Developer",
   description:
-    "Norwegian serial entrepreneur and angel investor based in Bodø. Founder of Codebase and Not Another VC.",
+    "Norwegian serial entrepreneur and software developer based in Bodø. Founder of Codebase and Not Another VC.",
 })
 
 export default function HomePageNo() {

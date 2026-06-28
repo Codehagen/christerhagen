@@ -12,7 +12,7 @@ export const metadata: Metadata = pageMetadata({
   lang: "en",
   title: "About",
   description:
-    "A serial entrepreneur and angel investor, building from the north of Norway.",
+    "A serial entrepreneur and software developer, building from the north of Norway.",
 })
 
 export default function AboutPage() {

@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     template: "%s · Christer Hagen",
   },
   description:
-    "Norwegian serial entrepreneur and angel investor based in Bodø. Founder of Codebase and Not Another VC.",
+    "Norwegian serial entrepreneur and software developer based in Bodø. Founder of Codebase and Not Another VC.",
   openGraph: {
     type: "website",
     siteName: "Christer Hagen",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     alternateLocale: "nb_NO",
     title: "Christer Hagen",
     description:
-      "Norwegian serial entrepreneur and angel investor based in Bodø. Founder of Codebase and Not Another VC.",
+      "Norwegian serial entrepreneur and software developer based in Bodø. Founder of Codebase and Not Another VC.",
     url: "/",
     images: ["/opengraph-image"],
   },
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     creator: "@CodeHagen",
     title: "Christer Hagen",
     description:
-      "Norwegian serial entrepreneur and angel investor based in Bodø.",
+      "Norwegian serial entrepreneur and software developer based in Bodø.",
     images: ["/opengraph-image"],
   },
 }

@@ -99,11 +99,24 @@ export function personGraph(): object {
         name: "Christer Hagen",
         givenName: "Christer",
         familyName: "Hagen",
-        jobTitle: "Serial Entrepreneur & Angel Investor",
+        jobTitle: "Serial Entrepreneur & Software Developer",
         description:
-          "Norwegian serial entrepreneur and angel investor based in Bodø. Founder of Codebase and Not Another VC.",
+          "Norwegian serial entrepreneur and software developer based in Bodø. Founder of Codebase and Not Another VC.",
         url: SITE_URL,
         image: siteUrl("/images/christer-hagen-portrait.jpg"),
+        // Birth + nationality facts mirror Wikidata P569/P19/P27. Keeping them
+        // identical across the site, Wikidata and LinkedIn is what builds
+        // Google's Knowledge Graph confidence in the entity.
+        birthDate: "1991-02-27",
+        birthPlace: {
+          "@type": "Place",
+          name: "Fauske, Norway",
+        },
+        nationality: {
+          "@type": "Country",
+          name: "Norway",
+        },
+        knowsLanguage: ["nb-NO", "en"],
         address: {
           "@type": "PostalAddress",
           addressLocality: "Bodø",
@@ -176,7 +189,7 @@ export function profilePageLd(lang: Lang = "en"): object {
       name: "Christer Hagen",
       url: siteUrl("/about"),
       image: siteUrl("/images/christer-hagen-portrait.jpg"),
-      jobTitle: "Serial Entrepreneur & Angel Investor",
+      jobTitle: "Serial Entrepreneur & Software Developer",
       sameAs: [
         "https://www.linkedin.com/in/christerhagen",
         "https://github.com/Codehagen",
