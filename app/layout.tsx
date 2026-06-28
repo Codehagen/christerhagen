@@ -5,6 +5,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LanguageProvider, HtmlLang } from "@/components/language-provider"
 import { cn } from "@/lib/utils"
+import { SITE_URL } from "@/lib/seo"
 
 const fontSerif = Newsreader({
   subsets: ["latin"],
@@ -22,7 +23,7 @@ const fontMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://christerhagen.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Christer Hagen",
     template: "%s · Christer Hagen",

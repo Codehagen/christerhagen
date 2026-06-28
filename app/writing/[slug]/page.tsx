@@ -2,6 +2,8 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import { posts, postOrder, isPostSlug } from "@/lib/posts"
+import { blogPostingLd, breadcrumbLd } from "@/lib/seo"
+import { JsonLd } from "@/components/json-ld"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { PostContent } from "@/components/post-content"
@@ -23,6 +25,14 @@ export async function generateMetadata({
   return {
     title: post.title,
     description: post.excerpt,
+    alternates: { canonical: "/writing/" + slug },
+    openGraph: {
+      url: "/writing/" + slug,
+      title: post.title,
+      description: post.excerpt,
+      type: "article",
+      publishedTime: posts.en[slug].dateISO,
+    },
   }
 }
 
@@ -36,25 +46,14 @@ export default async function PostPage({
     notFound()
   }
 
-  const post = posts.en[slug]
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.excerpt,
-    author: {
-      "@type": "Person",
-      name: "Christer Hagen",
-      url: "https://christerhagen.com",
-    },
-    url: "https://christerhagen.com/writing/" + slug,
-  }
-
   return (
     <div className="flex min-h-svh flex-col bg-background text-foreground">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      <JsonLd data={blogPostingLd(slug)} />
+      <JsonLd
+        data={breadcrumbLd([
+          { name: "Writing", path: "/writing" },
+          { name: posts.en[slug].title, path: "/writing/" + slug },
+        ])}
       />
       <SiteHeader active="writing" />
       <PostContent slug={slug} />

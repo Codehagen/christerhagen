@@ -3,6 +3,7 @@ import type { Lang } from "@/lib/companies"
 export interface Post {
   title: string
   date: string
+  dateISO: string
   read: string
   excerpt: string
   body: string[]
@@ -30,6 +31,7 @@ export const posts: Record<Lang, Record<PostSlug, Post>> = {
     "docdir-visma": {
       title: "Selling Docdir to Visma",
       date: "Feb 2026",
+      dateISO: "2026-02-15",
       read: "2 min",
       excerpt:
         "How a small tool for Norwegian real-estate documents became an acquisition by Visma.",
@@ -42,6 +44,7 @@ export const posts: Record<Lang, Record<PostSlug, Post>> = {
     "building-in-bodo": {
       title: "Why I build companies in Bodø",
       date: "Nov 2025",
+      dateISO: "2025-11-15",
       read: "2 min",
       excerpt:
         "You do not have to move to Oslo to build technology companies. Here is the case for the north.",
@@ -54,6 +57,7 @@ export const posts: Record<Lang, Record<PostSlug, Post>> = {
     "apparel-to-software": {
       title: "What apparel taught me about software",
       date: "Jun 2024",
+      dateISO: "2024-06-15",
       read: "2 min",
       excerpt:
         "My first company sold fitness apparel. The instincts from physical products never left.",
@@ -68,6 +72,7 @@ export const posts: Record<Lang, Record<PostSlug, Post>> = {
     "docdir-visma": {
       title: "Å selge Docdir til Visma",
       date: "feb 2026",
+      dateISO: "2026-02-15",
       read: "2 min",
       excerpt:
         "Hvordan et lite verktøy for norske eiendomsdokumenter ble kjøpt opp av Visma.",
@@ -80,6 +85,7 @@ export const posts: Record<Lang, Record<PostSlug, Post>> = {
     "building-in-bodo": {
       title: "Hvorfor jeg bygger selskaper i Bodø",
       date: "nov 2025",
+      dateISO: "2025-11-15",
       read: "2 min",
       excerpt:
         "Du trenger ikke flytte til Oslo for å bygge teknologiselskaper. Her er argumentet for nord.",
@@ -92,6 +98,7 @@ export const posts: Record<Lang, Record<PostSlug, Post>> = {
     "apparel-to-software": {
       title: "Hva treningsklær lærte meg om programvare",
       date: "jun 2024",
+      dateISO: "2024-06-15",
       read: "2 min",
       excerpt:
         "Mitt første selskap solgte treningsklær. Instinktene fra fysiske produkter forsvant aldri.",

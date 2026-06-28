@@ -8,6 +8,13 @@ export const metadata: Metadata = {
   title: "How I work",
   description:
     "I invest early and stay close. How I work with the founders I back.",
+  alternates: { canonical: "/process" },
+  openGraph: {
+    url: "/process",
+    title: "How I work",
+    description:
+      "I invest early and stay close. How I work with the founders I back.",
+  },
 }
 
 export default function ProcessPage() {

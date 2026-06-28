@@ -8,6 +8,13 @@ export const metadata: Metadata = {
   title: "Portfolio",
   description:
     "Companies I've built, backed and sold. Mostly software, mostly Norwegian, mostly pre-seed.",
+  alternates: { canonical: "/portfolio" },
+  openGraph: {
+    url: "/portfolio",
+    title: "Portfolio",
+    description:
+      "Companies I've built, backed and sold. Mostly software, mostly Norwegian, mostly pre-seed.",
+  },
 }
 
 export default function PortfolioPage() {

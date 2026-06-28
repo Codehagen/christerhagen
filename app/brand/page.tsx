@@ -8,6 +8,13 @@ export const metadata: Metadata = {
   title: "Brand kit",
   description:
     "The type, colour and voice behind christerhagen.com - editorial, restrained, bilingual.",
+  alternates: { canonical: "/brand" },
+  openGraph: {
+    url: "/brand",
+    title: "Brand kit",
+    description:
+      "The type, colour and voice behind christerhagen.com - editorial, restrained, bilingual.",
+  },
 }
 
 export default function BrandPage() {

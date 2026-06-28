@@ -8,6 +8,13 @@ export const metadata: Metadata = {
   title: "Writing",
   description:
     "Notes on building software companies, real estate and investing - from the north of Norway.",
+  alternates: { canonical: "/writing" },
+  openGraph: {
+    url: "/writing",
+    title: "Writing",
+    description:
+      "Notes on building software companies, real estate and investing - from the north of Norway.",
+  },
 }
 
 export default function WritingPage() {

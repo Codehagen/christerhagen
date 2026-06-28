@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils"
 import { useLanguage } from "@/components/language-provider"
 import { buttonVariants } from "@/components/ui/button"
 import { aboutContent } from "@/lib/content"
+import { faqItems } from "@/lib/faq"
 
 const label =
   "font-mono text-[12px] leading-none font-medium tracking-[0.1em] text-(--ink-fainter) uppercase"
@@ -87,6 +88,27 @@ export function AboutContent() {
           >
             {c.ctaProcess}
           </Link>
+        </div>
+      </section>
+
+      <section className="mb-24 border-t border-border pt-[30px]">
+        <h2 className={`${label} mb-6`}>
+          {lang === "no" ? "Vanlige spørsmål" : "Common questions"}
+        </h2>
+        <div className="flex flex-col">
+          {faqItems[lang].map((item) => (
+            <div
+              key={item.q}
+              className="flex flex-col gap-2 border-b border-border py-[18px] first:pt-0"
+            >
+              <h3 className="m-0 text-[18px] leading-[1.4] font-normal text-(--ink-strong)">
+                {item.q}
+              </h3>
+              <p className="m-0 max-w-[58ch] text-[17px] leading-[1.66] font-normal text-(--ink-body)">
+                {item.a}
+              </p>
+            </div>
+          ))}
         </div>
       </section>
     </main>
