@@ -2,7 +2,6 @@ import type { Metadata } from "next"
 import { Newsreader, JetBrains_Mono } from "next/font/google"
 
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
 import { LanguageProvider } from "@/components/language-provider"
 import { cn } from "@/lib/utils"
 import { SITE_URL } from "@/lib/seo"
@@ -59,7 +58,6 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      suppressHydrationWarning
       className={cn("antialiased", fontSerif.variable, fontMono.variable)}
     >
       <body>
@@ -69,13 +67,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <ThemeProvider
-          defaultTheme="light"
-          enableSystem={false}
-          forcedTheme="light"
-        >
-          <LanguageProvider>{children}</LanguageProvider>
-        </ThemeProvider>
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   )
