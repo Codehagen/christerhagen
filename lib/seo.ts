@@ -1,10 +1,87 @@
-import { companies, type CompanySlug } from "@/lib/companies"
+import type { Metadata } from "next"
+import { companies, type CompanySlug, type Lang } from "@/lib/companies"
 import { posts, type PostSlug } from "@/lib/posts"
 
 export const SITE_URL = "https://www.christerhagen.com"
 
 export function siteUrl(path = ""): string {
   return SITE_URL + path
+}
+
+/**
+ * Map an EN root path to its locale-specific path.
+ * EN keeps the root URLs; NO is mirrored under /no/*.
+ * @param path an EN path beginning with "/"
+ */
+export function localizedPath(path: string, lang: Lang): string {
+  if (lang === "en") return path
+  return path === "/" ? "/no" : "/no" + path
+}
+
+/**
+ * hreflang alternates map for a given EN path.
+ * EN = root path, nb-NO = the /no mirror, x-default = EN.
+ */
+export function i18nLanguages(path: string): Record<string, string> {
+  return {
+    en: path,
+    "nb-NO": localizedPath(path, "no"),
+    "x-default": path,
+  }
+}
+
+/**
+ * Build per-page Metadata with reciprocal hreflang, a per-locale canonical
+ * and an OpenGraph/Twitter card. `path` is always the EN path; pageMetadata
+ * localizes the canonical + OpenGraph url for the given lang.
+ */
+export function pageMetadata(opts: {
+  path: string
+  lang: Lang
+  title?: string
+  titleAbsolute?: string
+  description: string
+  ogType?: "website" | "article"
+  publishedTime?: string
+}): Metadata {
+  const {
+    path,
+    lang,
+    title,
+    titleAbsolute,
+    description,
+    ogType,
+    publishedTime,
+  } = opts
+  const canonical = localizedPath(path, lang)
+  const ogTitle = titleAbsolute ?? title
+  return {
+    ...(titleAbsolute
+      ? { title: { absolute: titleAbsolute } }
+      : title
+        ? { title }
+        : {}),
+    description,
+    alternates: {
+      canonical,
+      languages: i18nLanguages(path),
+    },
+    openGraph: {
+      url: canonical,
+      title: ogTitle,
+      description,
+      type: ogType ?? "website",
+      locale: lang === "no" ? "nb_NO" : "en_US",
+      images: ["/opengraph-image"],
+      ...(publishedTime ? { publishedTime } : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: ogTitle,
+      description,
+      images: ["/opengraph-image"],
+    },
+  }
 }
 
 /**
@@ -85,27 +162,43 @@ export function personGraph(): object {
   }
 }
 
-export function profilePageLd(): object {
+export function profilePageLd(lang: Lang = "en"): object {
   return {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
-    "@id": siteUrl("/about#profile"),
-    url: siteUrl("/about"),
+    "@id": siteUrl(localizedPath("/about", lang)) + "#profile",
+    url: siteUrl(localizedPath("/about", lang)),
     name: "About Christer Hagen",
-    mainEntity: { "@id": SITE_URL + "/#christer" },
+    inLanguage: lang === "no" ? "nb-NO" : "en",
+    mainEntity: {
+      "@type": "Person",
+      "@id": SITE_URL + "/#christer",
+      name: "Christer Hagen",
+      url: siteUrl("/about"),
+      image: siteUrl("/images/christer-hagen-portrait.jpg"),
+      jobTitle: "Serial Entrepreneur & Angel Investor",
+      sameAs: [
+        "https://www.linkedin.com/in/christerhagen",
+        "https://github.com/Codehagen",
+        "https://x.com/CodeHagen",
+        "https://www.instagram.com/christerhagen/",
+      ],
+    },
   }
 }
 
-export function organizationLd(slug: CompanySlug): object {
-  const company = companies.en[slug]
-  const isFounder = company.role.includes("Founder")
+export function organizationLd(slug: CompanySlug, lang: Lang = "en"): object {
+  const company = companies[lang][slug]
+  // Founder vs funder is a structural fact, not language-dependent — derive it
+  // from the canonical EN role ("Grunnlegger" wouldn't match on NO data).
+  const isFounder = companies.en[slug].role.includes("Founder")
 
   const ld: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: company.name,
     description: company.tagline,
-    url: siteUrl("/portfolio/" + slug),
+    url: siteUrl(localizedPath("/portfolio/" + slug, lang)),
     foundingDate: company.year,
   }
 
@@ -122,8 +215,8 @@ export function organizationLd(slug: CompanySlug): object {
   return ld
 }
 
-export function blogPostingLd(slug: PostSlug): object {
-  const post = posts.en[slug]
+export function blogPostingLd(slug: PostSlug, lang: Lang = "en"): object {
+  const post = posts[lang][slug]
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -131,12 +224,21 @@ export function blogPostingLd(slug: PostSlug): object {
     description: post.excerpt,
     datePublished: post.dateISO,
     dateModified: post.dateISO,
-    author: { "@id": SITE_URL + "/#christer" },
-    publisher: { "@id": SITE_URL + "/#codebase" },
+    author: {
+      "@type": "Person",
+      "@id": SITE_URL + "/#christer",
+      name: "Christer Hagen",
+      url: siteUrl(localizedPath("/about", lang)),
+    },
+    publisher: {
+      "@type": "Organization",
+      "@id": SITE_URL + "/#codebase",
+      name: "Codebase",
+    },
     image: siteUrl("/opengraph-image"),
-    mainEntityOfPage: siteUrl("/writing/" + slug),
-    url: siteUrl("/writing/" + slug),
-    inLanguage: "en",
+    mainEntityOfPage: siteUrl(localizedPath("/writing/" + slug, lang)),
+    url: siteUrl(localizedPath("/writing/" + slug, lang)),
+    inLanguage: lang === "no" ? "nb-NO" : "en",
   }
 }
 

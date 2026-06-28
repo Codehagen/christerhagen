@@ -1,9 +1,8 @@
-"use client"
-
 import Link from "next/link"
 import Image from "next/image"
 
-import { useLanguage } from "@/components/language-provider"
+import { type Lang } from "@/lib/companies"
+import { localizedPath } from "@/lib/seo"
 import { buttonVariants } from "@/components/ui/button"
 import { homeContent, socialLinks, EMAIL } from "@/lib/content"
 
@@ -12,8 +11,7 @@ const label =
 const rowLink =
   "flex items-baseline justify-between gap-6 border-b border-border text-(--ink-strong) transition-colors hover:text-(--rust-strong)"
 
-export function HomeContent() {
-  const { lang } = useLanguage()
+export function HomeContent({ lang }: { lang: Lang }) {
   const c = homeContent[lang]
   const social = socialLinks(lang)
 
@@ -184,7 +182,7 @@ export function HomeContent() {
         {c.writing.map((w) => (
           <Link
             key={w.slug}
-            href={`/writing/${w.slug}`}
+            href={localizedPath(`/writing/${w.slug}`, lang)}
             className="flex items-baseline justify-between gap-6 border-b border-border py-[14px] text-(--ink-body-2) transition-colors hover:text-(--rust-strong)"
           >
             <span className="text-[17px] leading-[1.35] font-normal">

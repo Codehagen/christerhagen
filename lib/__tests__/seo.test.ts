@@ -6,6 +6,8 @@ import {
   organizationLd,
   blogPostingLd,
   breadcrumbLd,
+  localizedPath,
+  i18nLanguages,
 } from "@/lib/seo"
 import sitemap from "@/app/sitemap"
 import robots from "@/app/robots"
@@ -13,6 +15,37 @@ import { companyOrder } from "@/lib/companies"
 import { postOrder } from "@/lib/posts"
 
 const APEX_NO_WWW = /https:\/\/christerhagen\.com/
+
+describe("i18n", () => {
+  it("localizedPath leaves English at root and prefixes Norwegian with /no", () => {
+    expect(localizedPath("/about", "en")).toBe("/about")
+    expect(localizedPath("/about", "no")).toBe("/no/about")
+    expect(localizedPath("/", "en")).toBe("/")
+    expect(localizedPath("/", "no")).toBe("/no")
+    expect(localizedPath("/portfolio/codebase", "no")).toBe(
+      "/no/portfolio/codebase"
+    )
+  })
+
+  it("i18nLanguages gives reciprocal en / nb-NO / x-default", () => {
+    const alts = i18nLanguages("/about")
+    expect(alts["en"]).toBe("/about")
+    expect(alts["nb-NO"]).toBe("/no/about")
+    expect(alts["x-default"]).toBe("/about")
+  })
+
+  it("sitemap includes the Norwegian mirror", () => {
+    const urls = sitemap().map((e) => e.url)
+    expect(urls).toContain(siteUrl("/no/about"))
+    expect(urls).toContain(siteUrl("/no/portfolio/codebase"))
+  })
+
+  it("blogPostingLd reflects the requested locale", () => {
+    const no = JSON.stringify(blogPostingLd("docdir-visma", "no"))
+    expect(no).toContain("/no/writing/docdir-visma")
+    expect(no).toContain("nb-NO")
+  })
+})
 
 describe("SITE_URL", () => {
   it("is the www canonical host", () => {
@@ -133,10 +166,15 @@ describe("organizationLd()", () => {
 })
 
 describe("blogPostingLd()", () => {
-  it("docdir-visma has datePublished and author @id #christer", () => {
+  it("docdir-visma has datePublished and an inlined author Person (@id #christer)", () => {
     const ld = blogPostingLd("docdir-visma") as Record<string, unknown>
     expect(ld.datePublished).toBe("2026-02-15")
-    expect(ld.author).toEqual({ "@id": SITE_URL + "/#christer" })
+    // Author is inlined (id + name + url) so it self-resolves per URL.
+    expect(ld.author).toMatchObject({
+      "@id": SITE_URL + "/#christer",
+      "@type": "Person",
+      name: "Christer Hagen",
+    })
   })
 })
 

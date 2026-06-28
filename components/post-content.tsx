@@ -1,12 +1,10 @@
-"use client"
-
 import Link from "next/link"
 
-import { useLanguage } from "@/components/language-provider"
+import { type Lang } from "@/lib/companies"
+import { localizedPath } from "@/lib/seo"
 import { posts, nextPostSlug, writingCopy, type PostSlug } from "@/lib/posts"
 
-export function PostContent({ slug }: { slug: PostSlug }) {
-  const { lang } = useLanguage()
+export function PostContent({ slug, lang }: { slug: PostSlug; lang: Lang }) {
   const t = writingCopy[lang]
   const post = posts[lang][slug]
 
@@ -17,7 +15,7 @@ export function PostContent({ slug }: { slug: PostSlug }) {
     <main id="main" className="mx-auto w-full max-w-[620px] flex-1 px-5 sm:px-7">
       <article className="pt-[72px] pb-6">
         <Link
-          href="/writing"
+          href={localizedPath("/writing", lang)}
           className="mb-[38px] inline-flex items-center min-h-11 inline-block font-mono text-[12px] leading-none font-medium tracking-[0.02em] text-(--ink-faint) transition-colors hover:text-(--rust-strong)"
         >
           <span aria-hidden>←</span> {t.backLabel}
@@ -47,7 +45,7 @@ export function PostContent({ slug }: { slug: PostSlug }) {
           {t.readNextLabel}
         </div>
         <Link
-          href={`/writing/${nSlug}`}
+          href={localizedPath(`/writing/${nSlug}`, lang)}
           className="inline-flex items-center min-h-11 text-[24px] leading-[1.25] font-medium text-(--ink-strong) transition-colors hover:text-(--rust-strong)"
         >
           {next.title} <span aria-hidden>→</span>

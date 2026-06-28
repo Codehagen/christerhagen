@@ -1,15 +1,13 @@
-"use client"
-
 import Link from "next/link"
 
-import { useLanguage } from "@/components/language-provider"
+import { type Lang } from "@/lib/companies"
+import { localizedPath } from "@/lib/seo"
 import { posts, postOrder, writingCopy } from "@/lib/posts"
 
 const label =
   "font-mono text-[12px] leading-none font-medium tracking-[0.1em] text-(--ink-fainter) uppercase"
 
-export function WritingContent() {
-  const { lang } = useLanguage()
+export function WritingContent({ lang }: { lang: Lang }) {
   const t = writingCopy[lang]
   const list = posts[lang]
 
@@ -28,7 +26,7 @@ export function WritingContent() {
           return (
             <Link
               key={slug}
-              href={`/writing/${slug}`}
+              href={localizedPath(`/writing/${slug}`, lang)}
               className="block border-b border-border py-7 text-(--ink-strong) transition-colors hover:text-(--rust-strong)"
             >
               <div className="mb-2.5 font-mono text-[11.5px] leading-none font-normal tracking-[0.04em] text-(--ink-meta)">

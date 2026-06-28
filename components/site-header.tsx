@@ -2,12 +2,12 @@
 
 import * as React from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { uiCopy, type Lang } from "@/lib/companies"
-import { useLanguage } from "@/components/language-provider"
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import { localizedPath } from "@/lib/seo"
 
 type NavKey = "about" | "portfolio" | "writing" | "contact"
 
@@ -23,56 +23,97 @@ function navLinks(t: (typeof uiCopy)["en"]) {
   ]
 }
 
-function LangToggle() {
-  const { lang, setLang } = useLanguage()
+/** Strip a leading "/no" locale segment to get the EN-equivalent path. */
+function enPathOf(pathname: string): string {
+  if (pathname === "/no") return "/"
+  if (pathname.startsWith("/no/")) return pathname.slice(3)
+  return pathname
+}
+
+/** Derive the active nav key from the EN-equivalent pathname. */
+function activeFromPath(enPath: string): NavKey | undefined {
+  if (enPath === "/about") return "about"
+  if (enPath.startsWith("/portfolio")) return "portfolio"
+  if (enPath.startsWith("/writing")) return "writing"
+  if (enPath === "/contact") return "contact"
+  return undefined
+}
+
+const localeLink =
+  "relative px-1 py-3 font-mono text-[12px] leading-none tracking-[0.04em] transition-colors before:absolute before:inset-0 before:-my-1 before:content-['']"
+
+/**
+ * EN / NO switch — two reciprocal <Link>s pointing at the mirrored-locale URL
+ * of the current page (computed from the pathname), replacing the old client
+ * language store. The active locale is rendered in ink, the other muted.
+ */
+function LocaleLinks({
+  lang,
+  enPath,
+  onNavigate,
+}: {
+  lang: Lang
+  enPath: string
+  onNavigate?: () => void
+}) {
+  const enHref = enPath
+  const noHref = enPath === "/" ? "/no" : "/no" + enPath
   return (
-    <ToggleGroup
-      variant="plain"
-      size="none"
-      value={[lang]}
-      onValueChange={(value: string[]) => {
-        const next = value[0]
-        if (next === "en" || next === "no") {
-          setLang(next as Lang)
-        }
-      }}
-      className="gap-[7px]"
-      aria-label="Language"
-    >
-      <ToggleGroupItem
-        value="en"
+    <div className="inline-flex items-center gap-[7px]" aria-label="Language">
+      <Link
+        href={enHref}
+        hrefLang="en"
         aria-label="English"
-        className="relative px-1 py-3 before:absolute before:inset-0 before:-my-1 before:content-['']"
+        aria-current={lang === "en" ? "page" : undefined}
+        onClick={onNavigate}
+        className={cn(
+          localeLink,
+          lang === "en"
+            ? "text-foreground"
+            : "text-(--ink-fainter) hover:text-foreground"
+        )}
       >
         EN
-      </ToggleGroupItem>
+      </Link>
       <span
         aria-hidden
         className="font-mono text-[12px] leading-none text-(--line-soft)"
       >
         /
       </span>
-      <ToggleGroupItem
-        value="no"
+      <Link
+        href={noHref}
+        hrefLang="nb-NO"
         aria-label="Norsk"
-        className="relative px-1 py-3 before:absolute before:inset-0 before:-my-1 before:content-['']"
+        aria-current={lang === "no" ? "page" : undefined}
+        onClick={onNavigate}
+        className={cn(
+          localeLink,
+          lang === "no"
+            ? "text-foreground"
+            : "text-(--ink-fainter) hover:text-foreground"
+        )}
       >
         NO
-      </ToggleGroupItem>
-    </ToggleGroup>
+      </Link>
+    </div>
   )
 }
 
 export function SiteHeader({
   active,
   showCta,
+  lang,
 }: {
   active?: NavKey
   /** Show the "Get in touch" pill (home page only — links to #contact). */
   showCta?: boolean
+  lang: Lang
 }) {
-  const { lang } = useLanguage()
   const t = uiCopy[lang]
+  const pathname = usePathname()
+  const enPath = enPathOf(pathname ?? "/")
+  const activeKey = active ?? activeFromPath(enPath)
   const [open, setOpen] = React.useState(false)
   const links = navLinks(t)
 
@@ -80,7 +121,7 @@ export function SiteHeader({
     <header className="sticky top-0 z-20 border-b border-border bg-background/85 backdrop-blur-[10px]">
       <div className="mx-auto flex max-w-[740px] items-center justify-between px-5 py-4 sm:px-7">
         <Link
-          href="/"
+          href={localizedPath("/", lang)}
           className="text-[16px] leading-none font-medium tracking-[0.005em] text-foreground"
         >
           Christer Hagen
@@ -91,16 +132,16 @@ export function SiteHeader({
           {links.map((l) => (
             <Link
               key={l.key}
-              href={l.href}
+              href={localizedPath(l.href, lang)}
               className={cn(
                 navItem,
-                active === l.key ? "text-foreground" : "text-(--ink-muted)"
+                activeKey === l.key ? "text-foreground" : "text-(--ink-muted)"
               )}
             >
               {l.label}
             </Link>
           ))}
-          <LangToggle />
+          <LocaleLinks lang={lang} enPath={enPath} />
           {showCta ? (
             <a
               href="#contact"
@@ -113,7 +154,6 @@ export function SiteHeader({
 
         {/* Mobile controls */}
         <div className="flex items-center gap-1 md:hidden">
-          <LangToggle />
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}
@@ -134,11 +174,11 @@ export function SiteHeader({
             {links.map((l) => (
               <Link
                 key={l.key}
-                href={l.href}
+                href={localizedPath(l.href, lang)}
                 onClick={() => setOpen(false)}
                 className={cn(
                   "flex min-h-12 items-center font-mono text-[14px] tracking-[0.02em] transition-colors hover:text-(--rust-strong)",
-                  active === l.key ? "text-foreground" : "text-(--ink-muted)"
+                  activeKey === l.key ? "text-foreground" : "text-(--ink-muted)"
                 )}
               >
                 {l.label}
@@ -153,6 +193,13 @@ export function SiteHeader({
                 {t.getInTouch}
               </a>
             ) : null}
+            <div className="mt-1 flex min-h-12 items-center border-t border-border pt-2">
+              <LocaleLinks
+                lang={lang}
+                enPath={enPath}
+                onNavigate={() => setOpen(false)}
+              />
+            </div>
           </div>
         </nav>
       ) : null}

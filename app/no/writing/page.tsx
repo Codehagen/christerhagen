@@ -8,20 +8,20 @@ import { writingCopy } from "@/lib/posts"
 
 export const metadata: Metadata = pageMetadata({
   path: "/writing",
-  lang: "en",
-  title: writingCopy.en.kicker,
-  description: writingCopy.en.intro,
+  lang: "no",
+  title: writingCopy.no.kicker,
+  description: writingCopy.no.intro,
 })
 
-export default function WritingPage() {
+export default function WritingPageNo() {
   return (
     <div
-      lang="en"
+      lang="no"
       className="flex min-h-svh flex-col bg-background text-foreground"
     >
-      <SiteHeader active="writing" lang="en" />
-      <WritingContent lang="en" />
-      <SiteFooter lang="en" />
+      <SiteHeader active="writing" lang="no" />
+      <WritingContent lang="no" />
+      <SiteFooter lang="no" />
     </div>
   )
 }

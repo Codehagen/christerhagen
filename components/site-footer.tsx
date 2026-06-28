@@ -1,16 +1,14 @@
-"use client"
-
 import Link from "next/link"
 
-import { useLanguage } from "@/components/language-provider"
+import { type Lang } from "@/lib/companies"
+import { localizedPath } from "@/lib/seo"
 
 const footerLinks = {
   en: { process: "How I work", brand: "Brand" },
   no: { process: "Slik jobber jeg", brand: "Brand kit" },
 }
 
-export function SiteFooter() {
-  const { lang } = useLanguage()
+export function SiteFooter({ lang }: { lang: Lang }) {
   const t = footerLinks[lang]
 
   return (
@@ -18,13 +16,13 @@ export function SiteFooter() {
       <div className="mx-auto flex max-w-[740px] flex-col gap-3 px-5 sm:px-7 py-6 font-mono text-[11.5px] leading-[1.5] font-normal text-(--ink-fainter)">
         <nav className="flex flex-wrap items-center gap-4">
           <Link
-            href="/process"
+            href={localizedPath("/process", lang)}
             className="transition-colors hover:text-(--rust-strong)"
           >
             {t.process}
           </Link>
           <Link
-            href="/brand"
+            href={localizedPath("/brand", lang)}
             className="transition-colors hover:text-(--rust-strong)"
           >
             {t.brand}

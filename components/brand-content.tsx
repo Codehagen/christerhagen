@@ -1,6 +1,4 @@
-"use client"
-
-import { useLanguage } from "@/components/language-provider"
+import { type Lang } from "@/lib/companies"
 import { Badge } from "@/components/ui/badge"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -38,8 +36,7 @@ function LogoCard({ tone }: { tone: "ink" | "paper" }) {
   )
 }
 
-export function BrandContent() {
-  const { lang } = useLanguage()
+export function BrandContent({ lang }: { lang: Lang }) {
   const c = brandContent[lang]
 
   return (

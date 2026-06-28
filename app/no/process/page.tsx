@@ -7,21 +7,21 @@ import { pageMetadata } from "@/lib/seo"
 
 export const metadata: Metadata = pageMetadata({
   path: "/process",
-  lang: "en",
-  title: "How I work",
+  lang: "no",
+  title: "Slik jobber jeg",
   description:
-    "I invest early and stay close. How I work with the founders I back.",
+    "Jeg investerer tidlig og holder meg nær. Slik jobber jeg med gründerne jeg investerer i.",
 })
 
-export default function ProcessPage() {
+export default function ProcessPageNo() {
   return (
     <div
-      lang="en"
+      lang="no"
       className="flex min-h-svh flex-col bg-background text-foreground"
     >
-      <SiteHeader lang="en" />
-      <ProcessContent lang="en" />
-      <SiteFooter lang="en" />
+      <SiteHeader lang="no" />
+      <ProcessContent lang="no" />
+      <SiteFooter lang="no" />
     </div>
   )
 }

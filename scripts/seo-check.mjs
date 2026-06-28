@@ -5,17 +5,27 @@
 const BASE_URL = process.env.BASE_URL || "http://localhost:3100"
 const CANONICAL_HOST = "https://www.christerhagen.com"
 
-// path -> page-specific canonical/og path expected on that page
+// path -> page-specific canonical/og path + expected document language.
 const HTML_PAGES = [
-  { path: "/", canonical: "/" },
-  { path: "/about", canonical: "/about" },
-  { path: "/portfolio", canonical: "/portfolio" },
-  { path: "/portfolio/codebase", canonical: "/portfolio/codebase" },
-  { path: "/writing", canonical: "/writing" },
-  { path: "/writing/docdir-visma", canonical: "/writing/docdir-visma" },
-  { path: "/process", canonical: "/process" },
-  { path: "/contact", canonical: "/contact" },
-  { path: "/brand", canonical: "/brand" },
+  { path: "/", canonical: "/", lang: "en" },
+  { path: "/about", canonical: "/about", lang: "en" },
+  { path: "/portfolio", canonical: "/portfolio", lang: "en" },
+  { path: "/portfolio/codebase", canonical: "/portfolio/codebase", lang: "en" },
+  { path: "/writing", canonical: "/writing", lang: "en" },
+  { path: "/writing/docdir-visma", canonical: "/writing/docdir-visma", lang: "en" },
+  { path: "/process", canonical: "/process", lang: "en" },
+  { path: "/contact", canonical: "/contact", lang: "en" },
+  { path: "/brand", canonical: "/brand", lang: "en" },
+  // Norwegian mirror
+  { path: "/no", canonical: "/no", lang: "no" },
+  { path: "/no/about", canonical: "/no/about", lang: "no" },
+  { path: "/no/portfolio", canonical: "/no/portfolio", lang: "no" },
+  { path: "/no/portfolio/codebase", canonical: "/no/portfolio/codebase", lang: "no" },
+  { path: "/no/writing", canonical: "/no/writing", lang: "no" },
+  { path: "/no/writing/docdir-visma", canonical: "/no/writing/docdir-visma", lang: "no" },
+  { path: "/no/process", canonical: "/no/process", lang: "no" },
+  { path: "/no/contact", canonical: "/no/contact", lang: "no" },
+  { path: "/no/brand", canonical: "/no/brand", lang: "no" },
 ]
 
 // Pages that must carry at least one JSON-LD block.
@@ -24,6 +34,10 @@ const JSONLD_PAGES = new Set([
   "/about",
   "/portfolio/codebase",
   "/writing/docdir-visma",
+  "/no",
+  "/no/about",
+  "/no/portfolio/codebase",
+  "/no/writing/docdir-visma",
 ])
 
 const results = []
@@ -76,6 +90,24 @@ function countJsonLd(html) {
     /<script[^>]*type=["']application\/ld\+json["'][^>]*>/gi
   )
   return m ? m.length : 0
+}
+
+function getHreflangs(html) {
+  // returns { values:Set, hrefs:string[] } from <link rel="alternate" hreflang=...>
+  const tags = html.match(/<link[^>]*rel=["']alternate["'][^>]*>/gi) || []
+  const values = new Set()
+  const hrefs = []
+  for (const tag of tags) {
+    const v = tag.match(/hreflang=["']([^"']+)["']/i)
+    const h = tag.match(/href=["']([^"']+)["']/i)
+    if (v) values.add(v[1].toLowerCase())
+    if (h) hrefs.push(h[1])
+  }
+  return { values, hrefs }
+}
+
+function hasLang(html, lang) {
+  return new RegExp(`lang=["']${lang}["']`, "i").test(html)
 }
 
 function pathsEqual(a, b) {
@@ -148,6 +180,25 @@ async function checkHtmlPage(page) {
     `${label} exactly one <h1>`,
     h1s === 1,
     h1s === 1 ? "" : `found ${h1s}`
+  )
+
+  // hreflang: must offer en, nb-no, x-default, all on the www host
+  const { values, hrefs } = getHreflangs(body)
+  const hasAll =
+    values.has("en") && values.has("nb-no") && values.has("x-default")
+  record(
+    `${label} hreflang en+nb-NO+x-default`,
+    hasAll,
+    hasAll ? "" : `got [${[...values].join(",")}]`
+  )
+  const allWww = hrefs.length > 0 && hrefs.every((h) => h.startsWith(CANONICAL_HOST))
+  record(`${label} hreflang hrefs are www`, allWww)
+
+  // document language: NO pages must declare lang="no"
+  record(
+    `${label} declares lang="${page.lang}"`,
+    hasLang(body, page.lang),
+    ""
   )
 
   // json-ld where required

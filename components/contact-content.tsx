@@ -1,13 +1,10 @@
-"use client"
-
-import { useLanguage } from "@/components/language-provider"
+import { type Lang } from "@/lib/companies"
 import { contactContent, socialLinks, EMAIL } from "@/lib/content"
 
 const label =
   "font-mono text-[12px] leading-none font-medium tracking-[0.1em] text-(--ink-fainter) uppercase"
 
-export function ContactContent() {
-  const { lang } = useLanguage()
+export function ContactContent({ lang }: { lang: Lang }) {
   const c = contactContent[lang]
   const social = socialLinks(lang)
 

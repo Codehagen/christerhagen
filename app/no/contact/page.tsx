@@ -7,21 +7,21 @@ import { pageMetadata } from "@/lib/seo"
 
 export const metadata: Metadata = pageMetadata({
   path: "/contact",
-  lang: "en",
-  title: "Contact",
+  lang: "no",
+  title: "Kontakt",
   description:
-    "Building something? I back early-stage technical founders across Norway and the Nordics.",
+    "Bygger du noe? Jeg investerer i tekniske gründere i tidlig fase i Norge og Norden.",
 })
 
-export default function ContactPage() {
+export default function ContactPageNo() {
   return (
     <div
-      lang="en"
+      lang="no"
       className="flex min-h-svh flex-col bg-background text-foreground"
     >
-      <SiteHeader active="contact" lang="en" />
-      <ContactContent lang="en" />
-      <SiteFooter lang="en" />
+      <SiteHeader active="contact" lang="no" />
+      <ContactContent lang="no" />
+      <SiteFooter lang="no" />
     </div>
   )
 }

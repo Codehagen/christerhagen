@@ -9,20 +9,20 @@ import { faqItems } from "@/lib/faq"
 
 export const metadata: Metadata = pageMetadata({
   path: "/about",
-  lang: "en",
+  lang: "no",
   title: "About",
   description:
     "A serial entrepreneur and angel investor, building from the north of Norway.",
 })
 
-export default function AboutPage() {
+export default function AboutPageNo() {
   return (
-    <div lang="en" className="flex min-h-svh flex-col bg-background text-foreground">
-      <JsonLd data={profilePageLd("en")} />
-      <JsonLd data={faqLd(faqItems.en)} />
-      <SiteHeader active="about" lang="en" />
-      <AboutContent lang="en" />
-      <SiteFooter lang="en" />
+    <div lang="no" className="flex min-h-svh flex-col bg-background text-foreground">
+      <JsonLd data={profilePageLd("no")} />
+      <JsonLd data={faqLd(faqItems.no)} />
+      <SiteHeader active="about" lang="no" />
+      <AboutContent lang="no" />
+      <SiteFooter lang="no" />
     </div>
   )
 }

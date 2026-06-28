@@ -1,10 +1,9 @@
-"use client"
-
 import Link from "next/link"
 import Image from "next/image"
 
 import { cn } from "@/lib/utils"
-import { useLanguage } from "@/components/language-provider"
+import { type Lang } from "@/lib/companies"
+import { localizedPath } from "@/lib/seo"
 import { buttonVariants } from "@/components/ui/button"
 import { aboutContent } from "@/lib/content"
 import { faqItems } from "@/lib/faq"
@@ -12,8 +11,7 @@ import { faqItems } from "@/lib/faq"
 const label =
   "font-mono text-[12px] leading-none font-medium tracking-[0.1em] text-(--ink-fainter) uppercase"
 
-export function AboutContent() {
-  const { lang } = useLanguage()
+export function AboutContent({ lang }: { lang: Lang }) {
   const c = aboutContent[lang]
 
   return (
@@ -71,7 +69,7 @@ export function AboutContent() {
         </p>
         <div className="flex flex-wrap gap-3">
           <Link
-            href="/portfolio"
+            href={localizedPath("/portfolio", lang)}
             className={cn(
               buttonVariants({ variant: "pill", size: "pill" }),
               "px-5 py-[13px] text-[12.5px]"
@@ -80,7 +78,7 @@ export function AboutContent() {
             {c.ctaPortfolio}
           </Link>
           <Link
-            href="/process"
+            href={localizedPath("/process", lang)}
             className={cn(
               buttonVariants({ variant: "pill-outline", size: "pill" }),
               "px-5 py-[13px] text-[12.5px]"

@@ -21,18 +21,18 @@ export async function generateMetadata({
   if (!isPostSlug(slug)) {
     return { title: "Not found" }
   }
-  const post = posts.en[slug]
+  const post = posts.no[slug]
   return pageMetadata({
     path: "/writing/" + slug,
-    lang: "en",
+    lang: "no",
     title: post.title,
     description: post.excerpt,
     ogType: "article",
-    publishedTime: posts.en[slug].dateISO,
+    publishedTime: posts.no[slug].dateISO,
   })
 }
 
-export default async function PostPage({
+export default async function PostPageNo({
   params,
 }: {
   params: Promise<{ slug: string }>
@@ -44,22 +44,22 @@ export default async function PostPage({
 
   return (
     <div
-      lang="en"
+      lang="no"
       className="flex min-h-svh flex-col bg-background text-foreground"
     >
-      <JsonLd data={blogPostingLd(slug, "en")} />
+      <JsonLd data={blogPostingLd(slug, "no")} />
       <JsonLd
         data={breadcrumbLd([
-          { name: writingCopy.en.kicker, path: localizedPath("/writing", "en") },
+          { name: writingCopy.no.kicker, path: localizedPath("/writing", "no") },
           {
-            name: posts.en[slug].title,
-            path: localizedPath("/writing/" + slug, "en"),
+            name: posts.no[slug].title,
+            path: localizedPath("/writing/" + slug, "no"),
           },
         ])}
       />
-      <SiteHeader active="writing" lang="en" />
-      <PostContent slug={slug} lang="en" />
-      <SiteFooter lang="en" />
+      <SiteHeader active="writing" lang="no" />
+      <PostContent slug={slug} lang="no" />
+      <SiteFooter lang="no" />
     </div>
   )
 }

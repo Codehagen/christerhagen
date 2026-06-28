@@ -8,19 +8,19 @@ import { JsonLd } from "@/components/json-ld"
 
 export const metadata: Metadata = pageMetadata({
   path: "/",
-  lang: "en",
+  lang: "no",
   titleAbsolute: "Christer Hagen · Serial Entrepreneur & Angel Investor",
   description:
     "Norwegian serial entrepreneur and angel investor based in Bodø. Founder of Codebase and Not Another VC.",
 })
 
-export default function HomePage() {
+export default function HomePageNo() {
   return (
-    <div lang="en" className="min-h-svh bg-background text-foreground">
+    <div lang="no" className="min-h-svh bg-background text-foreground">
       <JsonLd data={personGraph()} />
-      <SiteHeader showCta lang="en" />
-      <HomeContent lang="en" />
-      <SiteFooter lang="en" />
+      <SiteHeader showCta lang="no" />
+      <HomeContent lang="no" />
+      <SiteFooter lang="no" />
     </div>
   )
 }

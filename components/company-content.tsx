@@ -1,5 +1,3 @@
-"use client"
-
 import Link from "next/link"
 
 import {
@@ -7,12 +5,12 @@ import {
   nextSlug,
   uiCopy,
   type CompanySlug,
+  type Lang,
 } from "@/lib/companies"
-import { useLanguage } from "@/components/language-provider"
+import { localizedPath } from "@/lib/seo"
 import { Badge } from "@/components/ui/badge"
 
-export function CompanyContent({ slug }: { slug: CompanySlug }) {
-  const { lang } = useLanguage()
+export function CompanyContent({ slug, lang }: { slug: CompanySlug; lang: Lang }) {
   const t = uiCopy[lang]
   const company = companies[lang][slug]
 
@@ -23,7 +21,7 @@ export function CompanyContent({ slug }: { slug: CompanySlug }) {
     <>
       <article className="pt-[72px] pb-6">
         <Link
-          href="/portfolio"
+          href={localizedPath("/portfolio", lang)}
           className="mb-10 inline-flex items-center min-h-11 font-mono text-[12px] leading-none font-medium tracking-[0.02em] text-(--ink-faint) transition-colors hover:text-(--rust-strong)"
         >
           <span aria-hidden>←</span> {t.backLabel}
@@ -100,7 +98,7 @@ export function CompanyContent({ slug }: { slug: CompanySlug }) {
           {t.nextLabel}
         </div>
         <Link
-          href={`/portfolio/${nSlug}`}
+          href={localizedPath(`/portfolio/${nSlug}`, lang)}
           className="inline-flex items-center min-h-11 text-[24px] leading-[1.25] font-medium text-(--ink-strong) transition-colors hover:text-(--rust-strong)"
         >
           {next.name} <span aria-hidden>→</span>

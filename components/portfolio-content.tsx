@@ -1,8 +1,7 @@
-"use client"
-
 import Link from "next/link"
 
-import { useLanguage } from "@/components/language-provider"
+import { type Lang } from "@/lib/companies"
+import { localizedPath } from "@/lib/seo"
 import { portfolioContent } from "@/lib/content"
 
 const label =
@@ -12,8 +11,7 @@ const rowLink =
 const stagePill =
   "flex-shrink-0 rounded-full border border-primary/35 px-[9px] py-[6px] font-mono text-[9.5px] leading-none font-medium tracking-[0.07em] whitespace-nowrap text-primary uppercase"
 
-export function PortfolioContent() {
-  const { lang } = useLanguage()
+export function PortfolioContent({ lang }: { lang: Lang }) {
   const c = portfolioContent[lang]
 
   return (
@@ -29,7 +27,7 @@ export function PortfolioContent() {
       <section className="mb-16">
         <h2 className={`${label} mb-1.5`}>{c.gBuilt}</h2>
         {c.built.map((b) => (
-          <Link key={b.slug} href={`/portfolio/${b.slug}`} className={`${rowLink} py-[18px]`}>
+          <Link key={b.slug} href={localizedPath(`/portfolio/${b.slug}`, lang)} className={`${rowLink} py-[18px]`}>
             <span className="flex flex-col gap-[5px]">
               <span className="text-[21px] leading-[1.15] font-medium">
                 {b.name}
@@ -49,7 +47,7 @@ export function PortfolioContent() {
       <section className="mb-16">
         <h2 className={`${label} mb-1.5`}>{c.gInvest}</h2>
         {c.invest.map((i) => (
-          <Link key={i.slug} href={`/portfolio/${i.slug}`} className={`${rowLink} py-4`}>
+          <Link key={i.slug} href={localizedPath(`/portfolio/${i.slug}`, lang)} className={`${rowLink} py-4`}>
             <span className="flex flex-col gap-1">
               <span className="text-[18px] leading-[1.2] font-medium">
                 {i.name}
@@ -69,7 +67,7 @@ export function PortfolioContent() {
       <section className="mb-20">
         <h2 className={`${label} mb-1.5`}>{c.gExits}</h2>
         {c.exits.map((x) => (
-          <Link key={x.slug} href={`/portfolio/${x.slug}`} className={`${rowLink} py-4`}>
+          <Link key={x.slug} href={localizedPath(`/portfolio/${x.slug}`, lang)} className={`${rowLink} py-4`}>
             <span className="flex flex-col gap-1">
               <span className="text-[18px] leading-[1.2] font-medium">
                 {x.name}

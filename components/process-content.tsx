@@ -1,16 +1,14 @@
-"use client"
-
 import Link from "next/link"
 
-import { useLanguage } from "@/components/language-provider"
+import { type Lang } from "@/lib/companies"
+import { localizedPath } from "@/lib/seo"
 import { buttonVariants } from "@/components/ui/button"
 import { processContent } from "@/lib/content"
 
 const label =
   "font-mono text-[12px] leading-none font-medium tracking-[0.1em] text-(--ink-fainter) uppercase"
 
-export function ProcessContent() {
-  const { lang } = useLanguage()
+export function ProcessContent({ lang }: { lang: Lang }) {
   const c = processContent[lang]
 
   return (
@@ -58,7 +56,7 @@ export function ProcessContent() {
           {c.ctaLine}
         </p>
         <Link
-          href="/contact"
+          href={localizedPath("/contact", lang)}
           className={buttonVariants({ variant: "pill", size: "pill" })}
         >
           {c.ctaBtn}

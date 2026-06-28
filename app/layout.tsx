@@ -3,7 +3,7 @@ import { Newsreader, JetBrains_Mono } from "next/font/google"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { LanguageProvider, HtmlLang } from "@/components/language-provider"
+import { LanguageProvider } from "@/components/language-provider"
 import { cn } from "@/lib/utils"
 import { SITE_URL } from "@/lib/seo"
 
@@ -39,6 +39,7 @@ export const metadata: Metadata = {
     description:
       "Norwegian serial entrepreneur and angel investor based in Bodø. Founder of Codebase and Not Another VC.",
     url: "/",
+    images: ["/opengraph-image"],
   },
   twitter: {
     card: "summary_large_image",
@@ -46,6 +47,7 @@ export const metadata: Metadata = {
     title: "Christer Hagen",
     description:
       "Norwegian serial entrepreneur and angel investor based in Bodø.",
+    images: ["/opengraph-image"],
   },
 }
 
@@ -72,10 +74,7 @@ export default function RootLayout({
           enableSystem={false}
           forcedTheme="light"
         >
-          <LanguageProvider>
-            <HtmlLang />
-            {children}
-          </LanguageProvider>
+          <LanguageProvider>{children}</LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

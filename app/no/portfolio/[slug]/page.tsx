@@ -26,16 +26,16 @@ export async function generateMetadata({
   if (!isCompanySlug(slug)) {
     return { title: "Not found" }
   }
-  const company = companies.en[slug]
+  const company = companies.no[slug]
   return pageMetadata({
     path: "/portfolio/" + slug,
-    lang: "en",
+    lang: "no",
     title: company.name,
     description: company.tagline,
   })
 }
 
-export default async function CompanyPage({
+export default async function CompanyPageNo({
   params,
 }: {
   params: Promise<{ slug: string }>
@@ -46,22 +46,22 @@ export default async function CompanyPage({
   }
 
   return (
-    <div lang="en" className="flex min-h-svh flex-col bg-background text-foreground">
-      <JsonLd data={organizationLd(slug, "en")} />
+    <div lang="no" className="flex min-h-svh flex-col bg-background text-foreground">
+      <JsonLd data={organizationLd(slug, "no")} />
       <JsonLd
         data={breadcrumbLd([
-          { name: uiCopy.en.navPortfolio, path: localizedPath("/portfolio", "en") },
+          { name: uiCopy.no.navPortfolio, path: localizedPath("/portfolio", "no") },
           {
-            name: companies.en[slug].name,
-            path: localizedPath("/portfolio/" + slug, "en"),
+            name: companies.no[slug].name,
+            path: localizedPath("/portfolio/" + slug, "no"),
           },
         ])}
       />
-      <SiteHeader active="portfolio" lang="en" />
+      <SiteHeader active="portfolio" lang="no" />
       <main id="main" className="mx-auto w-full max-w-[640px] flex-1 px-[28px]">
-        <CompanyContent slug={slug} lang="en" />
+        <CompanyContent slug={slug} lang="no" />
       </main>
-      <SiteFooter lang="en" />
+      <SiteFooter lang="no" />
     </div>
   )
 }
