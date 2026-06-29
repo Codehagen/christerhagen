@@ -102,9 +102,10 @@ export const homeContent: Record<Lang, HomeContent> = {
     aboutBody:
       "Christer Hagen is a Norwegian serial entrepreneur and software developer based in Bodø. He founded Codebase and Not Another VC, is a partner at Advanti Estate, and writes software in the open. In 2026 he sold Docdir to Visma and placed in the top 4% of the Norwegian AI Championship.",
     now: [
-      "Building Sailsdock, a CRM for Norwegian sales teams.",
+      "Building Bedrifty, an AI-native CRM with built-in Norwegian company data.",
+      "Building Advanti Estate, a commercial real-estate brokerage in Northern Norway.",
       "Investing pre-seed as an angel through Not Another VC.",
-      "Sold Docdir to Visma earlier this year.",
+      "Exploring a few two-week sprint projects.",
     ],
     work: [
       {
@@ -112,6 +113,12 @@ export const homeContent: Record<Lang, HomeContent> = {
         role: "Founder · Technology studio & angel",
         period: "Since 2017",
         url: "https://github.com/Codehagen",
+      },
+      {
+        name: "Bedrifty",
+        role: "Founder · AI-native CRM",
+        period: "Since 2026",
+        url: "https://bedrifty.com",
       },
       {
         name: "Not Another VC",
@@ -126,9 +133,15 @@ export const homeContent: Record<Lang, HomeContent> = {
         url: "https://advantiestate.no",
       },
       {
+        name: "Sailsdock",
+        role: "Founder · CRM for sales teams",
+        period: "Sunset · 2021–2026",
+        url: "#",
+      },
+      {
         name: "Refenze",
-        role: "Founder · Fitness apparel (closed)",
-        period: "2016–2018",
+        role: "Founder · Fitness apparel",
+        period: "Sunset · 2016–2018",
         url: "#",
       },
     ],
@@ -142,11 +155,6 @@ export const homeContent: Record<Lang, HomeContent> = {
         name: "Propdock",
         desc: "Real-time insight into property portfolios for smarter decisions.",
         url: inv("en", "propdock"),
-      },
-      {
-        name: "Sailsdock",
-        desc: "CRM that prioritises sales opportunities with data and automation.",
-        url: inv("en", "sailsdock"),
       },
       {
         name: "Vendo",
@@ -231,9 +239,10 @@ export const homeContent: Record<Lang, HomeContent> = {
     aboutBody:
       "Christer Hagen er en norsk seriegründer og utvikler fra Bodø. Han grunnla Codebase og Not Another VC, er partner i Advanti Estate, og skriver programvare i åpen kildekode. I 2026 solgte han Docdir til Visma og kom blant de 4 % beste i NM i AI.",
     now: [
-      "Bygger Sailsdock, en CRM for norske salgsteam.",
+      "Bygger Bedrifty, et AI-native CRM med innebygd norsk bedriftsdata.",
+      "Bygger Advanti Estate, en næringsmegler i Nord-Norge.",
       "Investerer pre-seed som engleinvestor gjennom Not Another VC.",
-      "Solgte Docdir til Visma tidligere i år.",
+      "Utforsker noen to-ukers sprint-prosjekter.",
     ],
     work: [
       {
@@ -241,6 +250,12 @@ export const homeContent: Record<Lang, HomeContent> = {
         role: "Grunnlegger · Teknologistudio & engleinvestor",
         period: "Siden 2017",
         url: "https://github.com/Codehagen",
+      },
+      {
+        name: "Bedrifty",
+        role: "Grunnlegger · AI-native CRM",
+        period: "Siden 2026",
+        url: "https://bedrifty.com",
       },
       {
         name: "Not Another VC",
@@ -255,9 +270,15 @@ export const homeContent: Record<Lang, HomeContent> = {
         url: "https://advantiestate.no",
       },
       {
+        name: "Sailsdock",
+        role: "Grunnlegger · CRM for salgsteam",
+        period: "Sunset · 2021–2026",
+        url: "#",
+      },
+      {
         name: "Refenze",
-        role: "Grunnlegger · Treningsklær (avsluttet)",
-        period: "2016–2018",
+        role: "Grunnlegger · Treningsklær",
+        period: "Sunset · 2016–2018",
         url: "#",
       },
     ],
@@ -271,11 +292,6 @@ export const homeContent: Record<Lang, HomeContent> = {
         name: "Propdock",
         desc: "Sanntidsinnsikt i eiendomsporteføljer for smartere beslutninger.",
         url: inv("no", "propdock"),
-      },
-      {
-        name: "Sailsdock",
-        desc: "CRM som prioriterer salgsmuligheter med data og automatisering.",
-        url: inv("no", "sailsdock"),
       },
       {
         name: "Vendo",
@@ -431,7 +447,7 @@ export const aboutContent: Record<Lang, AboutContent> = {
     bio: [
       "I’m from Bodø, in the north of Norway. I grew up in Fauske, swam competitively, and studied entrepreneurship at Nord University before starting my first company.",
       "That company, Refenze, sold fitness apparel across Europe and the US. It taught me how unforgiving real businesses are, and I have been building them ever since.",
-      "Through Codebase I build and back software companies. Sailsdock is the CRM I run day to day; Docdir, which I sold to Visma in 2026, automated real-estate documents with Norwegian AI. I am a partner at Advanti Estate and I invest pre-seed through Not Another VC.",
+      "Through Codebase I build and back software companies. I sold Docdir to Visma in 2026 and have since wound down Sailsdock, an earlier CRM. Today I’m building Bedrifty, an AI-native CRM with built-in Norwegian company data, while partnering at Advanti Estate and investing pre-seed through Not Another VC.",
       "I build in the open on GitHub, placed in the top 4% of the Norwegian AI Championship, and I still believe the best companies can be built far from the capital.",
     ],
     timeline: [
@@ -458,7 +474,7 @@ export const aboutContent: Record<Lang, AboutContent> = {
     bio: [
       "Jeg er fra Bodø, i Nord-Norge. Jeg vokste opp i Fauske, svømte på konkurransenivå, og studerte entreprenørskap ved Nord universitet før jeg startet mitt første selskap.",
       "Det selskapet, Refenze, solgte treningsklær i Europa og USA. Det lærte meg hvor nådeløs ekte forretning er, og jeg har bygget selskaper siden.",
-      "Gjennom Codebase bygger og investerer jeg i programvareselskaper. Sailsdock er CRM-en jeg driver daglig; Docdir, som jeg solgte til Visma i 2026, automatiserte salgsoppgaver med norsk AI. Jeg er partner i Advanti Estate og investerer pre-seed gjennom Not Another VC.",
+      "Gjennom Codebase bygger og investerer jeg i programvareselskaper. Jeg solgte Docdir til Visma i 2026 og har siden avviklet Sailsdock, en tidligere CRM. I dag bygger jeg Bedrifty, et AI-native CRM med innebygd norsk bedriftsdata, samtidig som jeg er partner i Advanti Estate og investerer pre-seed gjennom Not Another VC.",
       "Jeg bygger i åpen kildekode på GitHub, kom blant de 4 % beste i NM i AI, og tror fortsatt de beste selskapene kan bygges langt fra hovedstaden.",
     ],
     timeline: [
@@ -502,9 +518,11 @@ export interface PortfolioContent {
   gBuilt: string
   gInvest: string
   gExits: string
+  gSunset: string
   built: PortfolioItem[]
   invest: PortfolioItem[]
   exits: PortfolioExit[]
+  sunset: PortfolioExit[]
 }
 
 export const portfolioContent: Record<Lang, PortfolioContent> = {
@@ -515,6 +533,7 @@ export const portfolioContent: Record<Lang, PortfolioContent> = {
     gBuilt: "Building",
     gInvest: "Angel investments",
     gExits: "Exits",
+    gSunset: "Sunset",
     built: [
       {
         slug: "codebase",
@@ -523,22 +542,16 @@ export const portfolioContent: Record<Lang, PortfolioContent> = {
         meta: "Founder · 2017",
       },
       {
-        slug: "sailsdock",
-        name: "Sailsdock",
-        desc: "CRM that prioritises sales opportunities for Norwegian teams.",
-        meta: "Founder · 2021",
+        slug: "bedrifty",
+        name: "Bedrifty",
+        desc: "AI-native CRM with built-in Norwegian company data.",
+        meta: "Founder · 2026",
       },
       {
         slug: "advanti-estate",
         name: "Advanti Estate",
         desc: "Commercial real estate brokerage across Northern Norway.",
         meta: "Partner · 2024",
-      },
-      {
-        slug: "refenze",
-        name: "Refenze",
-        desc: "Fitness apparel brand. First company, sold across Europe and the US.",
-        meta: "Founder · 2016",
       },
     ],
     invest: [
@@ -587,6 +600,20 @@ export const portfolioContent: Record<Lang, PortfolioContent> = {
         stage: "Exit",
       },
     ],
+    sunset: [
+      {
+        slug: "sailsdock",
+        name: "Sailsdock",
+        desc: "CRM that prioritised sales opportunities for Norwegian teams.",
+        stage: "Sunset",
+      },
+      {
+        slug: "refenze",
+        name: "Refenze",
+        desc: "Fitness apparel brand. My first company, sold across Europe and the US.",
+        stage: "Sunset",
+      },
+    ],
   },
   no: {
     kicker: "Portefølje",
@@ -595,6 +622,7 @@ export const portfolioContent: Record<Lang, PortfolioContent> = {
     gBuilt: "Bygger",
     gInvest: "Engleinvesteringer",
     gExits: "Exits",
+    gSunset: "Sunset",
     built: [
       {
         slug: "codebase",
@@ -603,22 +631,16 @@ export const portfolioContent: Record<Lang, PortfolioContent> = {
         meta: "Grunnlegger · 2017",
       },
       {
-        slug: "sailsdock",
-        name: "Sailsdock",
-        desc: "CRM som prioriterer salgsmuligheter for norske team.",
-        meta: "Grunnlegger · 2021",
+        slug: "bedrifty",
+        name: "Bedrifty",
+        desc: "AI-native CRM med innebygd norsk bedriftsdata.",
+        meta: "Grunnlegger · 2026",
       },
       {
         slug: "advanti-estate",
         name: "Advanti Estate",
         desc: "Næringsmegling i Nord-Norge.",
         meta: "Partner · 2024",
-      },
-      {
-        slug: "refenze",
-        name: "Refenze",
-        desc: "Treningsklær. Første selskap, solgt i Europa og USA.",
-        meta: "Grunnlegger · 2016",
       },
     ],
     invest: [
@@ -665,6 +687,20 @@ export const portfolioContent: Record<Lang, PortfolioContent> = {
         name: "Utleieoversikten",
         desc: "Porteføljekalkulator som ga investorer full kontroll og muliggjorde exit.",
         stage: "Exit",
+      },
+    ],
+    sunset: [
+      {
+        slug: "sailsdock",
+        name: "Sailsdock",
+        desc: "CRM som prioriterte salgsmuligheter for norske team.",
+        stage: "Sunset",
+      },
+      {
+        slug: "refenze",
+        name: "Refenze",
+        desc: "Treningsklær. Mitt første selskap, solgt i Europa og USA.",
+        stage: "Sunset",
       },
     ],
   },

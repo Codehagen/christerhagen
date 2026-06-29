@@ -63,7 +63,7 @@ export function PortfolioContent({ lang }: { lang: Lang }) {
       </section>
 
       {/* Exits */}
-      <section className="mb-20">
+      <section className="mb-16">
         <h2 className={`${label} mb-1.5`}>{c.gExits}</h2>
         {c.exits.map((x) => (
           <Link key={x.slug} href={localizedPath(`/portfolio/${x.slug}`, lang)} className={`${rowLink} py-4`}>
@@ -76,6 +76,24 @@ export function PortfolioContent({ lang }: { lang: Lang }) {
               </span>
             </span>
             <span className={stagePill}>{x.stage}</span>
+          </Link>
+        ))}
+      </section>
+
+      {/* Sunset — wound-down ventures */}
+      <section className="mb-20">
+        <h2 className={`${label} mb-1.5`}>{c.gSunset}</h2>
+        {c.sunset.map((s) => (
+          <Link key={s.slug} href={localizedPath(`/portfolio/${s.slug}`, lang)} className={`${rowLink} py-4`}>
+            <span className="flex flex-col gap-1">
+              <span className="text-[18px] leading-[1.2] font-medium">
+                {s.name}
+              </span>
+              <span className="max-w-[50ch] text-[13.5px] leading-[1.45] font-normal text-(--ink-soft)">
+                {s.desc}
+              </span>
+            </span>
+            <span className={stagePill}>{s.stage}</span>
           </Link>
         ))}
       </section>
