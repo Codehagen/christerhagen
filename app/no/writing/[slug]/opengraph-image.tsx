@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og"
 
 import { posts, postOrder, isPostSlug } from "@/lib/posts"
+import { newsreaderFonts, OG_FONT_FAMILY } from "@/lib/og-fonts"
 
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
@@ -18,6 +19,7 @@ export default async function Image({
   const { slug } = await params
   const title = isPostSlug(slug) ? posts.no[slug].title : "Tekster"
   const date = isPostSlug(slug) ? posts.no[slug].date : ""
+  const fonts = await newsreaderFonts()
 
   return new ImageResponse(
     (
@@ -31,7 +33,7 @@ export default async function Image({
           backgroundColor: "#F5F2EA",
           color: "#26231C",
           padding: "100px",
-          fontFamily: "Georgia, 'Times New Roman', serif",
+          fontFamily: OG_FONT_FAMILY,
         }}
       >
         <div style={{ display: "flex", flexDirection: "column" }}>
@@ -80,6 +82,6 @@ export default async function Image({
         </div>
       </div>
     ),
-    { ...size }
+    { ...size, fonts }
   )
 }

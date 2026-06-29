@@ -1,10 +1,13 @@
 import { ImageResponse } from "next/og"
 
+import { newsreaderFonts, OG_FONT_FAMILY } from "@/lib/og-fonts"
+
 export const size = { width: 180, height: 180 }
 export const contentType = "image/png"
 
 // The CH monogram, matching favicon.svg (ink square, paper serif "CH").
-export default function AppleIcon() {
+export default async function AppleIcon() {
+  const fonts = await newsreaderFonts()
   return new ImageResponse(
     (
       <div
@@ -17,14 +20,14 @@ export default function AppleIcon() {
           background: "#26231C",
           color: "#F5F2EA",
           fontSize: 92,
-          fontWeight: 500,
-          fontFamily: "Georgia, 'Times New Roman', serif",
+          fontWeight: 600,
+          fontFamily: OG_FONT_FAMILY,
           letterSpacing: "-2px",
         }}
       >
         CH
       </div>
     ),
-    { ...size }
+    { ...size, fonts }
   )
 }
