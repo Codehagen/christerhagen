@@ -15,45 +15,41 @@ const rowLink =
 export function HomeContent({ lang }: { lang: Lang }) {
   const c = homeContent[lang]
   const social = socialLinks(lang)
+  const location = lang === "no" ? "Bodø, Norge" : "Bodø, Norway"
 
   return (
     <main id="main" className="mx-auto w-full max-w-[740px] px-5 sm:px-7 pb-10">
-      {/* Hero */}
-      <section className="pt-[88px] pb-[70px]">
-        <h1 className="enter m-0 max-w-[20ch] text-[clamp(26px,7vw,33px)] leading-[1.3] font-normal tracking-[-0.015em] text-(--ink-strong)">
-          {c.heroHead}
-        </h1>
-        <p className="enter enter-delay mt-5 max-w-[46ch] text-[18px] leading-[1.62] font-normal text-(--ink-muted)">
-          {c.heroSub}
-        </p>
+      {/* Hero — identity above the fold: tagline + portrait, side by side. */}
+      <section className="flex flex-col gap-9 pt-[72px] pb-[64px] sm:flex-row sm:items-start sm:gap-[44px]">
+        <div className="min-w-0 flex-1">
+          <h1 className="enter m-0 max-w-[20ch] text-[clamp(26px,7vw,33px)] leading-[1.3] font-normal tracking-[-0.015em] text-(--ink-strong)">
+            {c.heroHead}
+          </h1>
+          <p className="enter enter-delay mt-5 max-w-[46ch] text-[18px] leading-[1.62] font-normal text-(--ink-muted)">
+            {c.heroSub}
+          </p>
+          <p className="enter enter-delay mt-6 font-mono text-[12.5px] leading-none tracking-[0.02em] text-(--ink-faint)">
+            {location}
+          </p>
+        </div>
+        <div className="relative aspect-[236/300] w-full max-w-[236px] flex-shrink-0 overflow-hidden rounded-[3px] bg-(--paper-placeholder) sm:w-[236px]">
+          <Image
+            src="/images/christer-hagen-portrait.jpg"
+            alt="Christer Hagen"
+            fill
+            priority
+            sizes="236px"
+            className="object-cover [object-position:center_22%]"
+          />
+        </div>
       </section>
 
       {/* About */}
       <section className="mb-[72px]">
         <h2 className={`${label} mb-6`}>{c.lblAbout}</h2>
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-[34px]">
-          <div className="relative aspect-[236/300] w-full max-w-[236px] flex-shrink-0 overflow-hidden rounded-[3px] bg-(--paper-placeholder) sm:w-[236px]">
-            <Image
-              src="/images/christer-hagen-portrait.jpg"
-              alt="Christer Hagen"
-              fill
-              priority
-              sizes="236px"
-              className="object-cover [object-position:center_22%]"
-            />
-          </div>
-          <div className="min-w-0 flex-1">
-            <div className="text-[20px] leading-[1.2] font-medium text-(--ink-strong)">
-              Christer Hagen
-            </div>
-            <div className="mt-[7px] font-mono text-[12.5px] leading-[1.4] font-normal text-(--ink-faint)">
-              {c.aboutRole}
-            </div>
-            <p className="mt-[18px] text-[16.5px] leading-[1.62] font-normal text-(--ink-body-2)">
-              {c.aboutBody}
-            </p>
-          </div>
-        </div>
+        <p className="max-w-[62ch] text-[16.5px] leading-[1.64] font-normal text-(--ink-body-2)">
+          {c.aboutBody}
+        </p>
       </section>
 
       {/* Now */}
