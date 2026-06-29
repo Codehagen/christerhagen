@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 import { brandContent } from "@/lib/brand"
 
 const label =
-  "font-mono text-[12px] leading-none font-medium tracking-[0.1em] text-(--ink-fainter) uppercase"
+  "font-mono text-[12px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase"
 
 function LogoCard({ tone }: { tone: "ink" | "paper" }) {
   const dark = tone === "ink"
@@ -47,7 +47,7 @@ export function BrandContent({ lang }: { lang: Lang }) {
       {/* Hero */}
       <section className="pt-[84px] pb-[56px]">
         <div className={`${label} mb-6`}>{c.kicker}</div>
-        <h1 className="m-0 max-w-[20ch] text-[clamp(27px,8vw,34px)] leading-[1.28] font-normal tracking-[0.004em] text-(--ink-strong)">
+        <h1 className="m-0 max-w-[20ch] text-[clamp(27px,8vw,34px)] leading-[1.28] font-normal tracking-[-0.015em] text-(--ink-strong)">
           {c.head}
         </h1>
         <p className="mt-5 max-w-[46ch] text-[18px] leading-[1.6] font-normal text-(--ink-muted)">
@@ -119,7 +119,7 @@ export function BrandContent({ lang }: { lang: Lang }) {
               {c.typeMonoUse}
             </span>
           </div>
-          <div className="font-mono text-[12px] leading-none font-medium tracking-[0.1em] text-(--ink-fainter) uppercase">
+          <div className="font-mono text-[12px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
             Section label
           </div>
           <div className="mt-3 font-mono text-[14px] leading-none font-normal text-(--ink-muted)">

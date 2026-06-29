@@ -27,7 +27,7 @@ export function CompanyContent({ slug, lang }: { slug: CompanySlug; lang: Lang }
           <span aria-hidden>←</span> {t.backLabel}
         </Link>
 
-        <h1 className="m-0 text-[clamp(30px,9vw,40px)] leading-[1.12] font-semibold tracking-[0.004em] text-(--ink-strong)">
+        <h1 className="m-0 text-[clamp(30px,9vw,40px)] leading-[1.12] font-semibold tracking-[-0.015em] text-(--ink-strong)">
           {company.name}
         </h1>
         <p className="mt-[14px] text-[19px] leading-[1.5] font-normal text-(--ink-soft) italic">
@@ -94,7 +94,7 @@ export function CompanyContent({ slug, lang }: { slug: CompanySlug; lang: Lang }
       </article>
 
       <div className="mt-[48px] mb-[72px] border-t border-border pt-[26px]">
-        <div className="mb-3 font-mono text-[11px] leading-none font-medium tracking-[0.1em] text-(--ink-fainter) uppercase">
+        <div className="mb-3 font-mono text-[11px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
           {t.nextLabel}
         </div>
         <Link

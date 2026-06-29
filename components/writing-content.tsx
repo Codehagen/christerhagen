@@ -5,7 +5,7 @@ import { localizedPath } from "@/lib/seo"
 import { posts, postOrder, writingCopy } from "@/lib/posts"
 
 const label =
-  "font-mono text-[12px] leading-none font-medium tracking-[0.1em] text-(--ink-fainter) uppercase"
+  "font-mono text-[12px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase"
 
 export function WritingContent({ lang }: { lang: Lang }) {
   const t = writingCopy[lang]

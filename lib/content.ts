@@ -123,12 +123,12 @@ export const homeContent: Record<Lang, HomeContent> = {
         name: "Advanti Estate",
         role: "Partner · Commercial real estate",
         period: "Since 2024",
-        url: inv("en", "advanti-estate"),
+        url: "https://advantiestate.no",
       },
       {
         name: "Refenze",
         role: "Founder · Fitness apparel (closed)",
-        period: "2016-2018",
+        period: "2016–2018",
         url: "#",
       },
     ],
@@ -166,7 +166,7 @@ export const homeContent: Record<Lang, HomeContent> = {
       {
         name: "Advanti Estate",
         desc: "Buys, sells and rents commercial property across Northern Norway.",
-        url: inv("en", "advanti-estate"),
+        url: "https://advantiestate.no",
       },
     ],
     exits: [
@@ -252,12 +252,12 @@ export const homeContent: Record<Lang, HomeContent> = {
         name: "Advanti Estate",
         role: "Partner · Næringseiendom",
         period: "Siden 2024",
-        url: inv("no", "advanti-estate"),
+        url: "https://advantiestate.no",
       },
       {
         name: "Refenze",
         role: "Grunnlegger · Treningsklær (avsluttet)",
-        period: "2016-2018",
+        period: "2016–2018",
         url: "#",
       },
     ],
@@ -295,7 +295,7 @@ export const homeContent: Record<Lang, HomeContent> = {
       {
         name: "Advanti Estate",
         desc: "Kjøper, selger og leier ut næringseiendom i Nord-Norge.",
-        url: inv("no", "advanti-estate"),
+        url: "https://advantiestate.no",
       },
     ],
     exits: [

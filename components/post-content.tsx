@@ -16,7 +16,7 @@ export function PostContent({ slug, lang }: { slug: PostSlug; lang: Lang }) {
       <article className="pt-[72px] pb-6">
         <Link
           href={localizedPath("/writing", lang)}
-          className="mb-[38px] inline-flex items-center min-h-11 inline-block font-mono text-[12px] leading-none font-medium tracking-[0.02em] text-(--ink-faint) transition-colors hover:text-(--rust-strong)"
+          className="mb-[38px] inline-flex items-center min-h-11 font-mono text-[12px] leading-none font-medium tracking-[0.02em] text-(--ink-faint) transition-colors hover:text-(--rust-strong)"
         >
           <span aria-hidden>←</span> {t.backLabel}
         </Link>
@@ -24,7 +24,7 @@ export function PostContent({ slug, lang }: { slug: PostSlug; lang: Lang }) {
         <div className="mb-4 font-mono text-[12px] leading-none font-normal tracking-[0.04em] text-(--ink-meta)">
           {post.date} · {post.read}
         </div>
-        <h1 className="m-0 mb-9 text-[clamp(28px,8.5vw,38px)] leading-[1.18] font-semibold tracking-[0.004em] text-(--ink-strong)">
+        <h1 className="m-0 mb-9 text-[clamp(28px,8.5vw,38px)] leading-[1.18] font-semibold tracking-[-0.015em] text-(--ink-strong)">
           {post.title}
         </h1>
 
@@ -41,7 +41,7 @@ export function PostContent({ slug, lang }: { slug: PostSlug; lang: Lang }) {
       </article>
 
       <div className="mt-[48px] mb-[72px] border-t border-border pt-[26px]">
-        <div className="mb-3 font-mono text-[11px] leading-none font-medium tracking-[0.1em] text-(--ink-fainter) uppercase">
+        <div className="mb-3 font-mono text-[11px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
           {t.readNextLabel}
         </div>
         <Link

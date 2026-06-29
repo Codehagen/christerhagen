@@ -18,10 +18,10 @@ export default function NotFound() {
         id="main"
         className="mx-auto flex w-full max-w-[740px] flex-1 flex-col items-start justify-center px-5 py-24 sm:px-7"
       >
-        <div className="font-mono text-[12px] leading-none font-medium tracking-[0.1em] text-(--ink-fainter) uppercase">
+        <div className="font-mono text-[12px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
           404
         </div>
-        <h1 className="mt-6 max-w-[18ch] text-[clamp(26px,7vw,33px)] leading-[1.3] font-normal tracking-[0.004em] text-(--ink-strong)">
+        <h1 className="mt-6 max-w-[18ch] text-[clamp(26px,7vw,33px)] leading-[1.3] font-normal tracking-[-0.015em] text-(--ink-strong)">
           This page doesn’t exist.
         </h1>
         <p className="mt-5 max-w-[42ch] text-[17px] leading-[1.62] font-normal text-(--ink-muted)">

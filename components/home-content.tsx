@@ -4,10 +4,11 @@ import Image from "next/image"
 import { type Lang } from "@/lib/companies"
 import { localizedPath } from "@/lib/seo"
 import { buttonVariants } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { homeContent, socialLinks, EMAIL } from "@/lib/content"
 
 const label =
-  "font-mono text-[12px] leading-none font-medium tracking-[0.1em] text-(--ink-fainter) uppercase"
+  "font-mono text-[12px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase"
 const rowLink =
   "flex items-baseline justify-between gap-6 border-b border-border text-(--ink-strong) transition-colors hover:text-(--rust-strong)"
 
@@ -19,7 +20,7 @@ export function HomeContent({ lang }: { lang: Lang }) {
     <main id="main" className="mx-auto w-full max-w-[740px] px-5 sm:px-7 pb-10">
       {/* Hero */}
       <section className="pt-[88px] pb-[70px]">
-        <h1 className="enter m-0 max-w-[20ch] text-[clamp(26px,7vw,33px)] leading-[1.3] font-normal tracking-[0.004em] text-(--ink-strong)">
+        <h1 className="enter m-0 max-w-[20ch] text-[clamp(26px,7vw,33px)] leading-[1.3] font-normal tracking-[-0.015em] text-(--ink-strong)">
           {c.heroHead}
         </h1>
         <p className="enter enter-delay mt-5 max-w-[46ch] text-[18px] leading-[1.62] font-normal text-(--ink-muted)">
@@ -36,6 +37,7 @@ export function HomeContent({ lang }: { lang: Lang }) {
               src="/images/christer-hagen-portrait.jpg"
               alt="Christer Hagen"
               fill
+              priority
               sizes="236px"
               className="object-cover [object-position:center_22%]"
             />
@@ -75,27 +77,43 @@ export function HomeContent({ lang }: { lang: Lang }) {
       {/* Work */}
       <section className="mb-[72px]">
         <h2 className={`${label} mb-1.5`}>{c.lblWork}</h2>
-        {c.work.map((w) => (
-          <a
-            key={w.name}
-            href={w.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${rowLink} py-4`}
-          >
-            <span className="flex flex-col gap-1">
-              <span className="text-[20px] leading-[1.15] font-medium">
-                {w.name}
+        {c.work.map((w) => {
+          const content = (
+            <>
+              <span className="flex flex-col gap-1">
+                <span className="text-[20px] leading-[1.15] font-medium">
+                  {w.name}
+                </span>
+                <span className="font-mono text-[12px] leading-[1.4] font-normal text-(--ink-faint)">
+                  {w.role}
+                </span>
               </span>
-              <span className="font-mono text-[12px] leading-[1.4] font-normal text-(--ink-faint)">
-                {w.role}
+              <span className="flex-shrink-0 font-mono text-[11.5px] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
+                {w.period}
               </span>
-            </span>
-            <span className="flex-shrink-0 font-mono text-[11.5px] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
-              {w.period}
-            </span>
-          </a>
-        ))}
+            </>
+          )
+          // Closed companies have no live site: render a non-interactive row, not
+          // a dead href="#" that opens a blank tab and exposes a no-op to AT.
+          return w.url === "#" ? (
+            <div
+              key={w.name}
+              className="flex items-baseline justify-between gap-6 border-b border-border py-4 text-(--ink-strong)"
+            >
+              {content}
+            </div>
+          ) : (
+            <a
+              key={w.name}
+              href={w.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${rowLink} py-4`}
+            >
+              {content}
+            </a>
+          )
+        })}
       </section>
 
       {/* Investments */}
@@ -146,9 +164,9 @@ export function HomeContent({ lang }: { lang: Lang }) {
                 {x.desc}
               </span>
             </span>
-            <span className="flex-shrink-0 rounded-full border border-primary/35 px-[9px] py-[6px] font-mono text-[9.5px] leading-none font-medium tracking-[0.07em] whitespace-nowrap text-primary uppercase">
+            <Badge variant="status" className="flex-shrink-0">
               {x.stage}
-            </span>
+            </Badge>
           </a>
         ))}
       </section>
