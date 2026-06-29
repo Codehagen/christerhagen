@@ -190,3 +190,22 @@
     scroll-behavior: auto !important;
     }
 }
+
+/* Route crossfade via the native View Transitions API (triggered by
+   next-view-transitions on navigation). A plain crossfade only — no slides,
+   this flat site has no nav hierarchy to imply. The browser's view-transition
+   pseudo-elements live outside the document tree, so the global `*`
+   reduced-motion reset above does NOT reach them; they get their own guard. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 250ms;
+  animation-timing-function: var(--ease-out-quart);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation: none !important;
+    }
+}
