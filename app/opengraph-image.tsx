@@ -1,10 +1,13 @@
 import { ImageResponse } from "next/og"
 
+import { newsreaderFonts, OG_FONT_FAMILY } from "@/lib/og-fonts"
+
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
 export const alt = "Christer Hagen"
 
 export default async function OpengraphImage() {
+  const fonts = await newsreaderFonts()
   return new ImageResponse(
     (
       <div
@@ -18,7 +21,7 @@ export default async function OpengraphImage() {
           backgroundColor: "#F5F2EA",
           color: "#26231C",
           padding: "100px",
-          fontFamily: "Georgia, 'Times New Roman', serif",
+          fontFamily: OG_FONT_FAMILY,
         }}
       >
         <div
@@ -34,7 +37,7 @@ export default async function OpengraphImage() {
           style={{
             display: "flex",
             fontSize: "120px",
-            fontWeight: 700,
+            fontWeight: 600,
             letterSpacing: "-0.03em",
             lineHeight: 1,
           }}
@@ -53,6 +56,6 @@ export default async function OpengraphImage() {
         </div>
       </div>
     ),
-    { ...size }
+    { ...size, fonts }
   )
 }
