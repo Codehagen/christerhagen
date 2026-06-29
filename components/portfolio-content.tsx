@@ -5,7 +5,7 @@ import { localizedPath } from "@/lib/seo"
 import { portfolioContent } from "@/lib/content"
 
 const label =
-  "font-mono text-[12px] leading-none font-medium tracking-[0.1em] text-(--ink-fainter) uppercase"
+  "font-mono text-[12px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase"
 const rowLink =
   "flex items-baseline justify-between gap-6 border-b border-border text-(--ink-strong) transition-colors hover:text-(--rust-strong)"
 const stagePill =

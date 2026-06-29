@@ -40,7 +40,7 @@ function activeFromPath(enPath: string): NavKey | undefined {
 }
 
 const localeLink =
-  "relative px-1 py-3 font-mono text-[12px] leading-none tracking-[0.04em] transition-colors before:absolute before:inset-0 before:-my-1 before:content-['']"
+  "relative px-1 py-3 font-mono text-[12px] leading-none tracking-[0.04em] transition-colors before:absolute before:inset-0 before:-my-2 before:content-['']"
 
 /**
  * EN / NO switch — two reciprocal <Link>s pointing at the mirrored-locale URL

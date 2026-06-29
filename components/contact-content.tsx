@@ -2,7 +2,7 @@ import { type Lang } from "@/lib/companies"
 import { contactContent, socialLinks, EMAIL } from "@/lib/content"
 
 const label =
-  "font-mono text-[12px] leading-none font-medium tracking-[0.1em] text-(--ink-fainter) uppercase"
+  "font-mono text-[12px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase"
 
 export function ContactContent({ lang }: { lang: Lang }) {
   const c = contactContent[lang]
@@ -12,7 +12,7 @@ export function ContactContent({ lang }: { lang: Lang }) {
     <main id="main" className="mx-auto w-full max-w-[740px] flex-1 px-5 sm:px-7">
       <section className="pt-[88px] pb-[60px]">
         <div className={`${label} mb-6`}>{c.kicker}</div>
-        <h1 className="m-0 max-w-[16ch] text-[clamp(30px,9vw,40px)] leading-[1.2] font-normal tracking-[0.004em] text-(--ink-strong)">
+        <h1 className="m-0 max-w-[16ch] text-[clamp(30px,9vw,40px)] leading-[1.2] font-normal tracking-[-0.015em] text-(--ink-strong)">
           {c.head}
         </h1>
         <p className="mt-5 max-w-[44ch] text-[18px] leading-[1.6] font-normal text-(--ink-body-2)">

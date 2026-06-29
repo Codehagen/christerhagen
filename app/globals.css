@@ -64,8 +64,12 @@
     --ink-body: #36322a;
     --ink-muted: #56514a;
     --ink-soft: #6e685a;
-    --ink-faint: #8a8472;
-    --ink-fainter: #a79f8c;
+    /* Faint ink tiers raised to clear WCAG AA (>=4.5:1) on paper AND the
+       --muted surface; they carry real text (labels, dates, footer, nav). The
+       ramp necessarily compresses near one warm value at the floor — hierarchy
+       comes from size/weight/tracking, not illegible lightness. */
+    --ink-faint: #6a6453;
+    --ink-fainter: #6b6456;
     --line: #e6e0d3;
     --line-soft: #ccc5b5;
     --rust: oklch(0.52 0.12 44);
@@ -76,8 +80,8 @@
     /* Exact-value tokens for the design's stray browns/lines (no pixels change). */
     --ink-body-2: #403b31;
     --ink-body-3: #4a4539;
-    --ink-meta: #b0a893;
-    --arrow-faint: #c2bba8;
+    --ink-meta: #6d6657; /* raised to AA (~5.1:1 paper / 4.6:1 muted); dates, reading time, stars */
+    --arrow-faint: #8c8676; /* decorative ↗ only (aria-hidden); raised to ~3.2:1 */
     --line-strong: #d8d2c4;
     --pill-border: #e0dacc;
     --paper-placeholder: #e8e2d5;

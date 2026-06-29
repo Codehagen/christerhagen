@@ -40,7 +40,7 @@ export default async function Image({
               display: "flex",
               width: "64px",
               height: "8px",
-              backgroundColor: "#b4471f",
+              backgroundColor: "#a04e28",
               marginBottom: "48px",
             }}
           />

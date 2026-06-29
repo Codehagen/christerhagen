@@ -17,20 +17,20 @@ export function SiteFooter({ lang }: { lang: Lang }) {
         <nav className="flex flex-wrap items-center gap-4">
           <Link
             href={localizedPath("/process", lang)}
-            className="transition-colors hover:text-(--rust-strong)"
+            className="relative inline-flex items-center transition-colors before:absolute before:-inset-x-1.5 before:-inset-y-3.5 before:content-[''] hover:text-(--rust-strong)"
           >
             {t.process}
           </Link>
           <Link
             href={localizedPath("/brand", lang)}
-            className="transition-colors hover:text-(--rust-strong)"
+            className="relative inline-flex items-center transition-colors before:absolute before:-inset-x-1.5 before:-inset-y-3.5 before:content-[''] hover:text-(--rust-strong)"
           >
             {t.brand}
           </Link>
         </nav>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <span>Bodø, Norway</span>
-          <span>© 2026 Christer Hagen</span>
+          <span>© {new Date().getFullYear()} Christer Hagen</span>
         </div>
       </div>
     </footer>
