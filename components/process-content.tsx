@@ -5,8 +5,7 @@ import { localizedPath } from "@/lib/seo"
 import { buttonVariants } from "@/components/ui/button"
 import { processContent } from "@/lib/content"
 
-const label =
-  "font-mono text-[12px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase"
+import { eyebrow as label } from "@/lib/typography"
 
 export function ProcessContent({ lang }: { lang: Lang }) {
   const c = processContent[lang]

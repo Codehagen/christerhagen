@@ -4,8 +4,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { brandContent } from "@/lib/brand"
 
-const label =
-  "font-mono text-[12px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase"
+import { eyebrow as label } from "@/lib/typography"
 
 function LogoCard({ tone }: { tone: "ink" | "paper" }) {
   const dark = tone === "ink"

@@ -7,34 +7,36 @@ import { buttonVariants } from "@/components/ui/button"
 import { eyebrow } from "@/lib/typography"
 
 export const metadata: Metadata = {
-  title: "Page not found",
+  title: "Siden finnes ikke",
   robots: { index: false, follow: true },
 }
 
+// Norwegian not-found boundary for the /no subtree. Triggers when a /no page
+// calls notFound() (e.g. /no/writing/[bad-slug], /no/portfolio/[bad-slug]).
 export default function NotFound() {
   return (
     <div className="flex min-h-svh flex-col bg-background text-foreground">
-      <SiteHeader lang="en" />
+      <SiteHeader lang="no" />
       <main
         id="main"
         className="mx-auto flex w-full max-w-[740px] flex-1 flex-col items-start justify-center px-5 py-24 sm:px-7"
       >
         <div className={eyebrow}>404</div>
         <h1 className="mt-6 max-w-[18ch] text-[clamp(26px,7vw,33px)] leading-[1.3] font-normal tracking-[-0.015em] text-(--ink-strong)">
-          This page doesn’t exist.
+          Denne siden finnes ikke.
         </h1>
         <p className="mt-5 max-w-[42ch] text-[17px] leading-[1.62] font-normal text-(--ink-muted)">
-          The link may be broken, or the page may have moved. Let’s get you back
-          to something that does exist.
+          Lenken kan være ødelagt, eller så har siden flyttet. La oss få deg
+          tilbake til noe som finnes.
         </p>
         <Link
-          href="/"
+          href="/no"
           className={`${buttonVariants({ variant: "pill", size: "pill" })} mt-8`}
         >
-          Back home
+          Tilbake til forsiden
         </Link>
       </main>
-      <SiteFooter lang="en" />
+      <SiteFooter lang="no" />
     </div>
   )
 }

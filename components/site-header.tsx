@@ -103,9 +103,6 @@ function LocaleLinks({
 const ctaDesktop =
   "rounded-full border border-(--line-strong) px-[15px] py-2.5 font-mono text-[12px] leading-none font-medium tracking-[0.02em] text-foreground transition-[color,border-color,transform] duration-150 ease-out hover:border-foreground active:scale-[0.97]"
 
-const ctaMobile =
-  "mt-2 inline-flex min-h-12 w-fit items-center rounded-full border border-(--line-strong) px-[18px] font-mono text-[13px] tracking-[0.02em] text-foreground transition-[color,border-color,transform] duration-150 ease-out hover:border-foreground active:scale-[0.97]"
-
 /**
  * "Get in touch" pill — present on every page so the header layout never shifts
  * between routes. On the home page it scrolls to the in-page #contact section;
@@ -273,13 +270,6 @@ export function SiteHeader({
                 {l.label}
               </Link>
             ))}
-            <GetInTouch
-              isHome={isHome}
-              lang={lang}
-              label={t.getInTouch}
-              className={ctaMobile}
-              onNavigate={() => setOpen(false)}
-            />
             <div className="mt-1 flex min-h-12 items-center border-t border-border pt-2">
               <LocaleLinks
                 lang={lang}
