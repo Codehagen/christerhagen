@@ -37,9 +37,9 @@ export function ContactContent({ lang }: { lang: Lang }) {
                 href={s.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-11 items-baseline gap-2 rounded-full border border-(--line) bg-(--paper-raised) px-[15px] py-[9px] font-mono text-[12.5px] leading-none font-normal text-(--ink-strong) transition-[color,border-color,transform] duration-150 ease-out hover:border-(--line-strong) hover:text-(--rust-strong) active:scale-[0.97]"
+                className="inline-flex items-center gap-2 rounded-full border border-(--line) bg-(--paper-raised) px-[14px] py-[8px] font-mono text-[12.5px] leading-none font-normal text-(--ink-strong) transition-[color,border-color,transform] duration-150 ease-out hover:border-(--line-strong) hover:text-(--rust-strong) active:scale-[0.97]"
               >
-                <span className="text-[9.5px] tracking-[0.08em] text-(--ink-faint) uppercase">
+                <span className="text-[10px] tracking-[0.08em] text-(--ink-faint) uppercase">
                   {s.label}
                 </span>
                 <span>{s.handle}</span>
