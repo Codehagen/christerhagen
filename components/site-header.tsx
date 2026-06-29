@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import Link from "next/link"
+import { Link } from "next-view-transitions"
 import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
 
@@ -104,7 +104,7 @@ const ctaDesktop =
   "rounded-full border border-(--line-strong) px-[15px] py-2.5 font-mono text-[12px] leading-none font-medium tracking-[0.02em] text-foreground transition-[color,border-color,transform] duration-150 ease-out hover:border-foreground active:scale-[0.97]"
 
 const ctaMobile =
-  "mt-2 inline-flex min-h-12 w-fit items-center rounded-full border border-(--line-strong) px-[18px] font-mono text-[13px] tracking-[0.02em] text-foreground transition-[color,border-color,transform] duration-150 ease-out hover:border-foreground active:scale-[0.98]"
+  "mt-2 inline-flex min-h-12 w-fit items-center rounded-full border border-(--line-strong) px-[18px] font-mono text-[13px] tracking-[0.02em] text-foreground transition-[color,border-color,transform] duration-150 ease-out hover:border-foreground active:scale-[0.97]"
 
 /**
  * "Get in touch" pill — present on every page so the header layout never shifts
@@ -155,8 +155,17 @@ export function SiteHeader({
   const isHome = enPath === "/"
   const activeKey = active ?? activeFromPath(enPath)
   const [open, setOpen] = React.useState(false)
+  // Keep the panel mounted through its exit animation; `open` drives the
+  // enter/exit state, `rendered` keeps it in the tree until animationend.
+  const [rendered, setRendered] = React.useState(false)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
   const links = navLinks(t)
+
+  function toggleMenu() {
+    // Mount on the way open; the closed exit animation unmounts via onAnimationEnd.
+    if (!open) setRendered(true)
+    setOpen((o) => !o)
+  }
 
   // Esc closes the mobile menu and returns focus to its trigger.
   React.useEffect(() => {
@@ -172,7 +181,7 @@ export function SiteHeader({
   }, [open])
 
   return (
-    <header className="sticky top-0 z-20 border-b border-border bg-background/85 backdrop-blur-[10px]">
+    <header className="sticky top-0 z-20 border-b border-border bg-background">
       <div className="mx-auto flex max-w-[740px] items-center justify-between px-5 py-4 sm:px-7">
         <Link
           href={localizedPath("/", lang)}
@@ -210,22 +219,44 @@ export function SiteHeader({
           <button
             ref={triggerRef}
             type="button"
-            onClick={() => setOpen((o) => !o)}
+            onClick={toggleMenu}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-menu"
-            className="-mr-2 inline-flex size-11 items-center justify-center rounded-md text-foreground transition-transform duration-150 ease-out active:scale-90 focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+            className="relative -mr-2 inline-flex size-11 items-center justify-center rounded-md text-foreground transition-transform duration-150 ease-out active:scale-[0.97] focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
           >
-            {open ? <X className="size-5" /> : <Menu className="size-5" />}
+            <Menu
+              aria-hidden
+              className={cn(
+                "absolute size-5 transition-opacity duration-100 ease-out",
+                open ? "opacity-0" : "opacity-100"
+              )}
+            />
+            <X
+              aria-hidden
+              className={cn(
+                "absolute size-5 transition-opacity duration-100 ease-out",
+                open ? "opacity-100" : "opacity-0"
+              )}
+            />
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
-      {open ? (
+      {/* Mobile menu — mounted through its exit so close animates too. */}
+      {open || rendered ? (
         <nav
           id="mobile-menu"
-          className="border-t border-border duration-200 ease-out animate-in fade-in-0 slide-in-from-top-1 md:hidden"
+          data-state={open ? "open" : "closed"}
+          onAnimationEnd={() => {
+            if (!open) setRendered(false)
+          }}
+          inert={!open ? true : undefined}
+          className={cn(
+            "origin-top border-t border-border ease-out-quart md:hidden",
+            "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-top-1 data-[state=open]:duration-200",
+            "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-1 data-[state=closed]:duration-150"
+          )}
         >
           <div className="mx-auto flex max-w-[740px] flex-col px-5 pt-1 pb-3 sm:px-7">
             {links.map((l) => (

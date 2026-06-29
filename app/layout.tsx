@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Newsreader, JetBrains_Mono } from "next/font/google"
+import { ViewTransitions } from "next-view-transitions"
 
 import "./globals.css"
 import { LanguageProvider, HtmlLang } from "@/components/language-provider"
@@ -56,20 +57,22 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html
-      lang="en"
-      className={cn("antialiased", fontSerif.variable, fontMono.variable)}
-    >
-      <body>
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-foreground focus:px-4 focus:py-2 focus:font-mono focus:text-[13px] focus:text-background"
-        >
-          Skip to content
-        </a>
-        <HtmlLang />
-        <LanguageProvider>{children}</LanguageProvider>
-      </body>
-    </html>
+    <ViewTransitions>
+      <html
+        lang="en"
+        className={cn("antialiased", fontSerif.variable, fontMono.variable)}
+      >
+        <body>
+          <a
+            href="#main"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-foreground focus:px-4 focus:py-2 focus:font-mono focus:text-[13px] focus:text-background"
+          >
+            Skip to content
+          </a>
+          <HtmlLang />
+          <LanguageProvider>{children}</LanguageProvider>
+        </body>
+      </html>
+    </ViewTransitions>
   )
 }

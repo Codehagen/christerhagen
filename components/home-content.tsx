@@ -1,4 +1,4 @@
-import Link from "next/link"
+import { Link } from "next-view-transitions"
 import Image from "next/image"
 
 import { type Lang } from "@/lib/companies"
@@ -19,10 +19,10 @@ export function HomeContent({ lang }: { lang: Lang }) {
     <main id="main" className="mx-auto w-full max-w-[740px] px-5 sm:px-7 pb-10">
       {/* Hero */}
       <section className="pt-[88px] pb-[70px]">
-        <h1 className="m-0 max-w-[20ch] text-[clamp(26px,7vw,33px)] leading-[1.3] font-normal tracking-[0.004em] text-(--ink-strong)">
+        <h1 className="enter m-0 max-w-[20ch] text-[clamp(26px,7vw,33px)] leading-[1.3] font-normal tracking-[0.004em] text-(--ink-strong)">
           {c.heroHead}
         </h1>
-        <p className="mt-5 max-w-[46ch] text-[18px] leading-[1.62] font-normal text-(--ink-muted)">
+        <p className="enter enter-delay mt-5 max-w-[46ch] text-[18px] leading-[1.62] font-normal text-(--ink-muted)">
           {c.heroSub}
         </p>
       </section>
@@ -107,7 +107,7 @@ export function HomeContent({ lang }: { lang: Lang }) {
             href={i.url}
             target="_blank"
             rel="noopener noreferrer"
-            className={`${rowLink} gap-[22px] py-[15px]`}
+            className={`${rowLink} group gap-[22px] py-[15px]`}
           >
             <span className="flex flex-col gap-1">
               <span className="text-[18px] leading-[1.2] font-medium">
@@ -117,7 +117,10 @@ export function HomeContent({ lang }: { lang: Lang }) {
                 {i.desc}
               </span>
             </span>
-            <span aria-hidden className="flex-shrink-0 font-mono text-[13px] leading-none font-normal text-(--arrow-faint)">
+            <span
+              aria-hidden
+              className="flex-shrink-0 font-mono text-[13px] leading-none font-normal text-(--arrow-faint) transition-[transform,color] duration-150 ease-out group-hover:-translate-y-px group-hover:translate-x-px group-hover:text-(--rust-strong)"
+            >
               ↗
             </span>
           </a>
@@ -217,7 +220,7 @@ export function HomeContent({ lang }: { lang: Lang }) {
               href={s.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex min-h-11 items-baseline gap-[7px] rounded-full border border-(--pill-border) px-[14px] py-[9px] font-mono text-[12.5px] leading-none font-normal text-(--ink-muted) transition-colors hover:border-foreground hover:text-(--rust-strong)"
+              className="flex min-h-11 items-baseline gap-[7px] rounded-full border border-(--pill-border) px-[14px] py-[9px] font-mono text-[12.5px] leading-none font-normal text-(--ink-muted) transition-[color,border-color,transform] duration-150 ease-out hover:border-foreground hover:text-(--rust-strong) active:scale-[0.97]"
             >
               <span className="text-[9.5px] tracking-[0.06em] text-(--ink-fainter) uppercase">
                 {s.label}

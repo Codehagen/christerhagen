@@ -1,4 +1,4 @@
-import Link from "next/link"
+import { Link } from "next-view-transitions"
 import Image from "next/image"
 
 import { cn } from "@/lib/utils"
@@ -73,7 +73,7 @@ export function AboutContent({ lang }: { lang: Lang }) {
             rel="noopener"
             className="group flex items-baseline justify-between gap-6 border-b border-border py-[14px]"
           >
-            <span className="text-[17px] leading-[1.4] font-normal text-(--ink-body) underline-offset-[3px] group-hover:text-(--ink-strong) group-hover:underline">
+            <span className="text-[17px] leading-[1.4] font-normal text-(--ink-body) underline-offset-[3px] transition-colors group-hover:text-(--ink-strong) group-hover:underline">
               {p.title}
             </span>
             <span className="flex-shrink-0 font-mono text-[12px] leading-none font-medium tracking-[0.1em] text-(--ink-fainter) uppercase">
