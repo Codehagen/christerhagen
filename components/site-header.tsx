@@ -100,45 +100,6 @@ function LocaleLinks({
   )
 }
 
-const ctaDesktop =
-  "rounded-full border border-(--line-strong) px-[15px] py-2.5 font-mono text-[12px] leading-none font-medium tracking-[0.02em] text-foreground transition-[color,border-color,transform] duration-150 ease-out hover:border-foreground active:scale-[0.97]"
-
-/**
- * "Get in touch" pill — present on every page so the header layout never shifts
- * between routes. On the home page it scrolls to the in-page #contact section;
- * elsewhere it links to the dedicated /contact page.
- */
-function GetInTouch({
-  isHome,
-  lang,
-  label,
-  className,
-  onNavigate,
-}: {
-  isHome: boolean
-  lang: Lang
-  label: string
-  className: string
-  onNavigate?: () => void
-}) {
-  if (isHome) {
-    return (
-      <a href="#contact" onClick={onNavigate} className={className}>
-        {label}
-      </a>
-    )
-  }
-  return (
-    <Link
-      href={localizedPath("/contact", lang)}
-      onClick={onNavigate}
-      className={className}
-    >
-      {label}
-    </Link>
-  )
-}
-
 export function SiteHeader({
   active,
   lang,
@@ -149,7 +110,6 @@ export function SiteHeader({
   const t = uiCopy[lang]
   const pathname = usePathname()
   const enPath = enPathOf(pathname ?? "/")
-  const isHome = enPath === "/"
   const activeKey = active ?? activeFromPath(enPath)
   const [open, setOpen] = React.useState(false)
   // Keep the panel mounted through its exit animation; `open` drives the
@@ -203,12 +163,6 @@ export function SiteHeader({
             </Link>
           ))}
           <LocaleLinks lang={lang} enPath={enPath} />
-          <GetInTouch
-            isHome={isHome}
-            lang={lang}
-            label={t.getInTouch}
-            className={ctaDesktop}
-          />
         </nav>
 
         {/* Mobile controls */}
