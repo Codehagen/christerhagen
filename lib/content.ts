@@ -542,6 +542,12 @@ export const portfolioContent: Record<Lang, PortfolioContent> = {
         meta: "Founder · 2017",
       },
       {
+        slug: "bedrifty",
+        name: "Bedrifty",
+        desc: "AI-native CRM with built-in Norwegian company data.",
+        meta: "Founder · 2026",
+      },
+      {
         slug: "advanti-estate",
         name: "Advanti Estate",
         desc: "Commercial real estate brokerage across Northern Norway.",
@@ -623,6 +629,12 @@ export const portfolioContent: Record<Lang, PortfolioContent> = {
         name: "Codebase",
         desc: "Teknologistudio og holdingen bak alt det andre.",
         meta: "Grunnlegger · 2017",
+      },
+      {
+        slug: "bedrifty",
+        name: "Bedrifty",
+        desc: "AI-native CRM med innebygd norsk bedriftsdata.",
+        meta: "Grunnlegger · 2026",
       },
       {
         slug: "advanti-estate",
