@@ -28,21 +28,23 @@ export function ContactContent({ lang }: { lang: Lang }) {
           {c.availability}
         </div>
 
-        <div className="mt-[30px] flex flex-wrap gap-[9px]">
-          {social.map((s) => (
-            <a
-              key={s.label + s.handle}
-              href={s.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex min-h-11 items-baseline gap-[7px] rounded-full border border-(--pill-border) px-[14px] py-[9px] font-mono text-[12.5px] leading-none font-normal text-(--ink-muted) transition-[color,border-color,transform] duration-150 ease-out hover:border-foreground hover:text-(--rust-strong) active:scale-[0.97]"
-            >
-              <span className="text-[9.5px] tracking-[0.06em] text-(--ink-fainter) uppercase">
-                {s.label}
-              </span>
-              <span>{s.handle}</span>
-            </a>
-          ))}
+        <div className="mt-[30px] flex flex-wrap gap-[10px]">
+          {social
+            .filter((s) => !s.url.startsWith("mailto:"))
+            .map((s) => (
+              <a
+                key={s.label + s.handle}
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-baseline gap-2 rounded-full border border-(--line) bg-(--paper-raised) px-[15px] py-[9px] font-mono text-[12.5px] leading-none font-normal text-(--ink-strong) transition-[color,border-color,transform] duration-150 ease-out hover:border-(--line-strong) hover:text-(--rust-strong) active:scale-[0.97]"
+              >
+                <span className="text-[9.5px] tracking-[0.08em] text-(--ink-faint) uppercase">
+                  {s.label}
+                </span>
+                <span>{s.handle}</span>
+              </a>
+            ))}
         </div>
       </section>
 
