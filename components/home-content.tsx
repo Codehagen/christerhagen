@@ -7,8 +7,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { homeContent, socialLinks, EMAIL } from "@/lib/content"
 
-const label =
-  "font-mono text-[12px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase"
+import { eyebrow as label } from "@/lib/typography"
 const rowLink =
   "flex items-baseline justify-between gap-6 border-b border-border text-(--ink-strong) transition-colors hover:text-(--rust-strong)"
 

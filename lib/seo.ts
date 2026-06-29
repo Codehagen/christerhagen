@@ -260,7 +260,7 @@ export function blogPostingLd(slug: PostSlug, lang: Lang = "en"): object {
       "@id": SITE_URL + "/#codebase",
       name: "Codebase",
     },
-    image: siteUrl("/opengraph-image"),
+    image: siteUrl(localizedPath("/writing/" + slug, lang) + "/opengraph-image"),
     mainEntityOfPage: siteUrl(localizedPath("/writing/" + slug, lang)),
     url: siteUrl(localizedPath("/writing/" + slug, lang)),
     inLanguage: lang === "no" ? "nb-NO" : "en",

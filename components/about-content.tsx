@@ -8,8 +8,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { aboutContent } from "@/lib/content"
 import { faqItems } from "@/lib/faq"
 
-const label =
-  "font-mono text-[12px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase"
+import { eyebrow as label } from "@/lib/typography"
 
 export function AboutContent({ lang }: { lang: Lang }) {
   const c = aboutContent[lang]

@@ -1,8 +1,7 @@
 import { type Lang } from "@/lib/companies"
 import { contactContent, socialLinks, EMAIL } from "@/lib/content"
 
-const label =
-  "font-mono text-[12px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase"
+import { eyebrow as label } from "@/lib/typography"
 
 export function ContactContent({ lang }: { lang: Lang }) {
   const c = contactContent[lang]
