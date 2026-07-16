@@ -155,7 +155,9 @@
     outline-offset: 2px;
     border-radius: 3px;
     }
-  /* Clear the translucent sticky header when jumping to in-page anchors. */
+  /* Clear the sticky header when jumping to in-page anchors. (The header is
+     deliberately opaque — backdrop-blur was dropped for its per-frame Safari
+     cost; see commit ab0b560.) */
   :where([id]) {
     scroll-margin-top: 5rem;
     }
@@ -169,8 +171,9 @@
     scroll-behavior: smooth;
     }
   /* The one licensed first-load entrance — a single fade + 8px rise on the
-     home hero. Defined under no-preference so reduced-motion users get the
-     final state with no flash. One container per call; never staggered lists. */
+     home hero and the dead-end screens (404 / error boundaries). Defined under
+     no-preference so reduced-motion users get the final state with no flash.
+     Two timing groups max per page; never staggered lists. */
   @keyframes enter-rise {
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: none; }

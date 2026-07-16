@@ -22,48 +22,48 @@ export function CompanyContent({ slug, lang }: { slug: CompanySlug; lang: Lang }
       <article className="pt-[72px] pb-6">
         <Link
           href={localizedPath("/portfolio", lang)}
-          className="mb-10 inline-flex items-center min-h-11 font-mono text-[12px] leading-none font-medium tracking-[0.02em] text-(--ink-faint) transition-colors hover:text-(--rust-strong)"
+          className="mb-10 inline-flex items-center min-h-11 font-mono text-[0.75rem] leading-none font-medium tracking-[0.02em] text-(--ink-faint) transition-colors hover:text-(--rust-strong)"
         >
           <span aria-hidden>←</span> {t.backLabel}
         </Link>
 
-        <h1 className="m-0 text-[clamp(30px,9vw,40px)] leading-[1.12] font-semibold tracking-[-0.015em] text-(--ink-strong)">
+        <h1 className="m-0 text-[clamp(1.875rem,9vw,2.5rem)] leading-[1.12] font-semibold tracking-[-0.015em] text-(--ink-strong)">
           {company.name}
         </h1>
-        <p className="mt-[14px] text-[19px] leading-[1.5] font-normal text-(--ink-soft) italic">
+        <p className="mt-[14px] text-[1.1875rem] leading-[1.5] font-normal text-(--ink-soft) italic">
           {company.tagline}
         </p>
 
         <dl className="mt-[38px] mb-[6px] grid grid-cols-1 gap-y-5 border-y border-border py-[26px] sm:grid-cols-2 sm:gap-x-8">
           <div>
-            <dt className="font-mono text-[10px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
+            <dt className="font-mono text-[0.625rem] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
               {t.mRole}
             </dt>
-            <dd className="mt-[9px] text-[16px] leading-[1.3] font-normal text-(--ink-body)">
+            <dd className="mt-[9px] text-[1rem] leading-[1.3] font-normal text-(--ink-body)">
               {company.role}
             </dd>
           </div>
           <div>
-            <dt className="font-mono text-[10px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
+            <dt className="font-mono text-[0.625rem] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
               {t.mStage}
             </dt>
-            <dd className="mt-[9px] text-[16px] leading-[1.3] font-normal text-(--ink-body)">
+            <dd className="mt-[9px] text-[1rem] leading-[1.3] font-normal text-(--ink-body)">
               {company.stage}
             </dd>
           </div>
           <div>
-            <dt className="font-mono text-[10px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
+            <dt className="font-mono text-[0.625rem] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
               {t.mYear}
             </dt>
-            <dd className="mt-[9px] text-[16px] leading-[1.3] font-normal text-(--ink-body)">
+            <dd className="mt-[9px] text-[1rem] leading-[1.3] font-normal text-(--ink-body)">
               {company.year}
             </dd>
           </div>
           <div>
-            <dt className="font-mono text-[10px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
+            <dt className="font-mono text-[0.625rem] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
               {t.mSector}
             </dt>
-            <dd className="mt-[9px] text-[16px] leading-[1.3] font-normal text-(--ink-body)">
+            <dd className="mt-[9px] text-[1rem] leading-[1.3] font-normal text-(--ink-body)">
               {company.sector}
             </dd>
           </div>
@@ -73,7 +73,7 @@ export function CompanyContent({ slug, lang }: { slug: CompanySlug; lang: Lang }
           {company.body.map((para, i) => (
             <p
               key={i}
-              className="m-0 text-[18px] leading-[1.66] font-normal text-(--ink-body)"
+              className="m-0 text-[1.125rem] leading-[1.66] font-normal text-(--ink-body)"
             >
               {para}
             </p>
@@ -86,7 +86,7 @@ export function CompanyContent({ slug, lang }: { slug: CompanySlug; lang: Lang }
             href={company.site}
             target="_blank"
             rel="noopener noreferrer"
-            className="border-b border-primary/40 pb-[2px] py-2 -my-2 font-mono text-[12.5px] leading-none font-medium tracking-[0.02em] text-foreground transition-colors hover:text-(--rust-strong)"
+            className="border-b border-primary/40 pb-[2px] py-2 -my-2 font-mono text-[0.78125rem] leading-none font-medium tracking-[0.02em] text-foreground transition-colors hover:text-(--rust-strong)"
           >
             {t.visitLabel} <span aria-hidden>↗</span>
           </a>
@@ -94,12 +94,12 @@ export function CompanyContent({ slug, lang }: { slug: CompanySlug; lang: Lang }
       </article>
 
       <div className="mt-[48px] mb-[72px] border-t border-border pt-[26px]">
-        <div className="mb-3 font-mono text-[11px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
+        <div className="mb-3 font-mono text-[0.6875rem] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
           {t.nextLabel}
         </div>
         <Link
           href={localizedPath(`/portfolio/${nSlug}`, lang)}
-          className="inline-flex items-center min-h-11 text-[24px] leading-[1.25] font-medium text-(--ink-strong) transition-colors hover:text-(--rust-strong)"
+          className="inline-flex items-center min-h-11 text-[1.5rem] leading-[1.25] font-medium text-(--ink-strong) transition-colors hover:text-(--rust-strong)"
         >
           {next.name} <span aria-hidden>→</span>
         </Link>

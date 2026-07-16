@@ -13,7 +13,7 @@ export function SiteFooter({ lang }: { lang: Lang }) {
 
   return (
     <footer className="border-t border-border">
-      <div className="mx-auto flex max-w-[740px] flex-col gap-3 px-5 sm:px-7 py-6 font-mono text-[11.5px] leading-[1.5] font-normal text-(--ink-fainter)">
+      <div className="mx-auto flex max-w-[740px] flex-col gap-3 px-5 sm:px-7 py-6 font-mono text-[0.71875rem] leading-[1.5] font-normal text-(--ink-fainter)">
         <nav className="flex flex-wrap items-center gap-4">
           <Link
             href={localizedPath("/process", lang)}

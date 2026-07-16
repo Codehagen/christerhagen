@@ -13,7 +13,7 @@ const badgeVariants = cva(
     variants: {
       variant: {
         status:
-          "h-auto rounded-full border border-primary/35 px-[11px] py-[7px] font-mono text-[9.5px] leading-none font-medium tracking-[0.08em] text-primary uppercase",
+          "h-auto rounded-full border border-primary/35 px-[11px] py-[7px] font-mono text-[0.59375rem] leading-none font-medium tracking-[0.08em] text-primary uppercase",
       },
     },
     defaultVariants: {

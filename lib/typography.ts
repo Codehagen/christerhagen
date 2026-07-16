@@ -2,4 +2,4 @@
 // treatment (font-mono uppercase micro-label) that was duplicated as a local
 // `const label` across every page component.
 export const eyebrow =
-  "font-mono text-[12px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase"
+  "font-mono text-[0.75rem] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase"

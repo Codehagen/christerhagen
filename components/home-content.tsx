@@ -21,13 +21,13 @@ export function HomeContent({ lang }: { lang: Lang }) {
       {/* Hero — identity above the fold: tagline + portrait, side by side. */}
       <section className="flex flex-col gap-9 pt-[72px] pb-[64px] sm:flex-row sm:items-start sm:gap-[44px]">
         <div className="min-w-0 flex-1">
-          <h1 className="enter m-0 max-w-[20ch] text-[clamp(26px,7vw,33px)] leading-[1.3] font-normal tracking-[-0.015em] text-(--ink-strong)">
+          <h1 className="enter m-0 max-w-[20ch] text-[clamp(1.625rem,7vw,2.0625rem)] leading-[1.3] font-normal tracking-[-0.015em] text-(--ink-strong)">
             {c.heroHead}
           </h1>
-          <p className="enter enter-delay mt-5 max-w-[46ch] text-[18px] leading-[1.62] font-normal text-(--ink-muted)">
+          <p className="enter enter-delay mt-5 max-w-[46ch] text-[1.125rem] leading-[1.62] font-normal text-(--ink-muted)">
             {c.heroSub}
           </p>
-          <p className="enter enter-delay mt-6 font-mono text-[12.5px] leading-none tracking-[0.02em] text-(--ink-faint)">
+          <p className="enter enter-delay mt-6 font-mono text-[0.78125rem] leading-none tracking-[0.02em] text-(--ink-faint)">
             {location}
           </p>
         </div>
@@ -46,7 +46,7 @@ export function HomeContent({ lang }: { lang: Lang }) {
       {/* About */}
       <section className="mb-[72px]">
         <h2 className={`${label} mb-6`}>{c.lblAbout}</h2>
-        <p className="max-w-[62ch] text-[16.5px] leading-[1.64] font-normal text-(--ink-body-2)">
+        <p className="max-w-[62ch] text-[1.03125rem] leading-[1.64] font-normal text-(--ink-body-2)">
           {c.aboutBody}
         </p>
       </section>
@@ -58,9 +58,9 @@ export function HomeContent({ lang }: { lang: Lang }) {
           {c.now.map((item, i) => (
             <li
               key={i}
-              className="flex gap-[14px] text-[17px] leading-[1.5] font-normal text-(--ink-body-2)"
+              className="flex gap-[14px] text-[1.0625rem] leading-[1.5] font-normal text-(--ink-body-2)"
             >
-              <span aria-hidden className="flex-shrink-0 font-mono text-[14px] leading-[1.6] text-(--rust-bright)">
+              <span aria-hidden className="flex-shrink-0 font-mono text-[0.875rem] leading-[1.6] text-(--rust-bright)">
                 →
               </span>
               <span>{item}</span>
@@ -76,14 +76,14 @@ export function HomeContent({ lang }: { lang: Lang }) {
           const content = (
             <>
               <span className="flex flex-col gap-1">
-                <span className="text-[20px] leading-[1.15] font-medium">
+                <span className="text-[1.25rem] leading-[1.15] font-medium">
                   {w.name}
                 </span>
-                <span className="font-mono text-[12px] leading-[1.4] font-normal text-(--ink-faint)">
+                <span className="font-mono text-[0.75rem] leading-[1.4] font-normal text-(--ink-faint)">
                   {w.role}
                 </span>
               </span>
-              <span className="flex-shrink-0 font-mono text-[11.5px] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
+              <span className="flex-shrink-0 font-mono text-[0.71875rem] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
                 {w.period}
               </span>
             </>
@@ -123,16 +123,16 @@ export function HomeContent({ lang }: { lang: Lang }) {
             className={`${rowLink} group gap-[22px] py-[15px]`}
           >
             <span className="flex flex-col gap-1">
-              <span className="text-[18px] leading-[1.2] font-medium">
+              <span className="text-[1.125rem] leading-[1.2] font-medium">
                 {i.name}
               </span>
-              <span className="max-w-[48ch] text-[13.5px] leading-[1.45] font-normal text-(--ink-soft)">
+              <span className="max-w-[48ch] text-[0.84375rem] leading-[1.45] font-normal text-(--ink-soft)">
                 {i.desc}
               </span>
             </span>
             <span
               aria-hidden
-              className="flex-shrink-0 font-mono text-[13px] leading-none font-normal text-(--arrow-faint) transition-[transform,color] duration-150 ease-out group-hover:-translate-y-px group-hover:translate-x-px group-hover:text-(--rust-strong)"
+              className="flex-shrink-0 font-mono text-[0.8125rem] leading-none font-normal text-(--arrow-faint) transition-[transform,color] duration-150 ease-out group-hover:-translate-y-px group-hover:translate-x-px group-hover:text-(--rust-strong)"
             >
               ↗
             </span>
@@ -152,10 +152,10 @@ export function HomeContent({ lang }: { lang: Lang }) {
             className={`${rowLink} gap-[22px] py-[15px]`}
           >
             <span className="flex flex-col gap-1">
-              <span className="text-[18px] leading-[1.2] font-medium">
+              <span className="text-[1.125rem] leading-[1.2] font-medium">
                 {x.name}
               </span>
-              <span className="max-w-[48ch] text-[13.5px] leading-[1.45] font-normal text-(--ink-soft)">
+              <span className="max-w-[48ch] text-[0.84375rem] leading-[1.45] font-normal text-(--ink-soft)">
                 {x.desc}
               </span>
             </span>
@@ -178,14 +178,14 @@ export function HomeContent({ lang }: { lang: Lang }) {
             className={`${rowLink} py-[15px]`}
           >
             <span className="flex flex-col gap-1">
-              <span className="text-[18px] leading-[1.2] font-medium">
+              <span className="text-[1.125rem] leading-[1.2] font-medium">
                 {o.name}
               </span>
-              <span className="font-mono text-[13px] leading-[1.4] font-normal text-(--ink-faint)">
+              <span className="font-mono text-[0.8125rem] leading-[1.4] font-normal text-(--ink-faint)">
                 {o.desc}
               </span>
             </span>
-            <span className="flex-shrink-0 font-mono text-[11.5px] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
+            <span className="flex-shrink-0 font-mono text-[0.71875rem] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
               <span aria-hidden>★</span> {o.stars}
             </span>
           </a>
@@ -201,10 +201,10 @@ export function HomeContent({ lang }: { lang: Lang }) {
             href={localizedPath(`/writing/${w.slug}`, lang)}
             className="flex items-baseline justify-between gap-6 border-b border-border py-[14px] text-(--ink-body-2) transition-colors hover:text-(--rust-strong)"
           >
-            <span className="text-[17px] leading-[1.35] font-normal">
+            <span className="text-[1.0625rem] leading-[1.35] font-normal">
               {w.title}
             </span>
-            <span className="flex-shrink-0 font-mono text-[11.5px] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
+            <span className="flex-shrink-0 font-mono text-[0.71875rem] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
               {w.date}
             </span>
           </Link>
@@ -214,10 +214,10 @@ export function HomeContent({ lang }: { lang: Lang }) {
       {/* Contact */}
       <section id="contact" className="mb-10 pt-2">
         <h2 className={`${label} mb-[22px]`}>{c.lblContact}</h2>
-        <p className="m-0 max-w-[16ch] text-[30px] leading-[1.25] font-normal text-(--ink-strong)">
+        <p className="m-0 max-w-[16ch] text-[1.875rem] leading-[1.25] font-normal text-(--ink-strong)">
           {c.ctaHead}
         </p>
-        <p className="mt-4 mb-[26px] max-w-[42ch] text-[17px] leading-[1.6] font-normal text-(--ink-body-2)">
+        <p className="mt-4 mb-[26px] max-w-[42ch] text-[1.0625rem] leading-[1.6] font-normal text-(--ink-body-2)">
           {c.ctaBody}
         </p>
         <a
@@ -235,9 +235,9 @@ export function HomeContent({ lang }: { lang: Lang }) {
                 href={s.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-(--line) bg-(--paper-raised) px-[14px] py-[8px] font-mono text-[12.5px] leading-none font-normal text-(--ink-strong) transition-[color,border-color,transform] duration-150 ease-out hover:border-(--line-strong) hover:text-(--rust-strong) active:scale-[0.97]"
+                className="inline-flex items-center gap-2 rounded-full border border-(--line) bg-(--paper-raised) px-[14px] py-[8px] font-mono text-[0.78125rem] leading-none font-normal text-(--ink-strong) transition-[color,border-color,transform] duration-150 ease-out hover:border-(--line-strong) hover:text-(--rust-strong) active:scale-[0.97]"
               >
-                <span className="text-[10px] tracking-[0.08em] text-(--ink-faint) uppercase">
+                <span className="text-[0.625rem] tracking-[0.08em] text-(--ink-faint) uppercase">
                   {s.label}
                 </span>
                 <span>{s.handle}</span>

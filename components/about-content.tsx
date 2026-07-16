@@ -17,7 +17,7 @@ export function AboutContent({ lang }: { lang: Lang }) {
     <main id="main" className="mx-auto w-full max-w-[740px] flex-1 px-5 sm:px-7">
       <section className="pt-[84px] pb-[56px]">
         <div className={`${label} mb-6`}>{c.kicker}</div>
-        <h1 className="m-0 max-w-[22ch] text-[clamp(27px,8vw,34px)] leading-[1.28] font-normal tracking-[-0.015em] text-(--ink-strong)">
+        <h1 className="m-0 max-w-[22ch] text-[clamp(1.6875rem,8vw,2.125rem)] leading-[1.28] font-normal tracking-[-0.015em] text-(--ink-strong)">
           {c.head}
         </h1>
       </section>
@@ -37,7 +37,7 @@ export function AboutContent({ lang }: { lang: Lang }) {
           {c.bio.map((para, i) => (
             <p
               key={i}
-              className="m-0 text-[17px] leading-[1.66] font-normal text-(--ink-body)"
+              className="m-0 text-[1.0625rem] leading-[1.66] font-normal text-(--ink-body)"
             >
               {para}
             </p>
@@ -52,10 +52,10 @@ export function AboutContent({ lang }: { lang: Lang }) {
             key={t.year}
             className="flex items-baseline gap-7 border-b border-border py-[14px]"
           >
-            <span className="w-[54px] flex-shrink-0 font-mono text-[13px] leading-none font-medium text-primary">
+            <span className="w-[54px] flex-shrink-0 font-mono text-[0.8125rem] leading-none font-medium text-primary">
               {t.year}
             </span>
-            <span className="text-[17px] leading-[1.4] font-normal text-(--ink-body)">
+            <span className="text-[1.0625rem] leading-[1.4] font-normal text-(--ink-body)">
               {t.event}
             </span>
           </div>
@@ -72,10 +72,10 @@ export function AboutContent({ lang }: { lang: Lang }) {
             rel="noopener"
             className="group flex items-baseline justify-between gap-6 border-b border-border py-[14px]"
           >
-            <span className="text-[17px] leading-[1.4] font-normal text-(--ink-body) underline-offset-[3px] transition-colors group-hover:text-(--ink-strong) group-hover:underline">
+            <span className="text-[1.0625rem] leading-[1.4] font-normal text-(--ink-body) underline-offset-[3px] transition-colors group-hover:text-(--ink-strong) group-hover:underline">
               {p.title}
             </span>
-            <span className="flex-shrink-0 font-mono text-[12px] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
+            <span className="flex-shrink-0 font-mono text-[0.75rem] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
               {p.outlet}
             </span>
           </a>
@@ -83,7 +83,7 @@ export function AboutContent({ lang }: { lang: Lang }) {
       </section>
 
       <section className="mb-20 border-t border-border pt-[30px]">
-        <p className="mb-[22px] max-w-[34ch] text-[20px] leading-[1.5] font-normal text-(--ink-strong)">
+        <p className="mb-[22px] max-w-[34ch] text-[1.25rem] leading-[1.5] font-normal text-(--ink-strong)">
           {c.ctaLine}
         </p>
         <div className="flex flex-wrap gap-3">
@@ -91,7 +91,7 @@ export function AboutContent({ lang }: { lang: Lang }) {
             href={localizedPath("/portfolio", lang)}
             className={cn(
               buttonVariants({ variant: "pill", size: "pill" }),
-              "px-5 py-[13px] text-[12.5px]"
+              "px-5 py-[13px] text-[0.78125rem]"
             )}
           >
             {c.ctaPortfolio}
@@ -100,7 +100,7 @@ export function AboutContent({ lang }: { lang: Lang }) {
             href={localizedPath("/process", lang)}
             className={cn(
               buttonVariants({ variant: "pill-outline", size: "pill" }),
-              "px-5 py-[13px] text-[12.5px]"
+              "px-5 py-[13px] text-[0.78125rem]"
             )}
           >
             {c.ctaProcess}
@@ -118,10 +118,10 @@ export function AboutContent({ lang }: { lang: Lang }) {
               key={item.q}
               className="flex flex-col gap-2 border-b border-border py-[18px] first:pt-0"
             >
-              <h3 className="m-0 text-[18px] leading-[1.4] font-normal text-(--ink-strong)">
+              <h3 className="m-0 text-[1.125rem] leading-[1.4] font-normal text-(--ink-strong)">
                 {item.q}
               </h3>
-              <p className="m-0 max-w-[58ch] text-[17px] leading-[1.66] font-normal text-(--ink-body)">
+              <p className="m-0 max-w-[58ch] text-[1.0625rem] leading-[1.66] font-normal text-(--ink-body)">
                 {item.a}
               </p>
             </div>

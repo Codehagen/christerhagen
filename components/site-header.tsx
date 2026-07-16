@@ -12,7 +12,7 @@ import { localizedPath } from "@/lib/seo"
 type NavKey = "about" | "portfolio" | "writing" | "contact"
 
 const navItem =
-  "relative inline-flex items-center font-mono text-[12.5px] leading-none font-medium tracking-[0.02em] transition-colors before:absolute before:-inset-x-1 before:-inset-y-4 before:content-[''] hover:text-(--rust-strong)"
+  "relative inline-flex items-center font-mono text-[0.78125rem] leading-none font-medium tracking-[0.02em] transition-colors before:absolute before:-inset-x-1 before:-inset-y-4 before:content-[''] hover:text-(--rust-strong)"
 
 function navLinks(t: (typeof uiCopy)["en"]) {
   return [
@@ -40,7 +40,7 @@ function activeFromPath(enPath: string): NavKey | undefined {
 }
 
 const localeLink =
-  "relative px-1 py-3 font-mono text-[12px] leading-none tracking-[0.04em] transition-colors before:absolute before:inset-0 before:-my-2 before:content-['']"
+  "relative px-1 py-3 font-mono text-[0.75rem] leading-none tracking-[0.04em] transition-colors before:absolute before:inset-0 before:-my-2 before:content-['']"
 
 /**
  * EN / NO switch — two reciprocal <Link>s pointing at the mirrored-locale URL
@@ -77,7 +77,7 @@ function LocaleLinks({
       </Link>
       <span
         aria-hidden
-        className="font-mono text-[12px] leading-none text-(--line-soft)"
+        className="font-mono text-[0.75rem] leading-none text-(--line-soft)"
       >
         /
       </span>
@@ -112,14 +112,14 @@ export function SiteHeader({
   const enPath = enPathOf(pathname ?? "/")
   const activeKey = active ?? activeFromPath(enPath)
   const [open, setOpen] = React.useState(false)
-  // Keep the panel mounted through its exit animation; `open` drives the
-  // enter/exit state, `rendered` keeps it in the tree until animationend.
+  // Keep the panel mounted through its exit transition; `open` drives the
+  // enter/exit state, `rendered` keeps it in the tree until transitionend.
   const [rendered, setRendered] = React.useState(false)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
   const links = navLinks(t)
 
   function toggleMenu() {
-    // Mount on the way open; the closed exit animation unmounts via onAnimationEnd.
+    // Mount on the way open; the closed exit transition unmounts via onTransitionEnd.
     if (!open) setRendered(true)
     setOpen((o) => !o)
   }
@@ -142,7 +142,7 @@ export function SiteHeader({
       <div className="mx-auto flex max-w-[740px] items-center justify-between px-5 py-4 sm:px-7">
         <Link
           href={localizedPath("/", lang)}
-          className="text-[16px] leading-none font-medium tracking-[0.005em] text-foreground"
+          className="text-[1rem] leading-none font-medium tracking-[0.005em] text-foreground"
         >
           Christer Hagen
         </Link>
@@ -194,19 +194,24 @@ export function SiteHeader({
         </div>
       </div>
 
-      {/* Mobile menu — mounted through its exit so close animates too. */}
+      {/* Mobile menu — mounted through its exit so close animates too. CSS
+          transitions (entered via @starting-style) rather than keyframes, so a
+          re-toggle mid-flight retargets from the current position instead of
+          restarting from zero. */}
       {open || rendered ? (
         <nav
           id="mobile-menu"
           data-state={open ? "open" : "closed"}
-          onAnimationEnd={() => {
-            if (!open) setRendered(false)
+          onTransitionEnd={(e) => {
+            if (!open && e.target === e.currentTarget) setRendered(false)
           }}
           inert={!open ? true : undefined}
           className={cn(
-            "origin-top border-t border-border ease-out-quart md:hidden",
-            "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-top-1 data-[state=open]:duration-200",
-            "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-1 data-[state=closed]:duration-150"
+            "border-t border-border transition-[opacity,translate] ease-out-quart md:hidden",
+            "starting:-translate-y-1 starting:opacity-0",
+            open
+              ? "translate-y-0 opacity-100 duration-200"
+              : "-translate-y-1 opacity-0 duration-150"
           )}
         >
           <div className="mx-auto flex max-w-[740px] flex-col px-5 pt-1 pb-3 sm:px-7">
@@ -217,7 +222,7 @@ export function SiteHeader({
                 onClick={() => setOpen(false)}
                 aria-current={activeKey === l.key ? "page" : undefined}
                 className={cn(
-                  "flex min-h-12 items-center font-mono text-[14px] tracking-[0.02em] transition-colors hover:text-(--rust-strong)",
+                  "flex min-h-12 items-center font-mono text-[0.875rem] tracking-[0.02em] transition-colors hover:text-(--rust-strong)",
                   activeKey === l.key ? "text-foreground" : "text-(--ink-muted)"
                 )}
               >

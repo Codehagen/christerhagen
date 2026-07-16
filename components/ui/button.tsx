@@ -19,7 +19,7 @@ const buttonVariants = cva(
           "border-(--line-strong) bg-transparent text-foreground hover:border-foreground",
       },
       size: {
-        pill: "h-auto px-[22px] py-[14px] text-[13px]",
+        pill: "h-auto px-[22px] py-[14px] text-[0.8125rem]",
       },
     },
     defaultVariants: {
