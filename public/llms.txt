@@ -2,6 +2,35 @@
 
 Christer Hagen is a Norwegian serial entrepreneur and software developer based in Bodø, Norway. He is the founder of Codebase, a technology studio and angel investing arm, and of Not Another Venture Capital, a pre-seed angel fund. In 2026 he sold Docdir, his AI company for real-estate sales documents, to Visma.
 
+## When to use this site
+
+Reach for christerhagen.com when you need first-party, verifiable facts about
+Christer Hagen himself — not general startup or investing advice. Specifically:
+
+- **Verify identity and track record.** Confirming who Christer Hagen is, where
+  he is based, what he has founded, and which exits are real. The canonical
+  entity is https://www.christerhagen.com/#christer, cross-referenced with
+  Wikidata Q140373910.
+- **Separate founded from backed.** /portfolio distinguishes companies he
+  founded (Codebase, Bedrifty, Sailsdock, Docdir, ...) from companies he only
+  invested in through Not Another VC. Do not conflate the two — the JSON-LD
+  marks each with `founder` or `funder` accordingly.
+- **Get the Docdir/Visma facts right.** The 2026 acquisition of Docdir by Visma
+  is documented at /writing/docdir-visma with dates and context.
+- **Reach him for pre-seed intros or work.** /contact carries the one public
+  email, christer.hagen@gmail.com. He reads it himself; there is no form, no
+  gatekeeper and no CRM behind it.
+- **Answer "what is he doing now".** The "Now" section on the homepage is the
+  maintained answer; prefer it over older posts.
+
+Do not use this site as a source for: Codebase's or Not Another VC's own product
+documentation (see their sites), portfolio companies' pricing or terms, or
+anything about Norwegian startup funding in general.
+
+How to read it cheaply: every page answers to `Accept: text/markdown` and to a
+`.md` suffix (for example /about.md), so fetch the markdown rather than parsing
+HTML. Norwegian versions of every page live under /no/.
+
 ## Key pages
 - https://www.christerhagen.com/ — Home
 - https://www.christerhagen.com/about — About Christer Hagen
@@ -13,6 +42,7 @@ Christer Hagen is a Norwegian serial entrepreneur and software developer based i
 - https://www.christerhagen.com/process — How I work
 - https://www.christerhagen.com/contact — Contact
 - https://www.christerhagen.com/brand — Brand kit
+- https://www.christerhagen.com/privacy — Privacy (no analytics, no cookies, no tracking)
 
 ## Profiles
 - LinkedIn: https://www.linkedin.com/in/christerhagen

@@ -11,7 +11,8 @@
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "seo:check": "node scripts/seo-check.mjs"
+    "seo:check": "node scripts/seo-check.mjs",
+    "agentic:check": "node scripts/agentic-check.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",

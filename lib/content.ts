@@ -815,3 +815,112 @@ export const contactContent: Record<Lang, ContactContent> = {
       "Jeg investerer i tekniske gründere i tidlig fase, for det meste i Norge og Norden — pre-seed og seed. Høres det ut som deg, så ta kontakt.",
   },
 }
+
+/* ----------------------------------------------------------------- privacy */
+
+export interface PrivacySection {
+  head: string
+  body: string[]
+}
+
+export interface PrivacyContent {
+  kicker: string
+  head: string
+  intro: string
+  updated: string
+  sections: PrivacySection[]
+}
+
+/**
+ * Deliberately short and specific: this site sets no cookies, runs no
+ * analytics and has no forms. Every claim below is checkable against the
+ * source — keep it that way if the stack ever changes.
+ */
+export const privacyContent: Record<Lang, PrivacyContent> = {
+  en: {
+    kicker: "Privacy",
+    head: "What this site does with your data.",
+    intro:
+      "Almost nothing. This is a personal site with no accounts, no forms and no advertising, so there is very little to collect and no reason to collect it.",
+    updated: "Last updated 23 August 2026",
+    sections: [
+      {
+        head: "No analytics, no cookies",
+        body: [
+          "There is no analytics script on this site — no Google Analytics, no Plausible, no Vercel Analytics, no pixel of any kind. Nothing measures which pages you read or how long you stay.",
+          "The site sets no cookies and writes nothing to local storage. There is no consent banner because there is nothing to consent to.",
+        ],
+      },
+      {
+        head: "Hosting and server logs",
+        body: [
+          "The site is hosted on Vercel, which serves it from servers around the world. Like any web host, Vercel records standard request logs — IP address, timestamp, requested URL, user agent — for delivery, security and abuse prevention. Those logs are Vercel's, kept on their retention schedule, and are not used to build a profile of you.",
+          "Fonts are self-hosted: they are downloaded at build time and served from this domain, so loading a page makes no request to Google Fonts or any other third party.",
+        ],
+      },
+      {
+        head: "If you email me",
+        body: [
+          "The contact page is a plain mailto: link to christer.hagen@gmail.com. If you write, that email lands in an ordinary Gmail inbox and stays there. It goes into no CRM, no mailing list and no automated sequence, and it is not shared or sold.",
+          "Ask me to delete our correspondence and I will.",
+        ],
+      },
+      {
+        head: "Links off this site",
+        body: [
+          "Pages here link out to LinkedIn, GitHub, X, Instagram, Wikidata, Crunchbase and to portfolio companies' own sites. Once you follow one of those links you are on someone else's site under someone else's privacy policy — this one stops at the domain boundary.",
+        ],
+      },
+      {
+        head: "Your rights, and how to reach me",
+        body: [
+          "Under GDPR you can ask what personal data I hold about you, ask for a copy, ask for corrections, or ask for deletion. In practice the only personal data I am likely to hold is an email you sent me.",
+          "Write to christer.hagen@gmail.com. If you are not satisfied with how I handle a request, you can complain to Datatilsynet, the Norwegian Data Protection Authority.",
+        ],
+      },
+    ],
+  },
+  no: {
+    kicker: "Personvern",
+    head: "Hva denne siden gjør med dataene dine.",
+    intro:
+      "Nesten ingenting. Dette er en personlig side uten brukerkontoer, uten skjemaer og uten annonser, så det er svært lite å samle inn — og ingen grunn til å samle det inn.",
+    updated: "Sist oppdatert 23. august 2026",
+    sections: [
+      {
+        head: "Ingen analyse, ingen informasjonskapsler",
+        body: [
+          "Det finnes ingen analyseskript på denne siden — ingen Google Analytics, ingen Plausible, ingen Vercel Analytics, ingen sporingspiksel. Ingenting måler hvilke sider du leser eller hvor lenge du blir.",
+          "Siden setter ingen informasjonskapsler og lagrer ingenting lokalt i nettleseren din. Det er ingen samtykkebanner her, fordi det ikke er noe å samtykke til.",
+        ],
+      },
+      {
+        head: "Hosting og serverlogger",
+        body: [
+          "Siden driftes hos Vercel, som leverer den fra servere rundt om i verden. Som enhver webvert fører Vercel vanlige forespørselslogger — IP-adresse, tidspunkt, hvilken URL som ble hentet, nettleserstreng — for levering, sikkerhet og misbruksforebygging. Disse loggene er Vercels, oppbevares etter deres regler, og brukes ikke til å bygge en profil av deg.",
+          "Skriftene er selvhostet: de lastes ned ved bygging og serveres fra dette domenet, så et sidevisning sender ingen forespørsel til Google Fonts eller andre tredjeparter.",
+        ],
+      },
+      {
+        head: "Hvis du sender meg e-post",
+        body: [
+          "Kontaktsiden er en helt vanlig mailto:-lenke til christer.hagen@gmail.com. Skriver du, havner e-posten i en helt vanlig Gmail-innboks og blir liggende der. Den går ikke inn i noe CRM, ingen e-postliste og ingen automatisk sekvens, og den deles eller selges ikke.",
+          "Be meg slette korrespondansen vår, så gjør jeg det.",
+        ],
+      },
+      {
+        head: "Lenker ut av siden",
+        body: [
+          "Sidene her lenker ut til LinkedIn, GitHub, X, Instagram, Wikidata, Crunchbase og til porteføljeselskapenes egne nettsteder. Følger du en slik lenke, er du på noen andres side under noen andres personvernerklæring — denne stopper ved domenegrensen.",
+        ],
+      },
+      {
+        head: "Rettighetene dine, og hvordan nå meg",
+        body: [
+          "Etter GDPR kan du be om innsyn i hvilke personopplysninger jeg har om deg, be om en kopi, be om retting eller be om sletting. I praksis er det eneste jeg sannsynligvis har om deg, en e-post du selv har sendt meg.",
+          "Skriv til christer.hagen@gmail.com. Er du ikke fornøyd med hvordan jeg håndterer en henvendelse, kan du klage til Datatilsynet.",
+        ],
+      },
+    ],
+  },
+}

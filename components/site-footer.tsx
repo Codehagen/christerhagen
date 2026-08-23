@@ -4,8 +4,8 @@ import { type Lang } from "@/lib/companies"
 import { localizedPath } from "@/lib/seo"
 
 const footerLinks = {
-  en: { process: "How I work", brand: "Brand" },
-  no: { process: "Slik jobber jeg", brand: "Brand kit" },
+  en: { process: "How I work", brand: "Brand", privacy: "Privacy" },
+  no: { process: "Slik jobber jeg", brand: "Brand kit", privacy: "Personvern" },
 }
 
 export function SiteFooter({ lang }: { lang: Lang }) {
@@ -26,6 +26,15 @@ export function SiteFooter({ lang }: { lang: Lang }) {
             className="relative inline-flex items-center transition-colors before:absolute before:-inset-x-1.5 before:-inset-y-3.5 before:content-[''] hover:text-(--rust-strong)"
           >
             {t.brand}
+          </Link>
+          {/* rel="privacy-policy" is the registered link relation agents and
+              crawlers look for to locate a site's policy without guessing URLs. */}
+          <Link
+            rel="privacy-policy"
+            href={localizedPath("/privacy", lang)}
+            className="relative inline-flex items-center transition-colors before:absolute before:-inset-x-1.5 before:-inset-y-3.5 before:content-[''] hover:text-(--rust-strong)"
+          >
+            {t.privacy}
           </Link>
         </nav>
         <div className="flex flex-wrap items-center justify-between gap-4">

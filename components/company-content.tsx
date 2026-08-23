@@ -94,9 +94,9 @@ export function CompanyContent({ slug, lang }: { slug: CompanySlug; lang: Lang }
       </article>
 
       <div className="mt-[48px] mb-[72px] border-t border-border pt-[26px]">
-        <div className="mb-3 font-mono text-[0.6875rem] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
+        <h2 className="m-0 mb-3 font-mono text-[0.6875rem] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
           {t.nextLabel}
-        </div>
+        </h2>
         <Link
           href={localizedPath(`/portfolio/${nSlug}`, lang)}
           className="inline-flex items-center min-h-11 text-[1.5rem] leading-[1.25] font-medium text-(--ink-strong) transition-colors hover:text-(--rust-strong)"

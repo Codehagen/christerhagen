@@ -27,14 +27,14 @@ export function PortfolioContent({ lang }: { lang: Lang }) {
         <h2 className={`${label} mb-1.5`}>{c.gBuilt}</h2>
         {c.built.map((b) => (
           <Link key={b.slug} href={localizedPath(`/portfolio/${b.slug}`, lang)} className={`${rowLink} py-[18px]`}>
-            <span className="flex flex-col gap-[5px]">
-              <span className="text-[1.3125rem] leading-[1.15] font-medium">
+            <div className="flex flex-col gap-[5px]">
+              <h3 className="m-0 text-[1.3125rem] leading-[1.15] font-medium">
                 {b.name}
-              </span>
+              </h3>
               <span className="max-w-[50ch] text-[0.875rem] leading-[1.5] font-normal text-(--ink-soft)">
                 {b.desc}
               </span>
-            </span>
+            </div>
             <span className="flex-shrink-0 font-mono text-[0.71875rem] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
               {b.meta}
             </span>
@@ -47,14 +47,14 @@ export function PortfolioContent({ lang }: { lang: Lang }) {
         <h2 className={`${label} mb-1.5`}>{c.gInvest}</h2>
         {c.invest.map((i) => (
           <Link key={i.slug} href={localizedPath(`/portfolio/${i.slug}`, lang)} className={`${rowLink} py-4`}>
-            <span className="flex flex-col gap-1">
-              <span className="text-[1.125rem] leading-[1.2] font-medium">
+            <div className="flex flex-col gap-1">
+              <h3 className="m-0 text-[1.125rem] leading-[1.2] font-medium">
                 {i.name}
-              </span>
+              </h3>
               <span className="max-w-[50ch] text-[0.84375rem] leading-[1.45] font-normal text-(--ink-soft)">
                 {i.desc}
               </span>
-            </span>
+            </div>
             <span className="flex-shrink-0 font-mono text-[0.6875rem] leading-none font-normal tracking-[0.03em] whitespace-nowrap text-(--ink-meta)">
               {i.meta}
             </span>
@@ -67,14 +67,14 @@ export function PortfolioContent({ lang }: { lang: Lang }) {
         <h2 className={`${label} mb-1.5`}>{c.gExits}</h2>
         {c.exits.map((x) => (
           <Link key={x.slug} href={localizedPath(`/portfolio/${x.slug}`, lang)} className={`${rowLink} py-4`}>
-            <span className="flex flex-col gap-1">
-              <span className="text-[1.125rem] leading-[1.2] font-medium">
+            <div className="flex flex-col gap-1">
+              <h3 className="m-0 text-[1.125rem] leading-[1.2] font-medium">
                 {x.name}
-              </span>
+              </h3>
               <span className="max-w-[50ch] text-[0.84375rem] leading-[1.45] font-normal text-(--ink-soft)">
                 {x.desc}
               </span>
-            </span>
+            </div>
             <span className={stagePill}>{x.stage}</span>
           </Link>
         ))}
@@ -85,14 +85,14 @@ export function PortfolioContent({ lang }: { lang: Lang }) {
         <h2 className={`${label} mb-1.5`}>{c.gSunset}</h2>
         {c.sunset.map((s) => (
           <Link key={s.slug} href={localizedPath(`/portfolio/${s.slug}`, lang)} className={`${rowLink} py-4`}>
-            <span className="flex flex-col gap-1">
-              <span className="text-[1.125rem] leading-[1.2] font-medium">
+            <div className="flex flex-col gap-1">
+              <h3 className="m-0 text-[1.125rem] leading-[1.2] font-medium">
                 {s.name}
-              </span>
+              </h3>
               <span className="max-w-[50ch] text-[0.84375rem] leading-[1.45] font-normal text-(--ink-soft)">
                 {s.desc}
               </span>
-            </span>
+            </div>
             <span className={stagePill}>{s.stage}</span>
           </Link>
         ))}
