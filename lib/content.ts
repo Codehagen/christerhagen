@@ -924,3 +924,36 @@ export const privacyContent: Record<Lang, PrivacyContent> = {
     ],
   },
 }
+
+/**
+ * Accessible-name suffixes for the home page section headings.
+ *
+ * The visible labels are deliberately one word ("Work", "Exits") — that is the
+ * design. Read out of context, though, an outline of one-word labels says
+ * nothing about what the document contains, to a screen reader user or to a
+ * machine building a summary. These render sr-only as a
+ * continuation of the visible label, so the page looks identical while the
+ * outline reads as a description of itself.
+ */
+export const homeSectionNames: Record<Lang, Record<string, string>> = {
+  en: {
+    about: "\u2014 Christer Hagen in short",
+    now: "\u2014 what Christer Hagen is working on now",
+    work: "\u2014 companies Christer Hagen founded and operates",
+    invest: "\u2014 companies Christer Hagen has invested in",
+    exits: "\u2014 companies Christer Hagen has sold or exited",
+    oss: "\u2014 open-source projects Christer Hagen maintains",
+    writing: "\u2014 essays and notes by Christer Hagen",
+    contact: "\u2014 how to reach Christer Hagen",
+  },
+  no: {
+    about: "\u2014 Christer Hagen kort fortalt",
+    now: "\u2014 hva Christer Hagen jobber med n\u00e5",
+    work: "\u2014 selskaper Christer Hagen har grunnlagt og driver",
+    invest: "\u2014 selskaper Christer Hagen har investert i",
+    exits: "\u2014 selskaper Christer Hagen har solgt eller gjort exit i",
+    oss: "\u2014 \u00e5pen kildekode-prosjekter Christer Hagen vedlikeholder",
+    writing: "\u2014 tekster og notater av Christer Hagen",
+    contact: "\u2014 slik n\u00e5r du Christer Hagen",
+  },
+}

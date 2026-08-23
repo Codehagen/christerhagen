@@ -5,7 +5,7 @@ import { type Lang } from "@/lib/companies"
 import { localizedPath } from "@/lib/seo"
 import { buttonVariants } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { homeContent, socialLinks, EMAIL } from "@/lib/content"
+import { homeContent, homeSectionNames, socialLinks, EMAIL } from "@/lib/content"
 
 import { eyebrow as label, headingId } from "@/lib/typography"
 const rowLink =
@@ -13,6 +13,7 @@ const rowLink =
 
 export function HomeContent({ lang }: { lang: Lang }) {
   const c = homeContent[lang]
+  const sectionName = homeSectionNames[lang]
   const social = socialLinks(lang)
   const location = lang === "no" ? "Bodø, Norge" : "Bodø, Norway"
 
@@ -22,6 +23,10 @@ export function HomeContent({ lang }: { lang: Lang }) {
       <section className="flex flex-col gap-9 pt-[72px] pb-[64px] sm:flex-row sm:items-start sm:gap-[44px]">
         <div className="min-w-0 flex-1">
           <h1 className="enter m-0 max-w-[20ch] text-[clamp(1.625rem,7vw,2.0625rem)] leading-[1.3] font-normal tracking-[-0.015em] text-(--ink-strong)">
+            {/* The visible hero is the tagline; the name belongs in the h1 all
+                the same, so the document's top heading names its subject the
+                way the title, og:site_name and the markdown twin already do. */}
+            <span className="sr-only">Christer Hagen — </span>
             {c.heroHead}
           </h1>
           <p className="enter enter-delay mt-5 max-w-[46ch] text-[1.125rem] leading-[1.62] font-normal text-(--ink-muted)">
@@ -45,7 +50,10 @@ export function HomeContent({ lang }: { lang: Lang }) {
 
       {/* About */}
       <section className="mb-[72px]">
-        <h2 id={headingId(c.lblAbout)} className={`${label} mb-6`}>{c.lblAbout}</h2>
+        <h2 id={headingId(c.lblAbout)} className={`${label} mb-6`}>
+          <span>{c.lblAbout}</span>
+          <span className="sr-only">{sectionName.about}</span>
+        </h2>
         <p className="max-w-[62ch] text-[1.03125rem] leading-[1.64] font-normal text-(--ink-body-2)">
           {c.aboutBody}
         </p>
@@ -53,7 +61,10 @@ export function HomeContent({ lang }: { lang: Lang }) {
 
       {/* Now */}
       <section className="mb-[72px]">
-        <h2 id={headingId(c.lblNow)} className={`${label} mb-[22px]`}>{c.lblNow}</h2>
+        <h2 id={headingId(c.lblNow)} className={`${label} mb-[22px]`}>
+          <span>{c.lblNow}</span>
+          <span className="sr-only">{sectionName.now}</span>
+        </h2>
         <ul className="m-0 flex list-none flex-col gap-[13px] p-0">
           {c.now.map((item, i) => (
             <li
@@ -71,7 +82,10 @@ export function HomeContent({ lang }: { lang: Lang }) {
 
       {/* Work */}
       <section className="mb-[72px]">
-        <h2 id={headingId(c.lblWork)} className={`${label} mb-1.5`}>{c.lblWork}</h2>
+        <h2 id={headingId(c.lblWork)} className={`${label} mb-1.5`}>
+          <span>{c.lblWork}</span>
+          <span className="sr-only">{sectionName.work}</span>
+        </h2>
         {c.work.map((w) => {
           const content = (
             <>
@@ -113,7 +127,10 @@ export function HomeContent({ lang }: { lang: Lang }) {
 
       {/* Investments */}
       <section className="mb-[72px]">
-        <h2 id={headingId(c.lblInvest)} className={`${label} mb-1.5`}>{c.lblInvest}</h2>
+        <h2 id={headingId(c.lblInvest)} className={`${label} mb-1.5`}>
+          <span>{c.lblInvest}</span>
+          <span className="sr-only">{sectionName.invest}</span>
+        </h2>
         {c.investments.map((i) => (
           <a
             key={i.name}
@@ -142,7 +159,10 @@ export function HomeContent({ lang }: { lang: Lang }) {
 
       {/* Exits */}
       <section className="mb-[72px]">
-        <h2 id={headingId(c.lblExits)} className={`${label} mb-1.5`}>{c.lblExits}</h2>
+        <h2 id={headingId(c.lblExits)} className={`${label} mb-1.5`}>
+          <span>{c.lblExits}</span>
+          <span className="sr-only">{sectionName.exits}</span>
+        </h2>
         {c.exits.map((x) => (
           <a
             key={x.name}
@@ -168,7 +188,10 @@ export function HomeContent({ lang }: { lang: Lang }) {
 
       {/* Open source */}
       <section className="mb-[72px]">
-        <h2 id={headingId(c.lblOss)} className={`${label} mb-1.5`}>{c.lblOss}</h2>
+        <h2 id={headingId(c.lblOss)} className={`${label} mb-1.5`}>
+          <span>{c.lblOss}</span>
+          <span className="sr-only">{sectionName.oss}</span>
+        </h2>
         {c.oss.map((o) => (
           <a
             key={o.name}
@@ -194,7 +217,10 @@ export function HomeContent({ lang }: { lang: Lang }) {
 
       {/* Writing */}
       <section className="mb-[72px]">
-        <h2 id={headingId(c.lblWriting)} className={`${label} mb-1.5`}>{c.lblWriting}</h2>
+        <h2 id={headingId(c.lblWriting)} className={`${label} mb-1.5`}>
+          <span>{c.lblWriting}</span>
+          <span className="sr-only">{sectionName.writing}</span>
+        </h2>
         {c.writing.map((w) => (
           <Link
             key={w.slug}
@@ -213,7 +239,10 @@ export function HomeContent({ lang }: { lang: Lang }) {
 
       {/* Contact */}
       <section className="mb-10 pt-2">
-        <h2 id={headingId(c.lblContact)} className={`${label} mb-[22px]`}>{c.lblContact}</h2>
+        <h2 id={headingId(c.lblContact)} className={`${label} mb-[22px]`}>
+          <span>{c.lblContact}</span>
+          <span className="sr-only">{sectionName.contact}</span>
+        </h2>
         <p className="m-0 max-w-[16ch] text-[1.875rem] leading-[1.25] font-normal text-(--ink-strong)">
           {c.ctaHead}
         </p>

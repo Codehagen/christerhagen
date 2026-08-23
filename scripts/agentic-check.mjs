@@ -165,6 +165,23 @@ async function checkStructure() {
     record(`unique element ids ${path}`, dupes.length === 0, dupes.join(", "))
     const headingIds = [...page.body.matchAll(/<h[23]\s+id="([^"]+)"/g)].length
     record(`headings are anchorable ${path}`, headingIds >= 10, `${headingIds} anchored`)
+
+    // The outline has to describe the document on its own. One-word visible
+    // labels are the design; the accessible names carry the meaning.
+    const h1 = page.body.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)?.[1] ?? ""
+    record(
+      `h1 names the subject ${path}`,
+      /Christer Hagen/.test(h1.replace(/<[^>]+>/g, "")),
+      h1.replace(/<[^>]+>/g, " ").trim().slice(0, 60)
+    )
+    const h2s = [...page.body.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)].map((m) =>
+      m[1].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim()
+    )
+    record(
+      `h2 outline is descriptive ${path}`,
+      h2s.length >= 8 && h2s.every((t) => t.split(" ").length >= 4),
+      h2s.find((t) => t.split(" ").length < 4) ?? "all descriptive"
+    )
   }
 }
 
