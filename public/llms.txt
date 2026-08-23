@@ -33,7 +33,6 @@ of every page live under /no/.
 
 - [Everything on one page (llms-full.txt)](https://www.christerhagen.com/llms-full.txt)
 - [Agent instructions in markdown](https://www.christerhagen.com/agents.md)
-- [MCP server (Streamable HTTP, no auth)](https://www.christerhagen.com/mcp) — card at [/.well-known/mcp/server-card.json](https://www.christerhagen.com/.well-known/mcp/server-card.json)
 - [Portfolio section index](https://www.christerhagen.com/portfolio/llms.txt)
 - [Writing section index](https://www.christerhagen.com/writing/llms.txt)
 - [Home page as markdown](https://www.christerhagen.com/index.md)

@@ -333,12 +333,11 @@ export function agentsMd(lang: Lang): string {
       `- \`GET ${SITE_URL}/portfolio/llms.txt\` and \`/writing/llms.txt\` — scoped section indexes.`,
       `- \`GET ${SITE_URL}/sitemap.xml\` — every URL, both languages, with hreflang.`,
       `- \`GET ${SITE_URL}/.well-known/ai-catalog.json\` — the same resources as an ARD catalog.`,
-      `- \`POST ${SITE_URL}/mcp\` — MCP server (Streamable HTTP, no auth) with six read-only tools: search_site, get_page, list_pages, list_ventures, list_writing, get_profile. Card: ${SITE_URL}/.well-known/mcp/server-card.json`,
     ],
     `## ${no ? "Autentisering" : "Authentication"}`,
     no
-      ? "Ingen — heller ikke på MCP-serveren. Alt her er offentlig og krever verken nøkkel, token eller innlogging. Alle verktøy er skrivebeskyttet: det finnes ingen skrive-endepunkter, ingen brukerkontoer og ingen betalte nivåer — dette er en personlig side, ikke en tjeneste."
-      : "None, including on the MCP server. Everything here is public and needs no key, token or login. Every tool is read-only: there are no write endpoints, no accounts and no paid tier — this is a personal site, not a service.",
+      ? "Ingen. Alt her er offentlig og krever verken nøkkel, token eller innlogging. Det finnes ingen skrive-endepunkter, ingen brukerkontoer og ingen betalte nivåer — dette er en personlig side, ikke en tjeneste."
+      : "None. Everything here is public and needs no key, token or login. There are no write endpoints, no accounts and no paid tier — this is a personal site, not a service.",
     `## ${no ? "Kontakt" : "Contact"}`,
     `- Email: ${EMAIL}`,
     `- ${SITE_URL}${localizedPath("/contact", lang)}`,

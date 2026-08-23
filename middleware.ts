@@ -84,6 +84,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // /mcp is a JSON-RPC endpoint, not a page — never negotiate it into markdown.
-  matcher: ["/((?!_next/static|_next/image|md/|mcp).*)"],
+  matcher: ["/((?!_next/static|_next/image|md/).*)"],
 }

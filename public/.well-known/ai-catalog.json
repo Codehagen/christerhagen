@@ -6,22 +6,6 @@
   },
   "entries": [
     {
-      "identifier": "urn:air:christerhagen.com:mcp:site",
-      "displayName": "christerhagen.com MCP server",
-      "type": "application/mcp-server+json",
-      "url": "https://www.christerhagen.com/.well-known/mcp/server-card.json",
-      "description": "Read-only MCP server over this site: identity facts, ventures founded vs backed, essays, and full-text search. Streamable HTTP, no authentication.",
-      "trustManifest": {
-        "identity": {
-          "type": "https-domain",
-          "domain": "christerhagen.com"
-        },
-        "provenance": {
-          "publishedFrom": "https://www.christerhagen.com/"
-        }
-      }
-    },
-    {
       "identifier": "urn:air:christerhagen.com:doc:agent-instructions",
       "displayName": "Agent instructions",
       "type": "text/markdown",
