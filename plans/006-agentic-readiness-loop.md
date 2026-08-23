@@ -346,7 +346,7 @@ Two deductions remain, and neither is code-addressable:
   count *did* update — so the derived brand is cached per domain on their side.
   Scanning the apex as a separate target returns the same domain record.
 
-### The path to 100, and why it was not taken
+### The path to 100, tried and measured
 
 is-agentic.com scores 100 while failing *four* checks, including both of ours.
 It gets there by having far more eligible checks — 32 (10 essential, 22
@@ -354,16 +354,31 @@ recommended) against our 16 — so each failure is diluted. Its extra eligibilit
 comes from having a programmable surface: an MCP server, API docs, an OpenAPI
 spec.
 
-Shipping a real MCP server over this site's content would be a genuine feature,
-not a fake one, and would plausibly close the gap. It was not done because:
+So a real MCP server was built and shipped as a measured experiment: POST /mcp,
+Streamable HTTP, JSON-RPC 2.0, six read-only tools over the existing content
+modules, discovery documents, the lot. Commit `40d08ec`, reverted in `8aede3d`.
 
-1. It is a new public surface on a personal site, with ongoing maintenance, well
-   outside "improve the readiness score".
-2. **It could lower the score.** Ora's relevance layer currently excludes 18
-   checks on the explicit grounds of "no programmable surface" — `openapi-spec`,
-   `public-api`, `oauth-support`, `scoped-permissions`, `json-error-responses`,
-   `developer-portal` and more. Adding an MCP server removes that justification
-   and makes those checks eligible and failing.
+**It cost 29 points.** The relevance-adjusted score went from 85 (B) to 56 (C).
+
+The MCP checks themselves largely passed — modern transport, consistent tool
+naming, detailed descriptions, behavioural annotations, structured JSON-RPC
+errors, correct public-auth posture. That was never the problem. The problem is
+that Ora's relevance layer had been excluding **18** checks on the explicit
+grounds of "no programmable surface". An MCP server removes that exemption for
+all but five, so `openapi-spec` (0/7), `public-api` (0/7), `oauth-support`
+(0/5), `webmcp` (0/2), `agentic-search-specific` (0/6), `developer-portal` and
+`cli-tool` all became eligible and failing in one step. Six passing MCP checks
+do not offset that.
+
+The load-bearing lesson, and the reason this is written down rather than just
+reverted: **on this rubric a site with no API scores better than a site with
+half of one.** Going after the last point by adding an agent surface only pays
+if you are willing to build the whole developer platform behind it — OpenAPI
+spec, public REST API, OAuth, developer portal, SDKs. That is a product, not a
+score fix.
+
+The revert restored 85 and 18 exclusions on the next scan, confirming the
+mechanism.
 
 Deliberately not published, for the same reason: `/.well-known/agent-card.json`
 (A2A), `/.well-known/mcp/server-card.json`, `/.well-known/api-catalog` (RFC
