@@ -152,7 +152,7 @@ export function personGraph(): object {
         // it never surfaces this domain.
         alternateName: ["christerhagen.com"],
         description:
-          "Norwegian serial entrepreneur and software developer based in Bod\u00f8. Founder of Codebase and Not Another VC.",
+          "Christer Hagen is a Norwegian serial entrepreneur and software developer based in Bodø. He founds software companies and backs technical founders at pre-seed.",
         inLanguage: ["en", "nb-NO"],
         publisher: { "@id": SITE_URL + "/#christer" },
         about: { "@id": SITE_URL + "/#christer" },
@@ -190,7 +190,7 @@ export function personGraph(): object {
         familyName: "Hagen",
         jobTitle: "Serial Entrepreneur & Software Developer",
         description:
-          "Norwegian serial entrepreneur and software developer based in Bodø. Founder of Codebase and Not Another VC.",
+          "Christer Hagen is a Norwegian serial entrepreneur and software developer based in Bodø. He founds software companies and backs technical founders at pre-seed.",
         url: SITE_URL,
         image: siteUrl("/images/christer-hagen-portrait.jpg"),
         // Birth + nationality facts mirror Wikidata P569/P19/P27. Keeping them
