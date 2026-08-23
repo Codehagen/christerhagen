@@ -325,6 +325,19 @@ export function agentsMd(lang: Lang): string {
         ? "- Norske versjoner av alle sider ligger under /no/."
         : "- Norwegian versions of every page live under /no/.",
     ],
+    `## ${no ? "Kapabiliteter" : "Capabilities"}`,
+    [
+      `- \`GET ${SITE_URL}/index.md\` — the home page as markdown (any page works: append \`.md\`).`,
+      `- \`GET ${SITE_URL}/llms.txt\` — index of every page, with when-to-use guidance.`,
+      `- \`GET ${SITE_URL}/llms-full.txt\` — the entire site in one fetch.`,
+      `- \`GET ${SITE_URL}/portfolio/llms.txt\` and \`/writing/llms.txt\` — scoped section indexes.`,
+      `- \`GET ${SITE_URL}/sitemap.xml\` — every URL, both languages, with hreflang.`,
+      `- \`GET ${SITE_URL}/.well-known/ai-catalog.json\` — the same resources as an ARD catalog.`,
+    ],
+    `## ${no ? "Autentisering" : "Authentication"}`,
+    no
+      ? "Ingen. Alt her er offentlig og krever verken nøkkel, token eller innlogging. Det finnes ingen skrive-endepunkter, ingen brukerkontoer og ingen betalte nivåer — dette er en personlig side, ikke en tjeneste."
+      : "None. Everything here is public and needs no key, token or login. There are no write endpoints, no accounts and no paid tier — this is a personal site, not a service.",
     `## ${no ? "Kontakt" : "Contact"}`,
     `- Email: ${EMAIL}`,
     `- ${SITE_URL}${localizedPath("/contact", lang)}`,

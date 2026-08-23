@@ -227,7 +227,11 @@ async function checkAgentSurfaces() {
   const agents = await get("/agents.md")
   record(
     "/agents.md serves markdown",
-    agents.res.status === 200 && md(agents) && /when to use/i.test(agents.body),
+    agents.res.status === 200 &&
+      md(agents) &&
+      /when to use/i.test(agents.body) &&
+      /## Capabilities/.test(agents.body) &&
+      /## Authentication/.test(agents.body),
     `${agents.res.status}`
   )
 
@@ -265,18 +269,28 @@ async function checkAgentSurfaces() {
   try {
     parsed = JSON.parse(catalog.body)
   } catch {}
+  // Shape per the ai-catalog spec: specVersion + host + entries[], each entry
+  // carrying a trustManifest. The first version of this file used the wrong
+  // field names and scored zero while looking perfectly reasonable.
   record(
-    "ARD catalog is valid and non-empty",
-    catalog.res.status === 200 && Array.isArray(parsed?.resources) && parsed.resources.length > 0,
+    "ARD catalog matches the ai-catalog envelope",
+    catalog.res.status === 200 &&
+      parsed?.specVersion === "1.0" &&
+      Boolean(parsed?.host?.identifier) &&
+      Array.isArray(parsed?.entries) &&
+      parsed.entries.length > 0 &&
+      parsed.entries.every(
+        (e) => e.identifier?.startsWith("urn:ai:") && e.displayName && e.type && e.url && e.trustManifest
+      ),
     `${catalog.res.status}`
   )
   record(
     "ARD catalog entries resolve",
     await (async () => {
-      if (!parsed?.resources) return false
-      for (const r of parsed.resources) {
-        const path = new URL(r.url).pathname
-        const probe = await get(path)
+      const urls = [...(parsed?.entries ?? []), ...(parsed?.collections ?? [])]
+      if (!urls.length) return false
+      for (const r of urls) {
+        const probe = await get(new URL(r.url).pathname)
         if (probe.res.status !== 200) return false
       }
       return true

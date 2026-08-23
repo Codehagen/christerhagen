@@ -1,56 +1,83 @@
 {
-  "$schema": "https://agenticresourcediscovery.org/schema/v1/catalog.json",
-  "version": "1.0",
-  "name": "Christer Hagen",
-  "description": "Personal site of Christer Hagen — Norwegian serial entrepreneur and software developer in Bodø. Founder of Codebase and Not Another VC; sold Docdir to Visma in 2026.",
-  "homepage": "https://www.christerhagen.com/",
-  "updated": "2026-08-23",
-  "publisher": {
-    "name": "Christer Hagen",
-    "url": "https://www.christerhagen.com/",
-    "email": "christer.hagen@gmail.com",
-    "sameAs": "https://www.wikidata.org/wiki/Q140373910"
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "Christer Hagen",
+    "identifier": "christerhagen.com"
   },
-  "resources": [
+  "entries": [
     {
-      "id": "urn:air:christerhagen.com:doc:agent-instructions",
+      "identifier": "urn:ai:christerhagen.com:doc:agent-instructions",
       "displayName": "Agent instructions",
-      "description": "When to use this site, when not to, and how to read it cheaply.",
-      "type": "document",
-      "mediaType": "text/markdown",
-      "url": "https://www.christerhagen.com/agents.md"
+      "type": "text/markdown",
+      "url": "https://www.christerhagen.com/agents.md",
+      "description": "When to use this site, when not to, and how to read it cheaply. The cold-arrival entry point for agents.",
+      "trustManifest": {
+        "identity": {
+          "type": "https-domain",
+          "domain": "christerhagen.com"
+        },
+        "provenance": {
+          "publishedFrom": "https://www.christerhagen.com/"
+        }
+      }
     },
     {
-      "id": "urn:air:christerhagen.com:doc:site-index",
+      "identifier": "urn:ai:christerhagen.com:doc:site-index",
       "displayName": "Machine-readable site index",
-      "description": "llms.txt index of every page, with links to the scoped section indexes.",
-      "type": "document",
-      "mediaType": "text/plain",
-      "url": "https://www.christerhagen.com/llms.txt"
+      "type": "text/plain",
+      "url": "https://www.christerhagen.com/llms.txt",
+      "description": "llms.txt index of every page, with when-to-use guidance and links to the scoped section indexes.",
+      "trustManifest": {
+        "identity": { "type": "https-domain", "domain": "christerhagen.com" },
+        "provenance": { "publishedFrom": "https://www.christerhagen.com/" }
+      }
     },
     {
-      "id": "urn:air:christerhagen.com:doc:full-text",
+      "identifier": "urn:ai:christerhagen.com:doc:full-text",
       "displayName": "Full site text",
+      "type": "text/markdown",
+      "url": "https://www.christerhagen.com/llms-full.txt",
       "description": "Every English page concatenated as markdown, in one fetch.",
-      "type": "document",
-      "mediaType": "text/markdown",
-      "url": "https://www.christerhagen.com/llms-full.txt"
+      "trustManifest": {
+        "identity": { "type": "https-domain", "domain": "christerhagen.com" },
+        "provenance": { "publishedFrom": "https://www.christerhagen.com/" }
+      }
     },
     {
-      "id": "urn:air:christerhagen.com:doc:home-markdown",
+      "identifier": "urn:ai:christerhagen.com:doc:home-markdown",
       "displayName": "Home page as markdown",
+      "type": "text/markdown",
+      "url": "https://www.christerhagen.com/index.md",
       "description": "Markdown twin of the home page. Every page has one: append .md, send Accept: text/markdown, or add ?mode=agent.",
-      "type": "document",
-      "mediaType": "text/markdown",
-      "url": "https://www.christerhagen.com/index.md"
+      "trustManifest": {
+        "identity": { "type": "https-domain", "domain": "christerhagen.com" },
+        "provenance": { "publishedFrom": "https://www.christerhagen.com/" }
+      }
     },
     {
-      "id": "urn:air:christerhagen.com:doc:sitemap",
+      "identifier": "urn:ai:christerhagen.com:doc:sitemap",
       "displayName": "Sitemap",
+      "type": "application/xml",
+      "url": "https://www.christerhagen.com/sitemap.xml",
       "description": "Every URL on the site, in both languages, with hreflang alternates.",
-      "type": "document",
-      "mediaType": "application/xml",
-      "url": "https://www.christerhagen.com/sitemap.xml"
+      "trustManifest": {
+        "identity": { "type": "https-domain", "domain": "christerhagen.com" },
+        "provenance": { "publishedFrom": "https://www.christerhagen.com/" }
+      }
+    }
+  ],
+  "collections": [
+    {
+      "identifier": "urn:ai:christerhagen.com:collection:portfolio",
+      "displayName": "Portfolio",
+      "url": "https://www.christerhagen.com/portfolio/llms.txt",
+      "description": "Companies founded and backed, with a markdown page for each."
+    },
+    {
+      "identifier": "urn:ai:christerhagen.com:collection:writing",
+      "displayName": "Writing",
+      "url": "https://www.christerhagen.com/writing/llms.txt",
+      "description": "Essays and notes, with a markdown page for each."
     }
   ]
 }
