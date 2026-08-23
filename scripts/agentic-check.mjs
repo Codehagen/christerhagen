@@ -235,6 +235,22 @@ async function checkStructuredData() {
     graph[0]?.name === "Christer Hagen",
     `${graph[0]?.["@type"]} ${graph[0]?.name}`
   )
+  // Declared, not inferred: left to guess, a brand detector takes the first
+  // Organization in the graph, which is a portfolio company.
+  const brand = graph.find((n) => n["@type"] === "Brand")
+  record(
+    "explicit Brand node names Christer Hagen",
+    brand?.name === "Christer Hagen" &&
+      (brand.sameAs ?? []).some((u) => u.includes("wikidata.org/wiki/Q140373910")),
+    `${brand?.name}`
+  )
+  record(
+    "type breadth beyond Organization/WebSite",
+    ["Brand", "Person", "WebPage", "Service", "ItemList"].every((t) =>
+      graph.some((n) => n["@type"] === t)
+    ),
+    graph.map((n) => n["@type"]).join(",")
+  )
 }
 
 async function checkLlmsTxt() {

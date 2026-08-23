@@ -157,6 +157,7 @@ export function personGraph(): object {
         publisher: { "@id": SITE_URL + "/#christer" },
         about: { "@id": SITE_URL + "/#christer" },
         identifier: "https://www.wikidata.org/wiki/Q140373910",
+        brand: { "@id": SITE_URL + "/#brand" },
         sameAs: [
           "https://www.wikidata.org/wiki/Q140373910",
           "https://www.linkedin.com/in/christerhagen",
@@ -164,6 +165,22 @@ export function personGraph(): object {
           "https://x.com/CodeHagen",
           "https://www.crunchbase.com/person/christer-hagen",
         ],
+      },
+      // Declared explicitly, because a brand detector left to infer it picks the
+      // first Organization in the graph — which here is a portfolio company
+      // ("Codebase"), a name generic enough that searching it never surfaces
+      // this domain. Brand, not Organization: this must not compete with the
+      // Person node for the same entity in a knowledge graph.
+      {
+        "@type": "Brand",
+        "@id": SITE_URL + "/#brand",
+        name: "Christer Hagen",
+        alternateName: "christerhagen.com",
+        url: SITE_URL,
+        logo: siteUrl("/favicon.svg"),
+        description:
+          "The personal brand of Christer Hagen, Norwegian serial entrepreneur and software developer.",
+        sameAs: ["https://www.wikidata.org/wiki/Q140373910"],
       },
       {
         "@type": "Person",
@@ -189,6 +206,7 @@ export function personGraph(): object {
           name: "Norway",
         },
         knowsLanguage: ["nb-NO", "en"],
+        brand: { "@id": SITE_URL + "/#brand" },
         address: {
           "@type": "PostalAddress",
           addressLocality: "Bodø",
@@ -244,6 +262,7 @@ export function personGraph(): object {
         description:
           "Pre-seed cheques and hands-on help for technical founders, decided personally rather than by committee.",
         provider: { "@id": SITE_URL + "/#christer" },
+        brand: { "@id": SITE_URL + "/#brand" },
         url: siteUrl("/process"),
         areaServed: [
           { "@type": "Country", name: "Norway" },
