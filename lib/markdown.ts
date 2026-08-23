@@ -22,6 +22,9 @@ import {
 } from "@/lib/content"
 import { SITE_URL, localizedPath } from "@/lib/seo"
 
+/** Content freshness stamp for markdown frontmatter. Bump with the content. */
+const SITE_UPDATED = "2026-08-23"
+
 /* ------------------------------------------------------------------ helpers */
 
 function abs(path: string, lang: Lang): string {
@@ -45,6 +48,29 @@ function join(...blocks: (string | string[])[]): string {
     .join("\n\n")
     .replace(/\n{3,}/g, "\n\n")
     .trimEnd()
+}
+
+/**
+ * YAML frontmatter, so an agent gets title, canonical URL and freshness without
+ * having to parse the body or guess which line is the title.
+ */
+function frontmatter(fields: {
+  title: string
+  description: string
+  canonical: string
+  lang: Lang
+}): string {
+  const esc = (v: string) => '"' + v.replace(/"/g, '\\"') + '"'
+  return [
+    "---",
+    "title: " + esc(fields.title),
+    "description: " + esc(fields.description),
+    "canonical: " + esc(fields.canonical),
+    "language: " + (fields.lang === "no" ? "nb-NO" : "en"),
+    "last_updated: " + esc(SITE_UPDATED),
+    "source: " + esc(SITE_URL),
+    "---",
+  ].join("\n")
 }
 
 /** Prose paragraphs: one block, blank line between each. */
@@ -429,4 +455,32 @@ export function markdownPaths(): string[] {
 /** The language a 404 should answer in, derived from the requested path. */
 export function langForPath(pathname: string): Lang {
   return splitLang(pathname).lang
+}
+
+/**
+ * Body plus frontmatter, which is what the HTTP surface serves. `markdownFor`
+ * stays frontmatter-free so /llms-full.txt can concatenate bodies without a
+ * YAML block wedged between every page.
+ */
+export function markdownDocument(pathname: string, body: string): string {
+  const heading = body.match(/^#\s+(.+)$/m)?.[1] ?? "christerhagen.com"
+  const description =
+    body
+      .split("\n\n")
+      .map((block) => block.trim())
+      .find((block) => block && !block.startsWith("#") && !block.startsWith("-"))
+      ?.replace(/\s+/g, " ")
+      .slice(0, 200) ?? ""
+
+  return (
+    frontmatter({
+      title: heading,
+      description,
+      canonical: SITE_URL + (pathname === "/" ? "/" : pathname),
+      lang: langForPath(pathname),
+    }) +
+    "\n\n" +
+    body +
+    "\n"
+  )
 }

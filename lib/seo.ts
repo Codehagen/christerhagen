@@ -224,6 +224,26 @@ export function personGraph(): object {
         inLanguage: "en",
       },
       {
+        // What the home page actually offers a reader who is building something:
+        // an angel cheque and hands-on help. Described on /process in full.
+        "@type": "Service",
+        "@id": SITE_URL + "/#angel-investing",
+        name: "Pre-seed angel investment",
+        serviceType: "Angel investment",
+        description:
+          "Pre-seed cheques and hands-on help for technical founders, decided personally rather than by committee.",
+        provider: { "@id": SITE_URL + "/#christer" },
+        url: siteUrl("/process"),
+        areaServed: [
+          { "@type": "Country", name: "Norway" },
+          { "@type": "Place", name: "The Nordics" },
+        ],
+        audience: {
+          "@type": "Audience",
+          audienceType: "Technical founders at pre-seed stage",
+        },
+      },
+      {
         "@type": "ItemList",
         "@id": SITE_URL + "/#ventures",
         name: "Companies founded and backed by Christer Hagen",

@@ -27,12 +27,15 @@ function prefersMarkdown(accept: string | null): boolean {
 
 /**
  * Answer-engine and AI crawlers: they read a page to answer a question, not to
- * render it, so markdown serves them better than a styled document. Googlebot
- * and Bingbot are deliberately absent — they index for search, and search
- * results should keep pointing at the real pages.
+ * render it, so markdown serves them better than a styled document.
+ *
+ * Deliberately absent: Googlebot and Bingbot, which index for search and should
+ * keep pointing at the real pages, and auditing crawlers such as ora-agent — an
+ * auditor that is handed a different representation than a browser gets is not
+ * auditing the site anyone actually visits.
  */
 const AGENT_UA =
-  /(GPTBot|ChatGPT-User|OAI-SearchBot|ClaudeBot|Claude-User|Claude-SearchBot|anthropic-ai|PerplexityBot|Perplexity-User|Google-Extended|Applebot-Extended|DeepSeekBot|ora-agent)/i
+  /(GPTBot|ChatGPT-User|OAI-SearchBot|ClaudeBot|Claude-User|Claude-SearchBot|anthropic-ai|PerplexityBot|Perplexity-User|Google-Extended|Applebot-Extended|DeepSeekBot)/i
 
 /** True for /images/x.jpg, /llms.txt, /sitemap.xml — anything but a page. */
 function isFileRequest(pathname: string): boolean {

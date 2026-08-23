@@ -48,6 +48,11 @@ function headingCounts(html) {
   return counts
 }
 
+/** Strip the YAML frontmatter block so assertions can look at the body. */
+function stripFrontmatter(md) {
+  return md.startsWith("---") ? md.replace(/^---\n[\s\S]*?\n---\n+/, "") : md
+}
+
 function textLength(html) {
   const stripped = html
     .replace(/<(script|style)[\s\S]*?<\/\1>/g, " ")
@@ -76,8 +81,16 @@ async function checkMarkdownNegotiation() {
     record(`Vary: Accept on ${path}`, hasAccept, vary || "(no vary)")
     record(
       `markdown body ${path}`,
-      body.trimStart().startsWith("#") && body.length > 200,
+      stripFrontmatter(body).trimStart().startsWith("#") && body.length > 200,
       `${body.length} chars`
+    )
+    // Frontmatter is what saves an agent from scraping the body for metadata.
+    record(
+      `markdown frontmatter ${path}`,
+      body.startsWith("---") &&
+        /\ntitle: "/.test(body) &&
+        /\ncanonical: "/.test(body) &&
+        /\nlast_updated: "/.test(body)
     )
   }
 }
@@ -91,7 +104,7 @@ async function checkMarkdownSuffix() {
       `.md suffix ${path}`,
       res.status === 200 &&
         (res.headers.get("content-type") || "").includes("text/markdown") &&
-        body.trimStart().startsWith("#"),
+        stripFrontmatter(body).trimStart().startsWith("#"),
       `${res.status} ${res.headers.get("content-type")}`
     )
   }
@@ -246,6 +259,29 @@ async function checkAgentSurfaces() {
     const r = await get(path)
     record(`section index ${path}`, r.res.status === 200 && r.body.startsWith("#"))
   }
+
+  const catalog = await get("/.well-known/ai-catalog.json")
+  let parsed = null
+  try {
+    parsed = JSON.parse(catalog.body)
+  } catch {}
+  record(
+    "ARD catalog is valid and non-empty",
+    catalog.res.status === 200 && Array.isArray(parsed?.resources) && parsed.resources.length > 0,
+    `${catalog.res.status}`
+  )
+  record(
+    "ARD catalog entries resolve",
+    await (async () => {
+      if (!parsed?.resources) return false
+      for (const r of parsed.resources) {
+        const path = new URL(r.url).pathname
+        const probe = await get(path)
+        if (probe.res.status !== 200) return false
+      }
+      return true
+    })()
+  )
 
   const links = await get("/about")
   const header = links.res.headers.get("link") || ""

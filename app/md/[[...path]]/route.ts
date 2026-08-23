@@ -1,4 +1,10 @@
-import { markdownFor, markdownPaths, notFoundMd, langForPath } from "@/lib/markdown"
+import {
+  markdownFor,
+  markdownPaths,
+  markdownDocument,
+  notFoundMd,
+  langForPath,
+} from "@/lib/markdown"
 import { SITE_URL } from "@/lib/seo"
 
 // Prerendered alongside the HTML pages: the markdown twins are as static as the
@@ -35,7 +41,11 @@ export async function GET(
 
   const body = markdownFor(pathname)
   if (body === null) {
-    return markdownResponse(notFoundMd(langForPath(pathname)), pathname, 404)
+    return markdownResponse(
+      markdownDocument(pathname, notFoundMd(langForPath(pathname))),
+      pathname,
+      404
+    )
   }
-  return markdownResponse(body, pathname, 200)
+  return markdownResponse(markdownDocument(pathname, body), pathname, 200)
 }

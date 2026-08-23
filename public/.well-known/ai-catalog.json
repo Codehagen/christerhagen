@@ -1,0 +1,56 @@
+{
+  "$schema": "https://agenticresourcediscovery.org/schema/v1/catalog.json",
+  "version": "1.0",
+  "name": "Christer Hagen",
+  "description": "Personal site of Christer Hagen — Norwegian serial entrepreneur and software developer in Bodø. Founder of Codebase and Not Another VC; sold Docdir to Visma in 2026.",
+  "homepage": "https://www.christerhagen.com/",
+  "updated": "2026-08-23",
+  "publisher": {
+    "name": "Christer Hagen",
+    "url": "https://www.christerhagen.com/",
+    "email": "christer.hagen@gmail.com",
+    "sameAs": "https://www.wikidata.org/wiki/Q140373910"
+  },
+  "resources": [
+    {
+      "id": "urn:air:christerhagen.com:doc:agent-instructions",
+      "displayName": "Agent instructions",
+      "description": "When to use this site, when not to, and how to read it cheaply.",
+      "type": "document",
+      "mediaType": "text/markdown",
+      "url": "https://www.christerhagen.com/agents.md"
+    },
+    {
+      "id": "urn:air:christerhagen.com:doc:site-index",
+      "displayName": "Machine-readable site index",
+      "description": "llms.txt index of every page, with links to the scoped section indexes.",
+      "type": "document",
+      "mediaType": "text/plain",
+      "url": "https://www.christerhagen.com/llms.txt"
+    },
+    {
+      "id": "urn:air:christerhagen.com:doc:full-text",
+      "displayName": "Full site text",
+      "description": "Every English page concatenated as markdown, in one fetch.",
+      "type": "document",
+      "mediaType": "text/markdown",
+      "url": "https://www.christerhagen.com/llms-full.txt"
+    },
+    {
+      "id": "urn:air:christerhagen.com:doc:home-markdown",
+      "displayName": "Home page as markdown",
+      "description": "Markdown twin of the home page. Every page has one: append .md, send Accept: text/markdown, or add ?mode=agent.",
+      "type": "document",
+      "mediaType": "text/markdown",
+      "url": "https://www.christerhagen.com/index.md"
+    },
+    {
+      "id": "urn:air:christerhagen.com:doc:sitemap",
+      "displayName": "Sitemap",
+      "description": "Every URL on the site, in both languages, with hreflang alternates.",
+      "type": "document",
+      "mediaType": "application/xml",
+      "url": "https://www.christerhagen.com/sitemap.xml"
+    }
+  ]
+}
