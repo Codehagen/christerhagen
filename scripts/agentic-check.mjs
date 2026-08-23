@@ -155,6 +155,17 @@ async function checkStructure() {
   const { body } = await get("/")
   const h = headingCounts(body)
   record("homepage heading depth (h1+h2+h3)", h.h1 === 1 && h.h2 > 0 && h.h3 > 0, JSON.stringify(h))
+
+  // Every heading is an anchor, and duplicate ids would break deep links
+  // silently — Advanti Estate legitimately appears in two sections.
+  for (const path of ["/", "/no"]) {
+    const page = await get(path)
+    const ids = [...page.body.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1])
+    const dupes = ids.filter((id, i) => ids.indexOf(id) !== i)
+    record(`unique element ids ${path}`, dupes.length === 0, dupes.join(", "))
+    const headingIds = [...page.body.matchAll(/<h[23]\s+id="([^"]+)"/g)].length
+    record(`headings are anchorable ${path}`, headingIds >= 10, `${headingIds} anchored`)
+  }
 }
 
 /* ------------------------------------------------------------- trust anchors */

@@ -7,7 +7,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { homeContent, socialLinks, EMAIL } from "@/lib/content"
 
-import { eyebrow as label } from "@/lib/typography"
+import { eyebrow as label, headingId } from "@/lib/typography"
 const rowLink =
   "flex items-baseline justify-between gap-6 border-b border-border text-(--ink-strong) transition-colors hover:text-(--rust-strong)"
 
@@ -45,7 +45,7 @@ export function HomeContent({ lang }: { lang: Lang }) {
 
       {/* About */}
       <section className="mb-[72px]">
-        <h2 className={`${label} mb-6`}>{c.lblAbout}</h2>
+        <h2 id={headingId(c.lblAbout)} className={`${label} mb-6`}>{c.lblAbout}</h2>
         <p className="max-w-[62ch] text-[1.03125rem] leading-[1.64] font-normal text-(--ink-body-2)">
           {c.aboutBody}
         </p>
@@ -53,7 +53,7 @@ export function HomeContent({ lang }: { lang: Lang }) {
 
       {/* Now */}
       <section className="mb-[72px]">
-        <h2 className={`${label} mb-[22px]`}>{c.lblNow}</h2>
+        <h2 id={headingId(c.lblNow)} className={`${label} mb-[22px]`}>{c.lblNow}</h2>
         <ul className="m-0 flex list-none flex-col gap-[13px] p-0">
           {c.now.map((item, i) => (
             <li
@@ -71,12 +71,12 @@ export function HomeContent({ lang }: { lang: Lang }) {
 
       {/* Work */}
       <section className="mb-[72px]">
-        <h2 className={`${label} mb-1.5`}>{c.lblWork}</h2>
+        <h2 id={headingId(c.lblWork)} className={`${label} mb-1.5`}>{c.lblWork}</h2>
         {c.work.map((w) => {
           const content = (
             <>
               <div className="flex flex-col gap-1">
-                <h3 className="m-0 text-[1.25rem] leading-[1.15] font-medium">
+                <h3 id={`work-${headingId(w.name)}`} className="m-0 text-[1.25rem] leading-[1.15] font-medium">
                   {w.name}
                 </h3>
                 <span className="font-mono text-[0.75rem] leading-[1.4] font-normal text-(--ink-faint)">
@@ -113,7 +113,7 @@ export function HomeContent({ lang }: { lang: Lang }) {
 
       {/* Investments */}
       <section className="mb-[72px]">
-        <h2 className={`${label} mb-1.5`}>{c.lblInvest}</h2>
+        <h2 id={headingId(c.lblInvest)} className={`${label} mb-1.5`}>{c.lblInvest}</h2>
         {c.investments.map((i) => (
           <a
             key={i.name}
@@ -123,7 +123,7 @@ export function HomeContent({ lang }: { lang: Lang }) {
             className={`${rowLink} group gap-[22px] py-[15px]`}
           >
             <div className="flex flex-col gap-1">
-              <h3 className="m-0 text-[1.125rem] leading-[1.2] font-medium">
+              <h3 id={`investment-${headingId(i.name)}`} className="m-0 text-[1.125rem] leading-[1.2] font-medium">
                 {i.name}
               </h3>
               <span className="max-w-[48ch] text-[0.84375rem] leading-[1.45] font-normal text-(--ink-soft)">
@@ -142,7 +142,7 @@ export function HomeContent({ lang }: { lang: Lang }) {
 
       {/* Exits */}
       <section className="mb-[72px]">
-        <h2 className={`${label} mb-1.5`}>{c.lblExits}</h2>
+        <h2 id={headingId(c.lblExits)} className={`${label} mb-1.5`}>{c.lblExits}</h2>
         {c.exits.map((x) => (
           <a
             key={x.name}
@@ -152,7 +152,7 @@ export function HomeContent({ lang }: { lang: Lang }) {
             className={`${rowLink} gap-[22px] py-[15px]`}
           >
             <div className="flex flex-col gap-1">
-              <h3 className="m-0 text-[1.125rem] leading-[1.2] font-medium">
+              <h3 id={`exit-${headingId(x.name)}`} className="m-0 text-[1.125rem] leading-[1.2] font-medium">
                 {x.name}
               </h3>
               <span className="max-w-[48ch] text-[0.84375rem] leading-[1.45] font-normal text-(--ink-soft)">
@@ -168,7 +168,7 @@ export function HomeContent({ lang }: { lang: Lang }) {
 
       {/* Open source */}
       <section className="mb-[72px]">
-        <h2 className={`${label} mb-1.5`}>{c.lblOss}</h2>
+        <h2 id={headingId(c.lblOss)} className={`${label} mb-1.5`}>{c.lblOss}</h2>
         {c.oss.map((o) => (
           <a
             key={o.name}
@@ -178,7 +178,7 @@ export function HomeContent({ lang }: { lang: Lang }) {
             className={`${rowLink} py-[15px]`}
           >
             <div className="flex flex-col gap-1">
-              <h3 className="m-0 text-[1.125rem] leading-[1.2] font-medium">
+              <h3 id={`oss-${headingId(o.name)}`} className="m-0 text-[1.125rem] leading-[1.2] font-medium">
                 {o.name}
               </h3>
               <span className="font-mono text-[0.8125rem] leading-[1.4] font-normal text-(--ink-faint)">
@@ -194,14 +194,14 @@ export function HomeContent({ lang }: { lang: Lang }) {
 
       {/* Writing */}
       <section className="mb-[72px]">
-        <h2 className={`${label} mb-1.5`}>{c.lblWriting}</h2>
+        <h2 id={headingId(c.lblWriting)} className={`${label} mb-1.5`}>{c.lblWriting}</h2>
         {c.writing.map((w) => (
           <Link
             key={w.slug}
             href={localizedPath(`/writing/${w.slug}`, lang)}
             className="flex items-baseline justify-between gap-6 border-b border-border py-[14px] text-(--ink-body-2) transition-colors hover:text-(--rust-strong)"
           >
-            <h3 className="m-0 text-[1.0625rem] leading-[1.35] font-normal">
+            <h3 id={`post-${headingId(w.title)}`} className="m-0 text-[1.0625rem] leading-[1.35] font-normal">
               {w.title}
             </h3>
             <span className="flex-shrink-0 font-mono text-[0.71875rem] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
@@ -212,8 +212,8 @@ export function HomeContent({ lang }: { lang: Lang }) {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="mb-10 pt-2">
-        <h2 className={`${label} mb-[22px]`}>{c.lblContact}</h2>
+      <section className="mb-10 pt-2">
+        <h2 id={headingId(c.lblContact)} className={`${label} mb-[22px]`}>{c.lblContact}</h2>
         <p className="m-0 max-w-[16ch] text-[1.875rem] leading-[1.25] font-normal text-(--ink-strong)">
           {c.ctaHead}
         </p>

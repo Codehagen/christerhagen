@@ -147,12 +147,23 @@ export function personGraph(): object {
         "@id": SITE_URL + "/#website",
         url: SITE_URL,
         name: "Christer Hagen",
-        alternateName: ["christerhagen.com", "Christer Hagen \u2014 Codebase"],
+        // No "Codebase" variant here on purpose: brand detectors pick the name
+        // up from this node, and "Codebase" is generic enough that a search for
+        // it never surfaces this domain.
+        alternateName: ["christerhagen.com"],
         description:
           "Norwegian serial entrepreneur and software developer based in Bod\u00f8. Founder of Codebase and Not Another VC.",
         inLanguage: ["en", "nb-NO"],
         publisher: { "@id": SITE_URL + "/#christer" },
         about: { "@id": SITE_URL + "/#christer" },
+        identifier: "https://www.wikidata.org/wiki/Q140373910",
+        sameAs: [
+          "https://www.wikidata.org/wiki/Q140373910",
+          "https://www.linkedin.com/in/christerhagen",
+          "https://github.com/Codehagen",
+          "https://x.com/CodeHagen",
+          "https://www.crunchbase.com/person/christer-hagen",
+        ],
       },
       {
         "@type": "Person",
