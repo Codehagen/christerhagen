@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "seo:check": "node scripts/seo-check.mjs",
-    "agentic:check": "node scripts/agentic-check.mjs"
+    "agentic:check": "node scripts/agentic-check.mjs",
+    "agentic:watch": "node scripts/agentic-watch.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",

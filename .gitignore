@@ -36,3 +36,6 @@ pnpm-debug.log*
 next-env.d.ts
 .vercel
 .gstack/
+
+# Throwaway preview scans; .agentic/report.json is committed on purpose.
+.agentic/preview.json

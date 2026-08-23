@@ -309,7 +309,20 @@ bonus         5.0/5    capped (23 positive signals, up from 9)
 `scripts/agentic-check.mjs` grew to 165 local assertions and is green against
 both localhost and www.christerhagen.com.
 
-### How to run the loop
+### Running the loop
+
+`pnpm agentic:check` is the inner loop (165 assertions against a running
+server). `pnpm agentic:watch` is the outer one: it forces a fresh scan, diffs
+the result against the committed `.agentic/report.json`, prints what moved, and
+exits non-zero on a score drop or a new issue — so it can run on a schedule and
+only interrupt someone when something actually changed. `--write` updates the
+snapshot.
+
+It records both the public score and the live relevance-adjusted score, because
+the public report lags the live scan by minutes to hours; without both, a
+lagging report reads as a regression.
+
+### How the rescan works
 
 The published API is read-only and the CLI only scans when *no* report exists,
 so neither re-measures a site that already has one. The rescan trigger is the

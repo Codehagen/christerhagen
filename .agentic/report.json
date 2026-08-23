@@ -1,0 +1,39 @@
+{
+  "target": "https://www.christerhagen.com",
+  "public_score": 99,
+  "public_scanned_at": "2026-08-23T13:43:17.619Z",
+  "live_relevance_score": 85,
+  "live_scanned_at": "2026-08-23T16:00:03.152Z",
+  "score_breakdown": {
+    "essential": {
+      "earned": 76.2,
+      "available": 80,
+      "passing": 6,
+      "total": 7
+    },
+    "recommended": {
+      "earned": 17.8,
+      "available": 20,
+      "passing": 8,
+      "total": 9
+    },
+    "bonus": {
+      "points": 5,
+      "positive_signals": 23
+    }
+  },
+  "issues": [
+    {
+      "id": "content-no-js",
+      "tier": "essential",
+      "result": "partial",
+      "details": "2446 chars with H1 but flat heading structure"
+    },
+    {
+      "id": "brand-search-accuracy",
+      "tier": "recommended",
+      "result": "failed",
+      "details": "\"Codebase\" search returned 8 results but domain did not appear - brand may be too generic or not indexed"
+    }
+  ]
+}
