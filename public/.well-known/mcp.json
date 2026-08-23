@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "christerhagen": {
+      "type": "streamable-http",
+      "url": "https://www.christerhagen.com/mcp",
+      "description": "Read-only access to christerhagen.com — identity facts, ventures, essays and full-text search."
+    }
+  }
+}

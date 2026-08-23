@@ -374,6 +374,107 @@ async function checkAgentSurfaces() {
   )
 }
 
+/* ----------------------------------------------------------------- MCP server */
+
+async function rpc(method, params, id = 1) {
+  const res = await fetch(BASE_URL + "/mcp", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ jsonrpc: "2.0", id, method, ...(params ? { params } : {}) }),
+  })
+  return { res, body: await res.json() }
+}
+
+async function checkMcp() {
+  const init = await rpc("initialize", {
+    protocolVersion: "2025-06-18",
+    capabilities: {},
+    clientInfo: { name: "agentic-check", version: "1" },
+  })
+  record(
+    "MCP initialize handshake",
+    init.res.status === 200 &&
+      init.body.result?.protocolVersion === "2025-06-18" &&
+      Boolean(init.body.result?.serverInfo?.name) &&
+      Boolean(init.body.result?.instructions),
+    `${init.res.status}`
+  )
+
+  const list = await rpc("tools/list", null, 2)
+  const tools = list.body.result?.tools ?? []
+  record("MCP lists tools", tools.length >= 5, `${tools.length} tools`)
+  // A tool an agent cannot understand from its listing is a tool it will not
+  // call, so the descriptions and schemas are part of the contract.
+  record(
+    "MCP tools are documented and schema'd",
+    tools.length > 0 &&
+      tools.every(
+        (t) =>
+          /^[a-z][a-z0-9_]*$/.test(t.name) &&
+          t.description?.length > 40 &&
+          t.inputSchema?.type === "object" &&
+          t.annotations?.readOnlyHint === true
+      ),
+    tools.find((t) => !(t.description?.length > 40))?.name ?? "all documented"
+  )
+
+  const call = await rpc(
+    "tools/call",
+    { name: "get_profile", arguments: {} },
+    3
+  )
+  record(
+    "MCP tools/call returns content",
+    /Christer Hagen/.test(call.body.result?.content?.[0]?.text ?? "") &&
+      /Q140373910/.test(call.body.result?.content?.[0]?.text ?? "")
+  )
+
+  const ventures = await rpc(
+    "tools/call",
+    { name: "list_ventures", arguments: { relation: "backed" } },
+    4
+  )
+  const backed = ventures.body.result?.content?.[0]?.text ?? ""
+  record(
+    "MCP keeps founded and backed apart",
+    /backed by Christer Hagen/.test(backed) && !/founded by Christer Hagen/.test(backed)
+  )
+
+  // Protocol errors and tool errors are different things: an unknown method is
+  // a JSON-RPC error, a bad argument is an isError result the model can read.
+  const unknownMethod = await rpc("resources/list", null, 5)
+  record(
+    "MCP rejects unknown methods with -32601",
+    unknownMethod.body.error?.code === -32601
+  )
+  const badArgs = await rpc(
+    "tools/call",
+    { name: "get_page", arguments: { path: "/does-not-exist" } },
+    6
+  )
+  record(
+    "MCP tool failures come back as isError",
+    badArgs.body.result?.isError === true && !badArgs.body.error
+  )
+
+  for (const path of ["/.well-known/mcp.json", "/.well-known/mcp/server-card.json"]) {
+    const doc = await get(path)
+    let parsed = null
+    try {
+      parsed = JSON.parse(doc.body)
+    } catch {}
+    record(`MCP discovery doc ${path}`, doc.res.status === 200 && parsed !== null)
+  }
+  const card = JSON.parse((await get("/.well-known/mcp/server-card.json")).body)
+  record(
+    "MCP server card matches the live server",
+    card.remotes?.[0]?.url?.endsWith("/mcp") &&
+      card.protocolVersion === init.body.result?.protocolVersion &&
+      card.tools?.length === tools.length,
+    `card ${card.tools?.length} vs live ${tools.length}`
+  )
+}
+
 /* --------------------------------------------------------------------- main */
 
 const suites = [
@@ -385,6 +486,7 @@ const suites = [
   checkStructuredData,
   checkLlmsTxt,
   checkAgentSurfaces,
+  checkMcp,
 ]
 
 for (const suite of suites) {

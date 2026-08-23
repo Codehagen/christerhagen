@@ -1,0 +1,32 @@
+{
+  "name": "christerhagen",
+  "title": "Christer Hagen",
+  "description": "Read-only MCP access to christerhagen.com: identity facts, the companies Christer Hagen founded and backed, his essays, and full-text search across every page.",
+  "version": "1.0.0",
+  "websiteUrl": "https://www.christerhagen.com",
+  "documentationUrl": "https://www.christerhagen.com/agents.md",
+  "protocolVersion": "2025-06-18",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://www.christerhagen.com/mcp"
+    }
+  ],
+  "authentication": {
+    "type": "none",
+    "description": "No authentication. Everything this server exposes is already public on the site."
+  },
+  "capabilities": {
+    "tools": {
+      "listChanged": false
+    }
+  },
+  "tools": [
+    { "name": "search_site", "description": "Full-text search across every page, ranked by match count." },
+    { "name": "get_page", "description": "Fetch one page as markdown by its path." },
+    { "name": "list_pages", "description": "List every page URL, English and Norwegian." },
+    { "name": "list_ventures", "description": "Companies founded vs companies only backed, with role, stage, year and status." },
+    { "name": "list_writing", "description": "Essays and notes, with year, reading time and excerpt." },
+    { "name": "get_profile", "description": "Canonical identity facts, including the Wikidata entity." }
+  ]
+}
