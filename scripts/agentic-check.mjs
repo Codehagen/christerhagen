@@ -235,8 +235,20 @@ async function checkAgentSurfaces() {
     `${agents.res.status}`
   )
 
+  // On the root the agent view is the brief, not the home page copy.
   const mode = await get("/?mode=agent")
-  record("?mode=agent serves markdown", mode.res.status === 200 && md(mode))
+  record(
+    "?mode=agent on root serves the agent brief",
+    mode.res.status === 200 &&
+      md(mode) &&
+      /## Capabilities/.test(mode.body) &&
+      /## Authentication/.test(mode.body)
+  )
+  const modePage = await get("/about?mode=agent")
+  record(
+    "?mode=agent on a page serves that page",
+    modePage.res.status === 200 && md(modePage) && /north of Norway/.test(modePage.body)
+  )
 
   // Answer engines get markdown; search crawlers must keep getting HTML, or the
   // pages stop being the thing that ranks.
@@ -280,7 +292,7 @@ async function checkAgentSurfaces() {
       Array.isArray(parsed?.entries) &&
       parsed.entries.length > 0 &&
       parsed.entries.every(
-        (e) => e.identifier?.startsWith("urn:ai:") && e.displayName && e.type && e.url && e.trustManifest
+        (e) => e.identifier?.startsWith("urn:air:christerhagen.com:") && e.displayName && e.type && e.url && e.trustManifest
       ),
     `${catalog.res.status}`
   )

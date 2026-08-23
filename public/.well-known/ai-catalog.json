@@ -6,7 +6,7 @@
   },
   "entries": [
     {
-      "identifier": "urn:ai:christerhagen.com:doc:agent-instructions",
+      "identifier": "urn:air:christerhagen.com:doc:agent-instructions",
       "displayName": "Agent instructions",
       "type": "text/markdown",
       "url": "https://www.christerhagen.com/agents.md",
@@ -22,59 +22,79 @@
       }
     },
     {
-      "identifier": "urn:ai:christerhagen.com:doc:site-index",
+      "identifier": "urn:air:christerhagen.com:doc:site-index",
       "displayName": "Machine-readable site index",
       "type": "text/plain",
       "url": "https://www.christerhagen.com/llms.txt",
       "description": "llms.txt index of every page, with when-to-use guidance and links to the scoped section indexes.",
       "trustManifest": {
-        "identity": { "type": "https-domain", "domain": "christerhagen.com" },
-        "provenance": { "publishedFrom": "https://www.christerhagen.com/" }
+        "identity": {
+          "type": "https-domain",
+          "domain": "christerhagen.com"
+        },
+        "provenance": {
+          "publishedFrom": "https://www.christerhagen.com/"
+        }
       }
     },
     {
-      "identifier": "urn:ai:christerhagen.com:doc:full-text",
+      "identifier": "urn:air:christerhagen.com:doc:full-text",
       "displayName": "Full site text",
       "type": "text/markdown",
       "url": "https://www.christerhagen.com/llms-full.txt",
       "description": "Every English page concatenated as markdown, in one fetch.",
       "trustManifest": {
-        "identity": { "type": "https-domain", "domain": "christerhagen.com" },
-        "provenance": { "publishedFrom": "https://www.christerhagen.com/" }
+        "identity": {
+          "type": "https-domain",
+          "domain": "christerhagen.com"
+        },
+        "provenance": {
+          "publishedFrom": "https://www.christerhagen.com/"
+        }
       }
     },
     {
-      "identifier": "urn:ai:christerhagen.com:doc:home-markdown",
+      "identifier": "urn:air:christerhagen.com:doc:home-markdown",
       "displayName": "Home page as markdown",
       "type": "text/markdown",
       "url": "https://www.christerhagen.com/index.md",
       "description": "Markdown twin of the home page. Every page has one: append .md, send Accept: text/markdown, or add ?mode=agent.",
       "trustManifest": {
-        "identity": { "type": "https-domain", "domain": "christerhagen.com" },
-        "provenance": { "publishedFrom": "https://www.christerhagen.com/" }
+        "identity": {
+          "type": "https-domain",
+          "domain": "christerhagen.com"
+        },
+        "provenance": {
+          "publishedFrom": "https://www.christerhagen.com/"
+        }
       }
     },
     {
-      "identifier": "urn:ai:christerhagen.com:doc:sitemap",
+      "identifier": "urn:air:christerhagen.com:doc:sitemap",
       "displayName": "Sitemap",
       "type": "application/xml",
       "url": "https://www.christerhagen.com/sitemap.xml",
       "description": "Every URL on the site, in both languages, with hreflang alternates.",
       "trustManifest": {
-        "identity": { "type": "https-domain", "domain": "christerhagen.com" },
-        "provenance": { "publishedFrom": "https://www.christerhagen.com/" }
+        "identity": {
+          "type": "https-domain",
+          "domain": "christerhagen.com"
+        },
+        "provenance": {
+          "publishedFrom": "https://www.christerhagen.com/"
+        }
       }
     }
   ],
   "collections": [
     {
-      "identifier": "urn:ai:christerhagen.com:collection:portfolio",
+      "identifier": "urn:air:christerhagen.com:collection:portfolio",
       "displayName": "Portfolio",
       "url": "https://www.christerhagen.com/portfolio/llms.txt",
       "description": "Companies founded and backed, with a markdown page for each."
     },
     {
-      "identifier": "urn:ai:christerhagen.com:collection:writing",
+      "identifier": "urn:air:christerhagen.com:collection:writing",
       "displayName": "Writing",
       "url": "https://www.christerhagen.com/writing/llms.txt",
       "description": "Essays and notes, with a markdown page for each."

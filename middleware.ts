@@ -61,9 +61,16 @@ export function middleware(request: NextRequest) {
 
   if (isFileRequest(pathname)) return NextResponse.next()
 
+  if (searchParams.get("mode") === "agent") {
+    // On a content page, the agent view is that page as markdown. On the site
+    // root it is the agent brief instead — capabilities, authentication and
+    // what this site is for, which is what an agent arriving cold needs.
+    const isRoot = pathname === "/" || pathname === "/no"
+    return toMarkdown(request, isRoot ? pathname.replace(/\/$/, "") + "/agents" : pathname)
+  }
+
   if (
     prefersMarkdown(request.headers.get("accept")) ||
-    searchParams.get("mode") === "agent" ||
     AGENT_UA.test(request.headers.get("user-agent") ?? "")
   ) {
     return toMarkdown(request, pathname)
