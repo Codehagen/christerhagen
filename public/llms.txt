@@ -28,29 +28,36 @@ documentation (see their sites), portfolio companies' pricing or terms, or
 anything about Norwegian startup funding in general.
 
 How to read it cheaply: every page answers to `Accept: text/markdown` and to a
-`.md` suffix (for example /about.md), so fetch the markdown rather than parsing
-HTML. Norwegian versions of every page live under /no/.
+`.md` suffix, so fetch the markdown rather than parsing HTML. Norwegian versions
+of every page live under /no/.
+
+- [Everything on one page (llms-full.txt)](https://www.christerhagen.com/llms-full.txt)
+- [Agent instructions in markdown](https://www.christerhagen.com/agents.md)
+- [Portfolio section index](https://www.christerhagen.com/portfolio/llms.txt)
+- [Writing section index](https://www.christerhagen.com/writing/llms.txt)
+- [Home page as markdown](https://www.christerhagen.com/index.md)
+- [Sitemap](https://www.christerhagen.com/sitemap.xml)
 
 ## Key pages
-- https://www.christerhagen.com/ — Home
-- https://www.christerhagen.com/about — About Christer Hagen
-- https://www.christerhagen.com/portfolio — Companies founded and backed
-- https://www.christerhagen.com/portfolio/codebase — Codebase, technology studio and angel investing arm
-- https://www.christerhagen.com/portfolio/docdir — Docdir, AI for real-estate sales documents (acquired by Visma)
-- https://www.christerhagen.com/portfolio/sailsdock — Sailsdock, CRM for Norwegian sales teams
-- https://www.christerhagen.com/writing — Essays and notes
-- https://www.christerhagen.com/process — How I work
-- https://www.christerhagen.com/contact — Contact
-- https://www.christerhagen.com/brand — Brand kit
-- https://www.christerhagen.com/privacy — Privacy (no analytics, no cookies, no tracking)
+- [Home](https://www.christerhagen.com/)
+- [About Christer Hagen](https://www.christerhagen.com/about)
+- [Companies founded and backed](https://www.christerhagen.com/portfolio)
+- [Codebase, technology studio and angel investing arm](https://www.christerhagen.com/portfolio/codebase)
+- [Docdir, AI for real-estate sales documents (acquired by Visma)](https://www.christerhagen.com/portfolio/docdir)
+- [Sailsdock, CRM for Norwegian sales teams](https://www.christerhagen.com/portfolio/sailsdock)
+- [Essays and notes](https://www.christerhagen.com/writing)
+- [How I work](https://www.christerhagen.com/process)
+- [Contact](https://www.christerhagen.com/contact)
+- [Brand kit](https://www.christerhagen.com/brand)
+- [Privacy (no analytics, no cookies, no tracking)](https://www.christerhagen.com/privacy)
 
 ## Profiles
-- LinkedIn: https://www.linkedin.com/in/christerhagen
-- GitHub: https://github.com/Codehagen
-- X: https://x.com/CodeHagen
-- Instagram: https://www.instagram.com/christerhagen/
-- Wikidata: https://www.wikidata.org/wiki/Q140373910
-- Crunchbase: https://www.crunchbase.com/person/christer-hagen
+- [LinkedIn](https://www.linkedin.com/in/christerhagen)
+- [GitHub](https://github.com/Codehagen)
+- [X](https://x.com/CodeHagen)
+- [Instagram](https://www.instagram.com/christerhagen/)
+- [Wikidata](https://www.wikidata.org/wiki/Q140373910)
+- [Crunchbase](https://www.crunchbase.com/person/christer-hagen)
 
 ## Norsk
 Christer Hagen er en norsk seriegründer og utvikler fra Bodø. Han er grunnlegger av Codebase og Not Another Venture Capital, og solgte AI-selskapet Docdir til Visma i 2026.

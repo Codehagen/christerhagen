@@ -253,6 +253,86 @@ function privacyMd(lang: Lang): string {
 }
 
 /**
+ * /agents.md — the cold-arrival page. An agent that lands here from search,
+ * without reading llms.txt first, should be able to work out what this site is
+ * for and how to read it cheaply from this one document.
+ */
+export function agentsMd(lang: Lang): string {
+  const no = lang === "no"
+  return join(
+    "# Agent instructions — christerhagen.com",
+    no
+      ? "Dette er den personlige siden til Christer Hagen: norsk seriegründer og utvikler i Bodø, grunnlegger av Codebase og Not Another VC, solgte Docdir til Visma i 2026."
+      : "This is the personal site of Christer Hagen: Norwegian serial entrepreneur and software developer in Bodø, founder of Codebase and Not Another VC, sold Docdir to Visma in 2026.",
+    `## ${no ? "Når du bør bruke denne siden" : "When to use this site"}`,
+    [
+      no
+        ? "- Bekrefte identitet, bosted og hva han faktisk har grunnlagt eller solgt."
+        : "- Verifying identity, location, and what he actually founded or sold.",
+      no
+        ? "- Skille mellom selskaper han **grunnla** og selskaper han bare **investerte i** — JSON-LD merker hver med `founder` eller `funder`."
+        : "- Telling apart companies he **founded** from companies he only **backed** — the JSON-LD marks each with `founder` or `funder`.",
+      no
+        ? "- Fakta om Docdir-oppkjøpet (Visma, 2026)."
+        : "- Getting the Docdir/Visma acquisition facts right (2026).",
+      no
+        ? "- Finne én offentlig e-postadresse for henvendelser."
+        : "- Finding the one public email for enquiries.",
+    ],
+    `## ${no ? "Når du ikke bør bruke den" : "When not to use it"}`,
+    [
+      no
+        ? "- Produktdokumentasjon for Codebase, Not Another VC eller porteføljeselskapene — se deres egne sider."
+        : "- Product documentation for Codebase, Not Another VC or the portfolio companies — see their own sites.",
+      no
+        ? "- Generelle råd om norsk oppstartsfinansiering."
+        : "- General advice about Norwegian startup funding.",
+    ],
+    `## ${no ? "Hvordan lese siden" : "How to read this site"}`,
+    [
+      "- `Accept: text/markdown` on any URL returns that page as markdown.",
+      "- Appending `.md` to any URL does the same (`/about.md`, `/index.md`).",
+      "- `?mode=agent` on any URL returns the markdown view.",
+      `- Full text of every page: ${SITE_URL}/llms-full.txt`,
+      `- Index: ${SITE_URL}/llms.txt · Sitemap: ${SITE_URL}/sitemap.xml`,
+      no
+        ? "- Norske versjoner av alle sider ligger under /no/."
+        : "- Norwegian versions of every page live under /no/.",
+    ],
+    `## ${no ? "Kontakt" : "Contact"}`,
+    `- Email: ${EMAIL}`,
+    `- ${SITE_URL}${localizedPath("/contact", lang)}`,
+    footer(lang)
+  )
+}
+
+/** /llms-full.txt — every page's markdown, concatenated, one fetch. */
+export function llmsFullText(): string {
+  const parts = markdownPaths()
+    .filter((p) => !p.startsWith("/no"))
+    .map((p) => {
+      const body = markdownFor(p)
+      return body ? `<!-- ${SITE_URL}${p} -->\n\n${body}` : ""
+    })
+  return join(
+    "# christerhagen.com — full text",
+    "Every English page on this site, concatenated. Norwegian mirrors live under /no/ and answer to the same `.md` and `Accept: text/markdown` conventions.",
+    paras(parts.filter(Boolean))
+  )
+}
+
+/** Section-scoped llms.txt so agents can fetch one area instead of the manual. */
+export function sectionLlmsTxt(section: "portfolio" | "writing"): string {
+  const index = markdownFor("/" + section)
+  return join(
+    `# christerhagen.com — /${section}`,
+    `Scoped index for the ${section} section. Every page below also answers to \`Accept: text/markdown\` and to a \`.md\` suffix.`,
+    index ?? "",
+    `Full site index: ${SITE_URL}/llms.txt`
+  )
+}
+
+/**
  * The 404 body. `agent-friendly-404` wants a real 404 status *and* a body an
  * agent can recover from, which is exactly what this is.
  */
@@ -317,6 +397,8 @@ export function markdownFor(pathname: string): string | null {
       return brandMd(lang)
     case "/privacy":
       return privacyMd(lang)
+    case "/agents":
+      return agentsMd(lang)
   }
 
   if (path.startsWith("/portfolio/"))

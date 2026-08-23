@@ -206,6 +206,68 @@ async function checkLlmsTxt() {
   )
 }
 
+/* ------------------------------------------------------- agent entry points */
+
+async function checkAgentSurfaces() {
+  const md = (r) => (r.res.headers.get("content-type") || "").includes("text/markdown")
+
+  const agents = await get("/agents.md")
+  record(
+    "/agents.md serves markdown",
+    agents.res.status === 200 && md(agents) && /when to use/i.test(agents.body),
+    `${agents.res.status}`
+  )
+
+  const mode = await get("/?mode=agent")
+  record("?mode=agent serves markdown", mode.res.status === 200 && md(mode))
+
+  // Answer engines get markdown; search crawlers must keep getting HTML, or the
+  // pages stop being the thing that ranks.
+  for (const ua of ["ClaudeBot/1.0", "GPTBot/1.2", "PerplexityBot/1.0"]) {
+    const r = await get("/", { "User-Agent": ua })
+    record(`${ua} receives markdown`, r.res.status === 200 && md(r))
+  }
+  for (const ua of ["Googlebot/2.1", "Mozilla/5.0 (Macintosh)"]) {
+    const r = await get("/", { "User-Agent": ua })
+    record(
+      `${ua} still receives HTML`,
+      (r.res.headers.get("content-type") || "").includes("text/html")
+    )
+  }
+
+  const full = await get("/llms-full.txt")
+  record(
+    "/llms-full.txt served",
+    full.res.status === 200 && full.body.length > 10000,
+    `${full.body.length} chars`
+  )
+
+  for (const path of ["/portfolio/llms.txt", "/writing/llms.txt"]) {
+    const r = await get(path)
+    record(`section index ${path}`, r.res.status === 200 && r.body.startsWith("#"))
+  }
+
+  const links = await get("/about")
+  const header = links.res.headers.get("link") || ""
+  record(
+    "Link header advertises sitemap + markdown",
+    header.includes('rel="sitemap"') && header.includes('type="text/markdown"'),
+    header.slice(0, 80)
+  )
+
+  const robots = await get("/robots.txt")
+  record(
+    "robots.txt differentiates AI crawler tiers",
+    /GPTBot/.test(robots.body) && /Disallow: \//.test(robots.body)
+  )
+
+  const llms = await get("/llms.txt")
+  record(
+    "/llms.txt uses markdown links",
+    /\[[^\]]+\]\(https?:\/\//.test(llms.body)
+  )
+}
+
 /* --------------------------------------------------------------------- main */
 
 const suites = [
@@ -216,6 +278,7 @@ const suites = [
   checkTrustAnchors,
   checkStructuredData,
   checkLlmsTxt,
+  checkAgentSurfaces,
 ]
 
 for (const suite of suites) {

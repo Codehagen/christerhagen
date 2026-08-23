@@ -1,5 +1,10 @@
 import type { Metadata } from "next"
-import { companies, type CompanySlug, type Lang } from "@/lib/companies"
+import {
+  companies,
+  companyOrder,
+  type CompanySlug,
+  type Lang,
+} from "@/lib/companies"
 import { posts, type PostSlug } from "@/lib/posts"
 
 export const SITE_URL = "https://www.christerhagen.com"
@@ -205,6 +210,32 @@ export function personGraph(): object {
           { "@id": SITE_URL + "/#codebase" },
           { "@id": SITE_URL + "/#nav" },
         ],
+      },
+      // Type breadth, all of it describing things actually rendered on the home
+      // page: the page itself, and the list of ventures it shows.
+      {
+        "@type": "WebPage",
+        "@id": SITE_URL + "/#webpage",
+        url: SITE_URL,
+        name: "Christer Hagen",
+        isPartOf: { "@id": SITE_URL + "/#website" },
+        about: { "@id": SITE_URL + "/#christer" },
+        primaryImageOfPage: siteUrl("/images/christer-hagen-portrait.jpg"),
+        inLanguage: "en",
+      },
+      {
+        "@type": "ItemList",
+        "@id": SITE_URL + "/#ventures",
+        name: "Companies founded and backed by Christer Hagen",
+        url: siteUrl("/portfolio"),
+        numberOfItems: companyOrder.length,
+        itemListOrder: "https://schema.org/ItemListOrderDescending",
+        itemListElement: companyOrder.map((slug, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: companies.en[slug].name,
+          url: siteUrl("/portfolio/" + slug),
+        })),
       },
       {
         "@type": "Organization",
