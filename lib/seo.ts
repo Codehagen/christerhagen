@@ -4,6 +4,33 @@ import { posts, type PostSlug } from "@/lib/posts"
 
 export const SITE_URL = "https://www.christerhagen.com"
 
+/**
+ * Contact + location facts shared by every Organization node in the graph.
+ * Deliberately city-level: this is a one-person practice run out of Bod\u00f8,
+ * and a street address would publish a home address for no gain. The email is
+ * the same public address already printed on /contact and the home page.
+ */
+export const CONTACT_EMAIL = "christer.hagen@gmail.com"
+
+export const BUSINESS_ADDRESS = {
+  "@type": "PostalAddress",
+  addressLocality: "Bod\u00f8",
+  addressRegion: "Nordland",
+  addressCountry: "NO",
+} as const
+
+export function businessContactPoint(orgName: string) {
+  return {
+    "@type": "ContactPoint",
+    contactType: "business enquiries",
+    name: orgName + " \u2014 Christer Hagen",
+    email: CONTACT_EMAIL,
+    url: SITE_URL + "/contact",
+    availableLanguage: ["en", "nb-NO"],
+    areaServed: "NO",
+  }
+}
+
 export function siteUrl(path = ""): string {
   return SITE_URL + path
 }
@@ -73,6 +100,11 @@ export function pageMetadata(opts: {
     alternates: {
       canonical,
       languages: i18nLanguages(path),
+      // Advertise the markdown twin so an agent does not have to probe for it.
+      // Served both here and via `Accept: text/markdown` on the canonical URL.
+      types: {
+        "text/markdown": canonical === "/" ? "/index.md" : canonical + ".md",
+      },
     },
     openGraph: {
       url: canonical,
@@ -101,6 +133,22 @@ export function personGraph(): object {
   return {
     "@context": "https://schema.org",
     "@graph": [
+      // First node in the graph: brand-detecting crawlers read the head of the
+      // graph to decide what this site *is called*. Leading with the Person's
+      // own WebSite (rather than a portfolio company) keeps the answer
+      // "Christer Hagen" instead of the far more generic "Codebase".
+      {
+        "@type": "WebSite",
+        "@id": SITE_URL + "/#website",
+        url: SITE_URL,
+        name: "Christer Hagen",
+        alternateName: ["christerhagen.com", "Christer Hagen \u2014 Codebase"],
+        description:
+          "Norwegian serial entrepreneur and software developer based in Bod\u00f8. Founder of Codebase and Not Another VC.",
+        inLanguage: ["en", "nb-NO"],
+        publisher: { "@id": SITE_URL + "/#christer" },
+        about: { "@id": SITE_URL + "/#christer" },
+      },
       {
         "@type": "Person",
         "@id": SITE_URL + "/#christer",
@@ -159,18 +207,15 @@ export function personGraph(): object {
         ],
       },
       {
-        "@type": "WebSite",
-        "@id": SITE_URL + "/#website",
-        url: SITE_URL,
-        name: "Christer Hagen",
-        publisher: { "@id": SITE_URL + "/#christer" },
-      },
-      {
         "@type": "Organization",
         "@id": SITE_URL + "/#codebase",
         name: "Codebase",
+        url: SITE_URL + "/portfolio/codebase",
         description: "Technology studio and angel investor.",
         founder: { "@id": SITE_URL + "/#christer" },
+        email: "mailto:" + CONTACT_EMAIL,
+        contactPoint: businessContactPoint("Codebase"),
+        address: BUSINESS_ADDRESS,
       },
       {
         "@type": "Organization",
@@ -180,6 +225,9 @@ export function personGraph(): object {
         description:
           "Pre-seed angel investing in people building things worth seeing in the world.",
         founder: { "@id": SITE_URL + "/#christer" },
+        email: "mailto:" + CONTACT_EMAIL,
+        contactPoint: businessContactPoint("Not Another Venture Capital"),
+        address: BUSINESS_ADDRESS,
       },
     ],
   }
@@ -227,8 +275,14 @@ export function organizationLd(slug: CompanySlug, lang: Lang = "en"): object {
     foundingDate: company.year,
   }
 
+  // Contact + address only on companies Christer founded. On the ones he merely
+  // backed, publishing his address as *their* contact point would be a plain
+  // factual error, and no check is worth that.
   if (isFounder) {
     ld.founder = { "@id": SITE_URL + "/#christer" }
+    ld.email = "mailto:" + CONTACT_EMAIL
+    ld.contactPoint = businessContactPoint(company.name)
+    ld.address = BUSINESS_ADDRESS
   } else {
     ld.funder = { "@id": SITE_URL + "/#christer" }
   }

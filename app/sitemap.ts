@@ -25,6 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/process", changeFrequency: "monthly", priority: 0.6, lastModified: siteUpdated },
     { path: "/contact", changeFrequency: "yearly", priority: 0.5, lastModified: siteUpdated },
     { path: "/brand", changeFrequency: "yearly", priority: 0.4, lastModified: siteUpdated },
+    { path: "/privacy", changeFrequency: "yearly", priority: 0.3, lastModified: "2026-08-23" },
     ...companyOrder.map(
       (slug): RouteDef => ({
         path: "/portfolio/" + slug,

@@ -16,6 +16,7 @@ const HTML_PAGES = [
   { path: "/process", canonical: "/process", lang: "en" },
   { path: "/contact", canonical: "/contact", lang: "en" },
   { path: "/brand", canonical: "/brand", lang: "en" },
+  { path: "/privacy", canonical: "/privacy", lang: "en" },
   // Norwegian mirror
   { path: "/no", canonical: "/no", lang: "no" },
   { path: "/no/about", canonical: "/no/about", lang: "no" },
@@ -26,6 +27,7 @@ const HTML_PAGES = [
   { path: "/no/process", canonical: "/no/process", lang: "no" },
   { path: "/no/contact", canonical: "/no/contact", lang: "no" },
   { path: "/no/brand", canonical: "/no/brand", lang: "no" },
+  { path: "/no/privacy", canonical: "/no/privacy", lang: "no" },
 ]
 
 // Pages that must carry at least one JSON-LD block.

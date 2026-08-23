@@ -75,14 +75,14 @@ export function HomeContent({ lang }: { lang: Lang }) {
         {c.work.map((w) => {
           const content = (
             <>
-              <span className="flex flex-col gap-1">
-                <span className="text-[1.25rem] leading-[1.15] font-medium">
+              <div className="flex flex-col gap-1">
+                <h3 className="m-0 text-[1.25rem] leading-[1.15] font-medium">
                   {w.name}
-                </span>
+                </h3>
                 <span className="font-mono text-[0.75rem] leading-[1.4] font-normal text-(--ink-faint)">
                   {w.role}
                 </span>
-              </span>
+              </div>
               <span className="flex-shrink-0 font-mono text-[0.71875rem] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
                 {w.period}
               </span>
@@ -122,14 +122,14 @@ export function HomeContent({ lang }: { lang: Lang }) {
             rel="noopener noreferrer"
             className={`${rowLink} group gap-[22px] py-[15px]`}
           >
-            <span className="flex flex-col gap-1">
-              <span className="text-[1.125rem] leading-[1.2] font-medium">
+            <div className="flex flex-col gap-1">
+              <h3 className="m-0 text-[1.125rem] leading-[1.2] font-medium">
                 {i.name}
-              </span>
+              </h3>
               <span className="max-w-[48ch] text-[0.84375rem] leading-[1.45] font-normal text-(--ink-soft)">
                 {i.desc}
               </span>
-            </span>
+            </div>
             <span
               aria-hidden
               className="flex-shrink-0 font-mono text-[0.8125rem] leading-none font-normal text-(--arrow-faint) transition-[transform,color] duration-150 ease-out group-hover:-translate-y-px group-hover:translate-x-px group-hover:text-(--rust-strong)"
@@ -151,14 +151,14 @@ export function HomeContent({ lang }: { lang: Lang }) {
             rel="noopener noreferrer"
             className={`${rowLink} gap-[22px] py-[15px]`}
           >
-            <span className="flex flex-col gap-1">
-              <span className="text-[1.125rem] leading-[1.2] font-medium">
+            <div className="flex flex-col gap-1">
+              <h3 className="m-0 text-[1.125rem] leading-[1.2] font-medium">
                 {x.name}
-              </span>
+              </h3>
               <span className="max-w-[48ch] text-[0.84375rem] leading-[1.45] font-normal text-(--ink-soft)">
                 {x.desc}
               </span>
-            </span>
+            </div>
             <Badge variant="status" className="flex-shrink-0">
               {x.stage}
             </Badge>
@@ -177,14 +177,14 @@ export function HomeContent({ lang }: { lang: Lang }) {
             rel="noopener noreferrer"
             className={`${rowLink} py-[15px]`}
           >
-            <span className="flex flex-col gap-1">
-              <span className="text-[1.125rem] leading-[1.2] font-medium">
+            <div className="flex flex-col gap-1">
+              <h3 className="m-0 text-[1.125rem] leading-[1.2] font-medium">
                 {o.name}
-              </span>
+              </h3>
               <span className="font-mono text-[0.8125rem] leading-[1.4] font-normal text-(--ink-faint)">
                 {o.desc}
               </span>
-            </span>
+            </div>
             <span className="flex-shrink-0 font-mono text-[0.71875rem] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
               <span aria-hidden>★</span> {o.stars}
             </span>
@@ -201,9 +201,9 @@ export function HomeContent({ lang }: { lang: Lang }) {
             href={localizedPath(`/writing/${w.slug}`, lang)}
             className="flex items-baseline justify-between gap-6 border-b border-border py-[14px] text-(--ink-body-2) transition-colors hover:text-(--rust-strong)"
           >
-            <span className="text-[1.0625rem] leading-[1.35] font-normal">
+            <h3 className="m-0 text-[1.0625rem] leading-[1.35] font-normal">
               {w.title}
-            </span>
+            </h3>
             <span className="flex-shrink-0 font-mono text-[0.71875rem] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
               {w.date}
             </span>

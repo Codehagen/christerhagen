@@ -4,6 +4,7 @@ import { Link } from "next-view-transitions"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { buttonVariants } from "@/components/ui/button"
+import { RecoveryLinks } from "@/components/recovery-links"
 import { eyebrow } from "@/lib/typography"
 
 export const metadata: Metadata = {
@@ -35,6 +36,7 @@ export default function NotFound() {
         >
           Tilbake til forsiden
         </Link>
+        <RecoveryLinks lang="no" />
       </main>
       <SiteFooter lang="no" />
     </div>
