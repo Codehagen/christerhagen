@@ -1,6 +1,6 @@
 # 006 — Agent-readiness loop (is-agentic.com)
 
-**Status:** TODO
+**Status:** DONE (2026-08-23) — 74 → 99/100
 **Written:** 2026-08-23, on top of `ec9e789`
 **Priority:** P2 · **Effort:** M (W3 is most of it) · **Depends on:** —
 
@@ -293,3 +293,79 @@ Every work item ends with:
   W4 is the only item with a visual footprint — it's gated above.
 - If a fix would require changing what a page *says*, stop and ask. Content is
   not agent-optimizable collateral.
+
+---
+
+## 6. Outcome (2026-08-23)
+
+**74 → 99/100**, across six deploys, each verified against production.
+
+```
+essential    76.2/80   6 of 7 passing
+recommended  17.8/20   8 of 9 passing
+bonus         5.0/5    capped (23 positive signals, up from 9)
+```
+
+`scripts/agentic-check.mjs` grew to 165 local assertions and is green against
+both localhost and www.christerhagen.com.
+
+### How to run the loop
+
+The published API is read-only and the CLI only scans when *no* report exists,
+so neither re-measures a site that already has one. The rescan trigger is the
+endpoint the site's own Rescan button uses:
+
+```bash
+curl -sN "https://is-agentic.com/api/scan/stream?target=https%3A%2F%2Fwww.christerhagen.com&force=1" \
+  -H "Accept: text/event-stream" -H "Cache-Control: no-store"
+```
+
+Without `force=1` it returns Ora's cached result. The stream also carries the
+full underlying rubric — every check id, tier, score and `estScoreGain`, plus a
+`relevance_assessed` event listing which checks were excluded and why. That is
+far more actionable than the seven issues the public report exposes, and it is
+how the second and third passes were planned.
+
+### The last point
+
+Two deductions remain, and neither is code-addressable:
+
+- **`content-no-js` (2/3, "flat heading structure").** The home page serves
+  `h1` + 8 `h2` + 19 `h3` with `maxHeadingSkip=1`, and `ax-document-structure`
+  scores it 3/3 as "a well-structured document". The check still calls it flat.
+  is-agentic.com **fails this check on its own home page** with a shallower
+  outline (`h1` + 3 `h2` + 5 `h3`) and still scores 100 — so this partial looks
+  unattainable for a content site rather than something left undone.
+- **`brand-search-accuracy` (0/3).** The scanner searches for a brand string it
+  derived as "Codebase" — a portfolio company, generic enough that searching it
+  never returns this domain. Every in-page source of that string was removed
+  (the `alternateName`, the meta/OpenGraph descriptions that opened "Founder of
+  Codebase", the llms.txt lede) and an explicit schema.org `Brand` node naming
+  "Christer Hagen" was added. Across eight forced rescans the evidence string
+  never changed, down to "returned 8 results", while `content-no-js`'s character
+  count *did* update — so the derived brand is cached per domain on their side.
+  Scanning the apex as a separate target returns the same domain record.
+
+### The path to 100, and why it was not taken
+
+is-agentic.com scores 100 while failing *four* checks, including both of ours.
+It gets there by having far more eligible checks — 32 (10 essential, 22
+recommended) against our 16 — so each failure is diluted. Its extra eligibility
+comes from having a programmable surface: an MCP server, API docs, an OpenAPI
+spec.
+
+Shipping a real MCP server over this site's content would be a genuine feature,
+not a fake one, and would plausibly close the gap. It was not done because:
+
+1. It is a new public surface on a personal site, with ongoing maintenance, well
+   outside "improve the readiness score".
+2. **It could lower the score.** Ora's relevance layer currently excludes 18
+   checks on the explicit grounds of "no programmable surface" — `openapi-spec`,
+   `public-api`, `oauth-support`, `scoped-permissions`, `json-error-responses`,
+   `developer-portal` and more. Adding an MCP server removes that justification
+   and makes those checks eligible and failing.
+
+Deliberately not published, for the same reason: `/.well-known/agent-card.json`
+(A2A), `/.well-known/mcp/server-card.json`, `/.well-known/api-catalog` (RFC
+9727), `/auth.md`, `pricing.md`. The rubric rewards all of them. None of them
+would have been true.

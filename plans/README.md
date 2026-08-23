@@ -20,7 +20,7 @@ from the always-loaded root chunks (tree-shaking already works).
 | 002  | Enable AVIF/WebP image optimization | P1 | S | — | DONE (commit `2d3433b`, same branch) |
 | 004  | Shared-element title morph on list→detail navigations (view transitions) | P3 | S | — | TODO (written 2026-07-16 by improve-animations, commit `07cfdd0`) |
 | 005  | Extend the licensed first-load entrance to 404/error screens | P3 | S | — | DONE (2026-07-16, working tree on top of `07cfdd0`; also added press feedback + transition to the `global-error.tsx` button for pill parity) |
-| 006  | Agent-readiness loop (is-agentic.com) — measure → fix → re-measure | P2 | M | — | TODO (written 2026-08-23 on `ec9e789`; baseline score 74/100) |
+| 006  | Agent-readiness loop (is-agentic.com) — measure → fix → re-measure | P2 | M | — | DONE (2026-08-23, `ec9e789..a527547`; 74 → 99/100). Last point needs a product decision — see the plan's "path to 100". |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) | REJECTED (with one-line rationale)
 
