@@ -1,0 +1,10 @@
+{
+  "seed": 260824,
+  "mode": "plotter",
+  "glow": 0,
+  "lineWeight": 1.1,
+  "jitter": 1.8,
+  "texture": 0.18,
+  "gridDensity": 24,
+  "annotation": 0
+}
