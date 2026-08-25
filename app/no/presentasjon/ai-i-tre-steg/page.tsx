@@ -1,13 +1,6 @@
 import type { Metadata } from "next"
-import { Geist } from "next/font/google"
 
 import { AiITreStegDeck } from "./deck"
-
-const presentationFont = Geist({
-  subsets: ["latin"],
-  display: "swap",
-  weight: "variable",
-})
 
 export const metadata: Metadata = {
   title: "Fra å spørre til å delegere",
@@ -17,9 +10,5 @@ export const metadata: Metadata = {
 }
 
 export default function AiITreStegPresentation() {
-  return (
-    <div className={presentationFont.className}>
-      <AiITreStegDeck />
-    </div>
-  )
+  return <AiITreStegDeck />
 }

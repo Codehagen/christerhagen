@@ -1,0 +1,22 @@
+{
+  "seed": 260824,
+  "mode": "legeme",
+  "substrate": "papir",
+  "solid": "ikosaeder",
+  "density": 0.55,
+  "lineWeight": 1.15,
+  "wobble": 1.6,
+  "backlash": 1.2,
+  "bloom": 0.6,
+  "halo": 0.28,
+  "misregistration": 1.8,
+  "overdraw": 2,
+  "perspective": 0.55,
+  "rotation": 34,
+  "hatch": 0,
+  "hatchAngle": 45,
+  "fibre": 0,
+  "secondInk": 0.45,
+  "nodeScale": 1,
+  "rankGap": 1
+}

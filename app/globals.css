@@ -184,6 +184,35 @@
   .enter-delay {
     animation-delay: 0.08s;
     }
+  /* Connectorene på lysbilde 10: én side av gangen glir ned kabelen og blir
+     tatt opp av hjernen. Reisen er lineær — konstant fart er det eneste
+     tilfellet der lineær er riktig — mens pulsen som svarer er ease-out.
+     Bare én er i bevegelse om gangen; tre samtidig blir støy bak en som
+     snakker. offset-path følger den knekte ruta uten at vi regner på hjørner. */
+  /* Svaret som strømmer ut på steg 01. En strek som tegner seg selv leses som
+     tekst som fylles inn — og det er den ene bevegelsen alle i salen kjenner
+     igjen fra ChatGPT. Grunntilstanden er ferdig tegnet, så reduced motion bare
+     slår av animasjonen og lar bildet stå. */
+  @keyframes deck-stream {
+    from { stroke-dashoffset: 1; }
+    to   { stroke-dashoffset: 0; }
+    }
+  @keyframes deck-caret {
+    0%, 100% { opacity: 0; }
+    12%, 82% { opacity: 1; }
+    }
+  @keyframes deck-packet {
+    0%   { offset-distance: 0%; opacity: 0; }
+    5%   { opacity: 1; }
+    23%  { opacity: 1; }
+    27%  { offset-distance: 100%; opacity: 0; }
+    100% { offset-distance: 100%; opacity: 0; }
+    }
+  @keyframes deck-hub-pulse {
+    0%   { transform: scale(1); opacity: 0.5; }
+    40%  { transform: scale(1.72); opacity: 0; }
+    100% { transform: scale(1.72); opacity: 0; }
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {

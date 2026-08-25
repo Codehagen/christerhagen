@@ -1,279 +1,976 @@
 "use client"
 
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
-import savedStyle from "@/data/presentation-style.json"
+import { DeckBrief } from "@/components/deck-brief"
+import { DeckPage } from "@/components/deck-page"
+import { StepAgent, StepChat, StepUI } from "@/components/deck-steps"
+import { DeckConnectors } from "@/components/deck-connectors"
+import { DeckVisual } from "@/components/deck-visual"
+import savedVisual from "@/data/deck-visual.json"
 import {
-  renderPresentationStyle,
-  type PresentationStyleConfig,
-} from "@/lib/presentation-style"
+  ORG_PLACE,
+  visualPalettes,
+  type DeckVisualConfig,
+  type NodeFrame,
+} from "@/lib/deck-visual"
+import { orgChartLayout } from "@/lib/org-chart"
 
-const baseConfig = savedStyle as PresentationStyleConfig
+const visual = savedVisual as DeckVisualConfig
+const paper = visualPalettes[visual.substrate]
+
+/**
+ * Blekket i typografien er det samme blekket som i tegningen — hentet fra
+ * paletten generatoren tegner med, slik at de to aldri kan drifte fra hverandre.
+ */
+const ink = paper.primary
+const rust = paper.secondary
+const meta = "#6d6657" // site --ink-meta: klarer AA på papiret
+const rule = "rgb(38 35 28 / 0.16)" // blekk med alpha: trekker seg tilbake i papiret
 
 const display =
-  "text-[clamp(4rem,8.3vw,10rem)] leading-[0.88] font-semibold tracking-[-0.07em] text-balance"
+  "font-serif text-[clamp(3.2rem,7.2vw,8.4rem)] leading-[0.92] font-semibold tracking-[-0.03em] text-balance"
 const title =
-  "text-[clamp(2.8rem,5.4vw,6.5rem)] leading-[0.94] font-semibold tracking-[-0.06em] text-balance"
+  "font-serif text-[clamp(2.4rem,4.9vw,5.7rem)] leading-[0.98] font-semibold tracking-[-0.025em] text-balance"
 const lead =
-  "max-w-[38ch] text-[clamp(1.3rem,1.85vw,2.2rem)] leading-[1.28] font-normal tracking-[-0.025em] text-pretty"
-const eyebrow =
-  "text-[clamp(0.75rem,0.82vw,1rem)] leading-none font-semibold tracking-[0.14em] text-[#ff542d] uppercase"
+  "font-serif max-w-[34ch] text-[clamp(1.2rem,1.7vw,2rem)] leading-[1.34] text-pretty"
+const label =
+  "font-mono text-[clamp(0.68rem,0.78vw,0.92rem)] leading-none uppercase tracking-[0.17em]"
 
-function PlotterField({
-  seed,
-  side = "right",
-  showTraces = true,
-}: {
-  seed: number
-  side?: "right" | "full"
-  showTraces?: boolean
-}) {
-  const scene = useMemo(
-    () => renderPresentationStyle({ ...baseConfig, seed }),
-    [seed],
-  )
-  const transform = side === "right" ? "translate(310 -6) scale(.84)" : "translate(0 18) scale(1 .9)"
-
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 960 540"
-      preserveAspectRatio="xMidYMid slice"
-      className="absolute inset-0 size-full"
-    >
-      <defs>
-        <pattern
-          id={`grid-${seed}`}
-          width={baseConfig.gridDensity}
-          height={baseConfig.gridDensity}
-          patternUnits="userSpaceOnUse"
-          x={scene.gridOffset.x}
-          y={scene.gridOffset.y}
-        >
-          <path
-            d={`M ${baseConfig.gridDensity} 0 L 0 0 0 ${baseConfig.gridDensity}`}
-            fill="none"
-            stroke={scene.palette.grid}
-            strokeWidth="0.55"
-            opacity="0.24"
-          />
-        </pattern>
-        <clipPath id={`clip-${seed}`}>
-          <rect x={side === "right" ? 430 : 0} width={side === "right" ? 530 : 960} height="540" />
-        </clipPath>
-      </defs>
-
-      <rect width="960" height="540" fill={scene.palette.background} />
-      <rect width="960" height="540" fill={`url(#grid-${seed})`} />
-
-      <g
-        clipPath={`url(#clip-${seed})`}
-        transform={transform}
-        opacity={showTraces ? 1 : 0}
-      >
-        {scene.traces.map((trace, index) => (
-          <g key={trace.id}>
-            <path
-              d={trace.d}
-              fill="none"
-              stroke={scene.palette.foreground}
-              strokeWidth={baseConfig.lineWeight}
-              strokeLinejoin="miter"
-              opacity={0.42 + index * 0.15}
-            />
-            <path
-              d={trace.d}
-              fill="none"
-              stroke={scene.palette.accent}
-              strokeWidth="0.55"
-              strokeDasharray="2 9"
-              opacity="0.82"
-              transform={`translate(0 ${3 + index * 2})`}
-            />
-          </g>
-        ))}
-      </g>
-
-      {scene.grain.map((dot, index) => (
-        <circle
-          key={index}
-          cx={dot.x}
-          cy={dot.y}
-          r={dot.r}
-          fill={scene.palette.foreground}
-          opacity={dot.opacity * 0.55}
-        />
-      ))}
-
-      <g stroke={scene.palette.foreground} strokeWidth="0.8" opacity="0.65">
-        <path d="M62 62h18M71 53v18" />
-        <path d="M880 62h18M889 53v18" />
-        <path d="M880 462h18M889 453v18" />
-      </g>
-      <rect x="934" width="26" height="540" fill={scene.palette.accent} />
-    </svg>
-  )
+type Figure = {
+  /** Prosent av figurens egen boks — bare transform, aldri layout. */
+  x: number
+  y: number
+  scale: number
+  opacity: number
+  rotation: number
 }
 
-function SlideContent({ children }: { children: React.ReactNode }) {
+/**
+ * Tallet glir mot målet i stedet for å hoppe dit. Rotasjonen er geometri, ikke
+ * CSS, så den må animeres i JS — resten av forflytningen er en transform.
+ */
+function useEasedNumber(target: number, duration: number) {
+  const [value, setValue] = useState(target)
+  const from = useRef(target)
+
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const span = reduced ? 0 : duration
+    const start = performance.now()
+    const origin = from.current
+    let frame = 0
+
+    const tick = (now: number) => {
+      const t = span === 0 ? 1 : Math.min(1, (now - start) / span)
+      const eased = 1 - Math.pow(1 - t, 3)
+      const next = origin + (target - origin) * eased
+      from.current = next
+      setValue(Math.round(next * 2) / 2)
+      if (t < 1) frame = requestAnimationFrame(tick)
+    }
+
+    frame = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(frame)
+  }, [target, duration])
+
+  return value
+}
+
+/**
+ * Meldinga skrives ut tegn for tegn. Pausene ligger på skilletegnene, ikke i en
+ * tilfeldighetsgenerator — samme forestilling hver gang, og dette er en scene.
+ */
+function useTypewriter(text: string, speed: number, delay: number) {
+  const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    let timer = 0
+
+    if (reduced) {
+      timer = window.setTimeout(() => setCount(text.length), 0)
+      return () => window.clearTimeout(timer)
+    }
+
+    // Rytmen ligger i tegnet som nettopp ble skrevet: hvil etter punktum, kort
+    // pust etter komma, et lite opphold mellom ordene. Det er der en skrivende
+    // hånd faktisk nøler — jevn takt høres ut som en skriver, ikke et menneske.
+    const step = (index: number) => {
+      setCount(index)
+      if (index >= text.length) return
+      const previous = text[index - 1]
+      const pause =
+        previous === "."
+          ? speed * 10
+          : previous === ","
+            ? speed * 5
+            : previous === " "
+              ? speed * 2.2
+              : speed
+      timer = window.setTimeout(() => step(index + 1), pause)
+    }
+
+    timer = window.setTimeout(() => step(0), delay)
+    return () => window.clearTimeout(timer)
+  }, [text, speed, delay])
+
+  return { count, done: count >= text.length }
+}
+
+/** Ett legeme for hele foredraget. Det snur seg og flytter seg — det byttes aldri ut. */
+function TravellingSolid({ figure }: { figure: Figure }) {
+  const rotation = useEasedNumber(figure.rotation, 900)
+
   return (
-    <div className="relative h-full w-full overflow-hidden text-[#171717]">
-      <div className="h-full px-[5vw] py-[5vh]">{children}</div>
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute top-0 right-0 z-0 aspect-square h-full transition-[transform,opacity] duration-[900ms] ease-out motion-reduce:transition-none"
+      style={{
+        transform: `translate(${figure.x}%, ${figure.y}%) scale(${figure.scale})`,
+        opacity: figure.opacity,
+      }}
+    >
+      <DeckVisual
+        config={{ ...visual, rotation }}
+        showGround={false}
+        preserveAspectRatio="xMidYMid meet"
+        idPrefix="deck-solid"
+        className="size-full"
+      />
     </div>
   )
 }
 
+function Column({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex h-full w-[min(62%,58rem)] flex-col justify-center">
+      {children}
+    </div>
+  )
+}
+
+
+/**
+ * Slarken i diagrammene. 0 = linjal, 1.6 = samme skjelv som legemet. Blekket
+ * (pøl i portene, overskyting i hjørnene, feilregister) står uansett.
+ */
+const ORG_WOBBLE = 0
+
+/**
+ * Viktor-boksen der den faktisk står i org-kartet, regnet ut fra den samme
+ * layouten kartet tegnes fra. Boksen på org-lysbildet og boksen på nærbildet
+ * er samme boks — den byttes ikke ut, den formes om.
+ */
+const hubBox = orgChartLayout(visual).boxes.find((box) => box.id === "viktor")!
+
+const chartFrame: NodeFrame = {
+  x: ORG_PLACE.x + hubBox.x * ORG_PLACE.scale,
+  y: ORG_PLACE.y + hubBox.y * ORG_PLACE.scale,
+  w: hubBox.w * ORG_PLACE.scale,
+  h: hubBox.h * ORG_PLACE.scale,
+  stub: 0,
+  delegate: 0,
+  label: 0,
+  alpha: 1,
+}
+
+const closeFrame: NodeFrame = {
+  x: 58,
+  y: 168,
+  w: 352,
+  h: 200,
+  stub: 42,
+  delegate: 0,
+  label: 1,
+  alpha: 1,
+}
+
+const ceoCloseFrame: NodeFrame = { ...closeFrame, delegate: 1 }
+const hidden: NodeFrame = { ...chartFrame, alpha: 0 }
+const hiddenClose: NodeFrame = { ...closeFrame, alpha: 0, label: 0 }
+
+function lerpFrame(from: NodeFrame, to: NodeFrame, t: number): NodeFrame {
+  const mix = (a: number, b: number) => a + (b - a) * t
+  return {
+    x: mix(from.x, to.x),
+    y: mix(from.y, to.y),
+    w: mix(from.w, to.w),
+    h: mix(from.h, to.h),
+    stub: mix(from.stub, to.stub),
+    delegate: mix(from.delegate, to.delegate),
+    label: mix(from.label, to.label),
+    alpha: mix(from.alpha, to.alpha),
+  }
+}
+
+/** Boksen som overlever lysbildeskiftet. */
+function MorphingNode({
+  frame,
+  nodeLabel,
+}: {
+  frame: NodeFrame
+  nodeLabel?: { role: string; name: string }
+}) {
+  const current = useRef(frame)
+  const [shown, setShown] = useState(frame)
+
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const span = reduced ? 0 : 780
+    const start = performance.now()
+    const origin = current.current
+    let raf = 0
+
+    const tick = (now: number) => {
+      const t = span === 0 ? 1 : Math.min(1, (now - start) / span)
+      const eased = 1 - Math.pow(1 - t, 3)
+      const next = lerpFrame(origin, frame, eased)
+      current.current = next
+      setShown(next)
+      if (t < 1) raf = requestAnimationFrame(tick)
+    }
+
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [frame])
+
+  if (shown.alpha < 0.01) return null
+
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[2]">
+      <DeckVisual
+        config={{ ...visual, mode: "node", wobble: ORG_WOBBLE }}
+        nodeFrame={shown}
+        nodeLabel={nodeLabel}
+        showGround={false}
+        preserveAspectRatio="xMidYMid meet"
+        idPrefix="morph"
+        className="size-full"
+      />
+    </div>
+  )
+}
+
+type Slide = {
+  id: string
+  label: string
+  Content: () => React.ReactNode
+  figure: Figure
+  enter?: string
+  node?: NodeFrame
+  nodeLabel?: { role: string; name: string }
+}
+
+/* ----------------------------------------------------------- byggeklosser */
+
+function Beats({
+  items,
+  wide = false,
+}: {
+  items: Array<[string, string]>
+  wide?: boolean
+}) {
+  return (
+    <ol className="m-0 mt-[3.4vh] grid list-none gap-0 p-0">
+      {items.map(([key, text]) => (
+        <li
+          key={key}
+          className={`grid ${
+            wide ? "grid-cols-[10rem_1fr]" : "grid-cols-[6.5rem_1fr]"
+          } items-baseline gap-x-[2vw] gap-y-1 border-t py-[clamp(0.8rem,1.5vh,1.5rem)] last:border-b`}
+          style={{ borderColor: rule }}
+        >
+          <span className={`${label} tabular-nums`} style={{ color: rust }}>
+            {key}
+          </span>
+          <span className="font-serif text-[clamp(1rem,1.35vw,1.6rem)] leading-[1.3] text-pretty">
+            {text}
+          </span>
+        </li>
+      ))}
+    </ol>
+  )
+}
+
+function Statement({
+  eyebrow,
+  heading,
+  body,
+  items,
+  close,
+  wide,
+}: {
+  eyebrow?: string
+  heading: string
+  body?: string
+  items?: Array<[string, string]>
+  close?: string
+  wide?: boolean
+}) {
+  return (
+    <Column>
+      {eyebrow ? (
+        <p className={label} style={{ color: rust }}>
+          {eyebrow}
+        </p>
+      ) : null}
+      <h2 className={`${title} ${eyebrow ? "mt-[2.6vh]" : ""} max-w-[22ch]`}>{heading}</h2>
+      {body ? (
+        <p className={`${lead} mt-[3.4vh] max-w-[46ch]`} style={{ color: meta }}>
+          {body}
+        </p>
+      ) : null}
+      {items ? <Beats items={items} wide={wide} /> : null}
+      {close ? (
+        <p
+          className="mt-[3vh] max-w-[58ch] font-serif text-[clamp(1rem,1.3vw,1.55rem)] leading-[1.35] text-pretty"
+          style={{ color: rust }}
+        >
+          {close}
+        </p>
+      ) : null}
+    </Column>
+  )
+}
+
+/** Tekst til venstre, bilde til høyre — samme rutenett på alle delte lysbilder. */
+function Split({ children, figure }: { children: React.ReactNode; figure: React.ReactNode }) {
+  return (
+    <div className="grid h-full grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] items-center gap-[4.5vw]">
+      <div className="flex flex-col justify-center">{children}</div>
+      {figure}
+    </div>
+  )
+}
+
+/** Et diagram som fyller lysbildet, med overskriften over. */
+function Diagram({
+  heading,
+  aside,
+  mode,
+}: {
+  heading: string
+  aside: string
+  mode: "organisasjon" | "flyt"
+}) {
+  return (
+    <div className="h-full">
+      <div className="flex items-end justify-between gap-[4vw]">
+        <h2 className="max-w-[28ch] font-serif text-[clamp(1.5rem,2.5vw,2.9rem)] leading-[1.02] font-semibold tracking-[-0.025em] text-pretty">
+          {heading}
+        </h2>
+        <p className={`${label} shrink-0 pb-[0.6vh] text-end`} style={{ color: rust }}>
+          {aside}
+        </p>
+      </div>
+      <DeckVisual
+        config={{ ...visual, mode, wobble: ORG_WOBBLE }}
+        omitCeoBox={mode === "organisasjon"}
+        showGround={false}
+        preserveAspectRatio="xMidYMid meet"
+        idPrefix={`deck-${mode}`}
+        className="absolute inset-0 size-full"
+      />
+    </div>
+  )
+}
+
+/* --------------------------------------------------------------- lysbildene */
+
 function Cover() {
   return (
-    <SlideContent>
-      <div className="flex h-full flex-col">
-        <header className="flex items-center justify-between gap-8 text-[clamp(0.75rem,0.82vw,1rem)] leading-none font-semibold tracking-[0.12em] uppercase">
-          <p>Christer Hagen</p>
-          <p className="text-end tabular-nums">Kraft i Nord · 2026</p>
-        </header>
-        <div className="mt-[15vh]">
-          <p className={eyebrow}>Kunstig intelligens · tre nivåer</p>
-          <h1 className={`${display} mt-[3.5vh] max-w-[12ch]`}>
-            <span className="block">Fra å spørre</span>
-            <span className="block">til å delegere.</span>
-          </h1>
-        </div>
-        <div className="mt-auto flex items-end justify-between gap-10 border-t border-[#ff542d]/55 pt-[2.5vh]">
-          <p className={`${lead} max-w-[34ch]`}>
-            Tre nivåer i AI — og hva vi har lært av å bygge Advanti Estate.
-          </p>
-          <p className="shrink-0 text-[clamp(0.75rem,0.82vw,1rem)] leading-none font-semibold tracking-[0.12em] text-[#ff542d] uppercase">
-            Intro · 01
-          </p>
-        </div>
-      </div>
-    </SlideContent>
+    <div className="flex h-full w-[min(58%,54rem)] flex-col justify-center">
+      <p className={label} style={{ color: rust }}>
+        Næringsmegling · Bodø
+      </p>
+      <h1 className={`${display} mt-[3.5vh] max-w-[14ch]`}>
+        Hvordan jeg bygde Advanti Estate.
+      </h1>
+      <p className={`${lead} mt-[4.5vh] max-w-[46ch]`} style={{ color: meta }}>
+        Et helt vanlig meglerkontor, bygget om til et AI-native selskap — de
+        første i Norge, kanskje i verden. Hva som skulle til, og hvor jeg tror
+        dette går videre.
+      </p>
+    </div>
   )
 }
 
-const levels = [
-  { number: "01", name: "Chat", text: "Du spør. AI svarer." },
-  { number: "02", name: "Agentic AI", text: "Du delegerer. AI utfører." },
-  { number: "03", name: "Generativ UI", text: "Dataene bygger visningen." },
+function OmMeg() {
+  return (
+    <Statement
+      eyebrow="Kort om meg"
+      heading="Tolv selskaper. To fungerte."
+      body="Jeg begynte å kode da jeg var tretten, og startet det første selskapet som attenåring. Det er sytten år siden. Treningsklær, markedsføring, programvare — rundt ni av ti av dem har feilet. I dag skriver jeg kode, og jeg driver et meglerkontor. De to tingene passer ikke sammen, og det er hele poenget."
+      items={[
+        ["2024", "Ble partner i Advanti Estate i Bodø."],
+        ["2026", "Solgte Docdir til Visma. AI for salgsoppgaver i eiendom."],
+      ]}
+      close="Du trenger ikke ha rett så ofte. Du må bare holde på lenge nok til å få veldig rett noen få ganger."
+    />
+  )
+}
+
+function Bransjen() {
+  return (
+    <Statement
+      eyebrow="Utgangspunktet"
+      heading="Jobben er egentlig å huske."
+      body="Hvem eier hva. Hva som ble avtalt. Hvem du lovte å ringe. Hvem som skal leie, hvem som skal kjøpe, hvem som har penger og hvem som ikke har det. Før skrev jeg det ned i en Excel-liste."
+      close="Alle skriver ned. Og så skjer det ingenting mer."
+    />
+  )
+}
+
+function Grensa() {
+  return (
+    <Statement
+      eyebrow="Grensa"
+      heading="Vi glemmer. Det gjør ikke den."
+      body="Et menneske holder noen få ting i hodet om gangen, og resten faller ut. Statusmøter, ukesrapporter, arkivskap, mellomledere — alt sammen finnes fordi ett hode ikke rekker over hele bedriften."
+      items={[
+        ["Deg", "Det du husker fra i går. Kanskje."],
+        ["En agent", "Tusen sider åpne samtidig, og finner nåla i alle sammen."],
+      ]}
+      wide
+      close="Vi har bygget hele arbeidslivet rundt den grensa. Og grensa flyttet seg akkurat."
+    />
+  )
+}
+
+function HvaJegTror() {
+  return (
+    <Statement
+      eyebrow="Hva jeg tror"
+      heading="Tre ting jeg tror om det som kommer."
+      body="Jeg vet ikke hvordan dette ender. Ingen gjør det. Men tre ting tror jeg ganske sikkert."
+      items={[
+        ["01", "Selskaper blir ikke erstattet. De blir mindre."],
+        ["02", "Det er midten som automatiseres. Ikke gulvet."],
+        ["03", "Alle leier den samme modellen. Hjernen er det eneste dere eier."],
+      ]}
+      close="Og du er ikke for sent ute. Dette tar tjue år — det er ikke dårlige nyheter, det er vinduet."
+    />
+  )
+}
+
+function FirstPrinciples() {
+  return (
+    <Statement
+      eyebrow="First principles"
+      heading="Hva er jobben egentlig til for?"
+      body="Næringsmegling har vært gjort likt i generasjoner. Så vi spurte ikke hvordan vi kunne gjøre det samme litt raskere — vi spurte hva målet er. Svaret var enkelt: finne kjøper og selger fort, og få informasjonen ut av selgeren enda fortere."
+      items={[
+        ["Teaseren", "En kort tekst som skal måle om noen er interessert."],
+        ["Salgsoppgaven", "Alt om bygget, skrevet ut. Det tar uker."],
+        ["Datarommet", "Informasjonen. Kommer helt til slutt."],
+      ]}
+      wide
+      close="Det vi trenger først, kommer sist. Ingen har bestemt at det skal være sånn — det har bare alltid vært sånn."
+    />
+  )
+}
+
+function Snudd() {
+  return (
+    <Statement
+      eyebrow="Resultatet"
+      heading="Nå får kjøperen svar samme dag."
+      body="Datarommet er ferdig fra dag én. Vi samler alt om bygget den dagen vi tar oppdraget, ikke den dagen noen spør — og det er en agent som gjør innsamlingen. Salgsoppgaven skriver ingen lenger; den hentes rett ut av det som allerede ligger der."
+      close="Det tok tre uker før. Og hver bransje har en slik arvet rekkefølge — også deres."
+    />
+  )
+}
+
+function TreSteg() {
+  return (
+    <Statement
+      eyebrow="Slik ser jeg AI"
+      heading="Tre steg."
+      body="De fleste av oss står på det første i dag. Vi jobber på det andre. Det tredje har ingen kommet til ennå."
+      items={[
+        ["01", "Du snakker med den."],
+        ["02", "Den gjør jobben for deg."],
+        ["03", "Skjermen lages rundt deg."],
+      ]}
+      close="Hvert steg opp krever mer av dataene dine enn det forrige. Det er derfor det tredje er så vanskelig — og så verdifullt."
+    />
+  )
+}
+
+function Steg1() {
+  return (
+    <Split figure={<StepChat className="h-[min(60vh,31rem)] w-full" />}>
+      <p className={label} style={{ color: rust }}>Steg 01</p>
+      <h2 className="mt-[2.4vh] max-w-[16ch] font-serif text-[clamp(1.6rem,2.7vw,3.2rem)] leading-[1.04] font-semibold tracking-[-0.025em] text-pretty">Du snakker med den.</h2>
+      <p className={`${lead} mt-[3.2vh] max-w-[32ch]`} style={{ color: meta }}>
+        Du skriver til ChatGPT og får et svar tilbake. Nesten alle er her nå, og
+        det er en enorm forbedring fra ingenting.
+      </p>
+      <p className="mt-[3vh] max-w-[36ch] font-serif text-[clamp(1rem,1.3vw,1.55rem)] leading-[1.35] text-pretty" style={{ color: rust }}>
+        Men den vet ingenting om bedriften din, og husker ingenting til neste
+        gang. Du gjør fortsatt hele jobben selv.
+      </p>
+    </Split>
+  )
+}
+
+function Steg2() {
+  return (
+    <Split figure={<StepAgent className="h-[min(60vh,31rem)] w-full" />}>
+      <p className={label} style={{ color: rust }}>Steg 02</p>
+      <h2 className="mt-[2.4vh] max-w-[16ch] font-serif text-[clamp(1.6rem,2.7vw,3.2rem)] leading-[1.04] font-semibold tracking-[-0.025em] text-pretty">Den gjør jobben for deg.</h2>
+      <p className={`${lead} mt-[3.2vh] max-w-[32ch]`} style={{ color: meta }}>
+        I dag skriver du e-posten i ChatGPT og limer den inn selv. Steg to er at
+        den skriver den, finner vedlegget og sender den. Du slutter å spørre og
+        begynner å delegere.
+      </p>
+      <p className="mt-[3vh] max-w-[36ch] font-serif text-[clamp(1rem,1.3vw,1.55rem)] leading-[1.35] text-pretty" style={{ color: rust }}>
+        En agent er ikke et program. Det er en side med tekst som sier hva
+        jobben er — og som har lov til å bruke verktøyene dine.
+      </p>
+    </Split>
+  )
+}
+
+function Steg3() {
+  return (
+    <Split figure={<StepUI className="h-[min(60vh,31rem)] w-full" />}>
+      <p className={label} style={{ color: rust }}>Steg 03</p>
+      <h2 className="mt-[2.4vh] max-w-[16ch] font-serif text-[clamp(1.6rem,2.7vw,3.2rem)] leading-[1.04] font-semibold tracking-[-0.025em] text-pretty">Skjermen lages rundt deg.</h2>
+      <p className={`${lead} mt-[3.2vh] max-w-[32ch]`} style={{ color: meta }}>
+        To ansatte åpner det samme systemet: den ene ser regnskapstall, den
+        andre noe helt annet. Begge skjermbildene bygges der og da.
+      </p>
+      <p className="mt-[3vh] max-w-[36ch] font-serif text-[clamp(1rem,1.3vw,1.55rem)] leading-[1.35] text-pretty" style={{ color: rust }}>
+        Da er det bare dataene dine som skiller dere fra alle andre. Gullet
+        ligger inne i firmaet.
+      </p>
+    </Split>
+  )
+}
+
+function Loop() {
+  return (
+    <Diagram
+      mode="flyt"
+      heading="Slik jobber vi med AI på kontoret."
+      aside="Fire steg · og tilbake til start"
+    />
+  )
+}
+
+/** Slik en braindump faktisk ser ut: små bokstaver, ingen felter, ingen mal. */
+const braindump =
+  "ringte ole hos nordvik bygg nå. de vokser ut av lokalet og trenger 600 kvm i bodø før sommeren. skal ta det opp i styret neste uke. lovte å ringe tilbake fredag. han nevnte at broren driver noe lignende i mo."
+
+const braindumpResultat: Array<[string, string]> = [
+  ["Personen", "Ole er lagt inn, med det han sa."],
+  ["Selskapet", "Nordvik Bygg hentet fra Brønnøysund. Org.nr, styre, roller."],
+  ["Fredag", "Påminnelse. Du lovte å ringe."],
+  ["Broren", "Eget spor i Mo. Det hadde jeg aldri skrevet ned selv."],
 ]
 
-function Levels() {
+function Braindump() {
+  const { count, done } = useTypewriter(braindump, 18, 420)
+
   return (
-    <SlideContent>
-      <div className="grid h-full grid-cols-[minmax(0,0.9fr)_minmax(32rem,1.1fr)] gap-[6vw]">
-        <div className="flex flex-col justify-center">
-          <p className={eyebrow}>Modell 01—03</p>
-          <h2 className={`${title} mt-[3vh] max-w-[9ch]`}>Tre nivåer. Samme retning.</h2>
-          <p className={`${lead} mt-[4vh] max-w-[25ch]`}>
-            Verdien øker når AI går fra språk til handling — og til slutt bygger selve arbeidsflaten.
-          </p>
-        </div>
-        <ol className="m-0 flex list-none flex-col justify-center p-0">
-          {levels.map((level) => (
-            <li
-              key={level.number}
-              className="grid grid-cols-[4.5rem_1fr] items-baseline gap-6 border-t border-[#171717]/25 py-[clamp(1.2rem,2.3vh,2.2rem)] last:border-b"
-            >
-              <span className="text-[clamp(1.1rem,1.4vw,1.7rem)] leading-none font-semibold text-[#ff542d] tabular-nums">
-                {level.number}
-              </span>
-              <div>
-                <h3 className="text-[clamp(1.75rem,2.8vw,3.4rem)] leading-none font-semibold tracking-[-0.05em]">
-                  {level.name}
-                </h3>
-                <p className="mt-3 text-[clamp(1.1rem,1.45vw,1.75rem)] leading-[1.3] text-[#4f4d48]">
-                  {level.text}
-                </p>
-              </div>
-            </li>
-          ))}
-        </ol>
+    <div className="grid h-full grid-cols-[minmax(0,0.84fr)_minmax(0,1.16fr)] items-center gap-[5vw]">
+      <div className="flex flex-col justify-center">
+        <p className={label} style={{ color: rust }}>
+          Steg 1 · du skriver
+        </p>
+        <h2 className="mt-[2.4vh] max-w-[16ch] font-serif text-[clamp(1.6rem,2.7vw,3.2rem)] leading-[1.04] font-semibold tracking-[-0.025em] text-pretty">
+          Fem setninger etter en telefon.
+        </h2>
+        <p className={`${lead} mt-[3.2vh] max-w-[32ch]`} style={{ color: meta }}>
+          Ingen mal, ingen felter. Du skriver som du ville skrevet til en kollega.
+        </p>
+        <p
+          className="mt-[3vh] max-w-[36ch] font-serif text-[clamp(1rem,1.3vw,1.55rem)] leading-[1.35] text-pretty"
+          style={{ color: rust }}
+        >
+          Vi skriver alle til den samme, og vi leser alle fra den.
+        </p>
       </div>
-    </SlideContent>
-  )
-}
 
-function Agentic() {
-  const steps = [
-    ["01", "Oppgave", "Lag oppdragsavtalen"],
-    ["02", "Agent", "Henter data og bygger dokumentet"],
-    ["03", "Resultat", "Ferdig i riktig mappe"],
-  ]
+      <div className="flex w-full max-w-[40rem] flex-col justify-center">
+        <p className={`${label} flex items-baseline justify-between gap-6`} style={{ color: meta }}>
+          <span>Det jeg skrev</span>
+          <span className="tabular-nums">21:14</span>
+        </p>
 
-  return (
-    <SlideContent>
-      <div className="flex h-full flex-col">
-        <div className="mt-[7vh]">
-          <p className={eyebrow}>Nivå 2 · agentic AI</p>
-          <h2 className={`${title} mt-[3vh] max-w-[13ch]`}>AI svarer ikke. Den utfører.</h2>
-          <p className={`${lead} mt-[4vh] max-w-[32ch]`}>
-            Du går fra å formulere spørsmål til å delegere arbeid som faktisk blir gjort.
+        {/* Hele meldinga står i teksten fra første bilde — det som skjer er at
+            bokstavene slås på, ikke at de settes inn. Da er linjedelingen regnet
+            ut én gang, og ingen ord hopper ned en linje mens det skrives.
+            Markøren er tegnet som står for tur, ikke en boks ved siden av:
+            null bredde i flyten, og ingenting kan brekke rundt den. */}
+        <p
+          aria-hidden="true"
+          className="mt-[2.2vh] font-mono text-[clamp(0.8rem,1.02vw,1.22rem)] leading-[1.62] text-pretty"
+          style={{ color: ink }}
+        >
+          <span>{braindump.slice(0, count)}</span>
+          <span style={{ backgroundColor: rust, color: "transparent" }}>
+            {braindump.slice(count, count + 1)}
+          </span>
+          <span className="opacity-0">{braindump.slice(count + 1)}</span>
+        </p>
+        <span className="sr-only">{braindump}</span>
+
+        <div className="mt-[3.2vh] border-t pt-[2vh]" style={{ borderColor: rule }}>
+          <p
+            className={`${label} transition-opacity duration-300 ease-out motion-reduce:transition-none`}
+            style={{ color: rust, opacity: done ? 1 : 0 }}
+          >
+            Det som skjedde
           </p>
-        </div>
-        <ol className="relative z-10 mt-auto grid list-none grid-cols-3 gap-[4vw] border-t border-[#171717]/40 p-0 pt-[3vh]">
-          {steps.map(([number, name, text]) => (
-            <li key={number} className="min-w-0">
-              <p className="text-[clamp(0.8rem,0.9vw,1.1rem)] leading-none font-semibold tracking-[0.1em] text-[#ff542d] tabular-nums uppercase">
-                {number} · {name}
-              </p>
-              <p className="mt-4 max-w-[23ch] text-[clamp(1.15rem,1.55vw,1.85rem)] leading-[1.25] text-pretty">
-                {text}
-              </p>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </SlideContent>
-  )
-}
-
-function Advanti() {
-  const work = [
-    "Analyser fra eiendomsdata",
-    "Oppdragsavtaler fra CRM",
-    "Datarom som følger kjøperne",
-    "Presentasjoner per case",
-  ]
-
-  return (
-    <SlideContent>
-      <div className="grid h-full grid-cols-[minmax(0,1fr)_minmax(28rem,0.9fr)] gap-[7vw]">
-        <div className="flex flex-col justify-center">
-          <p className={eyebrow}>Advanti Estate · i praksis</p>
-          <h2 className={`${title} mt-[3vh] max-w-[11ch]`}>Vi er allerede på steg 2.</h2>
-          <p className={`${lead} mt-[4vh] max-w-[31ch]`}>
-            CRM-et er ikke bare et arkiv. Dataene setter agentene i stand til å levere arbeidet.
-          </p>
-        </div>
-        <div className="flex flex-col justify-center">
-          <p className="mb-[3vh] text-[clamp(0.8rem,0.9vw,1.1rem)] leading-none font-semibold tracking-[0.12em] uppercase">
-            Én dataryggrad → fire leveranser
-          </p>
-          <ul className="m-0 grid list-none gap-0 border-s border-[#ff542d] p-0 ps-[3vw]">
-            {work.map((item, index) => (
+          <ol className="m-0 mt-[1.4vh] grid list-none gap-0 p-0">
+            {braindumpResultat.map(([key, text], position) => (
               <li
-                key={item}
-                className="relative border-t border-[#171717]/25 py-[clamp(1.25rem,2.2vh,2.1rem)] first:border-t-0"
+                key={key}
+                className="grid grid-cols-[8.5rem_1fr] items-baseline gap-x-[1.6vw] border-t py-[clamp(0.5rem,1vh,1rem)] transition-[opacity,transform] duration-300 ease-out last:border-b motion-reduce:transition-none"
+                style={{
+                  borderColor: rule,
+                  opacity: done ? 1 : 0,
+                  transform: done ? "none" : "translateY(6px)",
+                  transitionDelay: done ? `${140 + position * 320}ms` : "0ms",
+                }}
               >
-                <span aria-hidden className="absolute top-1/2 -start-[3vw] w-[2.2vw] border-t border-[#ff542d]" />
-                <span className="text-[clamp(1.2rem,1.7vw,2.05rem)] leading-[1.15] font-semibold tracking-[-0.035em]">
-                  <span className="me-5 text-[#ff542d] tabular-nums">0{index + 1}</span>
-                  {item}
+                <span className={`${label} tabular-nums`} style={{ color: rust }}>
+                  {key}
+                </span>
+                <span className="font-serif text-[clamp(0.95rem,1.25vw,1.5rem)] leading-[1.3] text-pretty">
+                  {text}
                 </span>
               </li>
             ))}
-          </ul>
+          </ol>
         </div>
       </div>
-    </SlideContent>
+    </div>
   )
 }
 
-const slides = [Cover, Levels, Agentic, Advanti]
+function Connectorer() {
+  return (
+    <div className="grid h-full grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] items-center gap-[4vw]">
+      <div className="flex flex-col justify-center">
+        <p className={label} style={{ color: rust }}>
+          Steg 2 · den gjør resten
+        </p>
+        <h2 className="mt-[2.4vh] max-w-[18ch] font-serif text-[clamp(1.6rem,2.7vw,3.2rem)] leading-[1.04] font-semibold tracking-[-0.025em] text-pretty">
+          Men det meste skriver vi ikke inn i det hele tatt.
+        </h2>
+        <p className={`${lead} mt-[3.2vh] max-w-[34ch]`} style={{ color: meta }}>
+          En connector er en kobling til et sted vi allerede jobber — møtene,
+          innboksen, kalenderen. Den henter det som skjer der, og legger det i
+          hjernen uten at noen gjør noe.
+        </p>
+        <p
+          className="mt-[3vh] max-w-[36ch] font-serif text-[clamp(1rem,1.3vw,1.55rem)] leading-[1.35] text-pretty"
+          style={{ color: rust }}
+        >
+          Et kvarter å koble på hver av dem. Så går de av seg selv.
+        </p>
+      </div>
+      <DeckConnectors className="h-[min(66vh,34rem)] w-full" />
+    </div>
+  )
+}
+
+function Lagrer() {
+  return (
+    <Split figure={<DeckPage className="h-[min(60vh,32rem)] w-full" />}>
+      <p className={label} style={{ color: rust }}>Steg 3 · den lagrer</p>
+      <h2 className="mt-[2.4vh] max-w-[18ch] font-serif text-[clamp(1.6rem,2.7vw,3.2rem)] leading-[1.04] font-semibold tracking-[-0.025em] text-pretty">
+        Alt havner ett sted, og bare ett.
+      </h2>
+      <p className={`${lead} mt-[3.2vh] max-w-[34ch]`} style={{ color: meta }}>
+        Handler det om en person, ligger det under personen. Handler det om et
+        selskap, under selskapet. Aldri to steder. Og sidene er vanlige
+        tekstfiler — du kan åpne dem og lese dem selv.
+      </p>
+      <p className="mt-[3vh] max-w-[38ch] font-serif text-[clamp(1rem,1.3vw,1.55rem)] leading-[1.35] text-pretty" style={{ color: rust }}>
+        Over streken står det som gjelder nå, og det skrives om hver gang. Under
+        streken står det som skjedde, og det endres aldri.
+      </p>
+    </Split>
+  )
+}
+
+function Tilbake() {
+  return (
+    <Split figure={<DeckBrief className="h-[min(58vh,30rem)] w-full" />}>
+      <p className={label} style={{ color: rust }}>Steg 4 · du får det igjen</p>
+      <h2 className="mt-[2.4vh] max-w-[18ch] font-serif text-[clamp(1.6rem,2.7vw,3.2rem)] leading-[1.04] font-semibold tracking-[-0.025em] text-pretty">
+        Og så får du alt sammen tilbake.
+      </h2>
+      <p className={`${lead} mt-[3.2vh] max-w-[34ch]`} style={{ color: meta }}>
+        Hver morgen ligger det en oppsummering klar. Ikke alt — bare det som har
+        endret seg, det du har lovet, og det du aldri hadde sett selv.
+      </p>
+      <p className="mt-[3vh] max-w-[38ch] font-serif text-[clamp(1rem,1.3vw,1.55rem)] leading-[1.35] text-pretty" style={{ color: rust }}>
+        Dette er grunnen til at vi orker å skrive inn i det hele tatt. Ingen
+        skriver ned ting bare for arkivets skyld.
+      </p>
+    </Split>
+  )
+}
+
+function Engangsarbeid() {
+  return (
+    <Statement
+      eyebrow="Disiplinen"
+      heading="Alt du gjør to ganger, skriver du ned."
+      body="Første gangen er treg. Du forklarer, den bommer, du retter, du forklarer igjen. Men i det den endelig sitter, skriver du ned hvordan — og da er den jobben gjort for alltid."
+      close="Måtte du be om det samme to ganger, gikk du glipp av noe. Det er sånn det blir tretten av dem: ikke ett stort prosjekt, men mange små ganger noen orket å skrive ned det de nettopp fant ut."
+    />
+  )
+}
+
+function Organisasjonen() {
+  return (
+    <Diagram
+      mode="organisasjon"
+      heading="Slik er kontoret satt opp i dag."
+      aside="Menneskene · tretten agenter"
+    />
+  )
+}
+
+function Viktor() {
+  return (
+    <div className="grid h-full grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-[5vw]">
+      <div />
+      <div className="flex h-full flex-col justify-center">
+        <p className={label} style={{ color: meta }}>
+          Midten av org-kartet
+        </p>
+        <h2 className="mt-[2.4vh] max-w-[27ch] font-serif text-[clamp(1.6rem,2.7vw,3.2rem)] leading-[1.04] font-semibold tracking-[-0.025em] text-pretty">
+          Den gjør ikke arbeidet. Den finner ut hvem som skal.
+        </h2>
+        <Beats
+          items={[
+            ["Alltid på", "Tar imot alt vi skriver. Sender det videre."],
+            ["Ved behov", "Henter inn spesialisten når presisjon koster noe."],
+            ["Søndag", "Uken oppsummert: levert, ventende, stoppet."],
+          ]}
+          wide
+        />
+        <p
+          className="mt-[3vh] max-w-[52ch] font-serif text-[clamp(1rem,1.3vw,1.55rem)] leading-[1.35] text-pretty"
+          style={{ color: rust }}
+        >
+          Dette laget var mellomledelse. Nå er det en tekstfil.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function AdvantiCmo() {
+  return (
+    <div className="grid h-full grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-[5vw]">
+      <div />
+      <div className="flex h-full flex-col justify-center">
+        <p className={label} style={{ color: meta }}>
+          Én av spesialistene
+        </p>
+        <h2 className="mt-[2.4vh] max-w-[27ch] font-serif text-[clamp(1.6rem,2.7vw,3.2rem)] leading-[1.04] font-semibold tracking-[-0.025em] text-pretty">
+          Den skriver alt vi legger ut.
+        </h2>
+        <Beats
+          items={[
+            ["Grunnlaget", "Den finner ikke på noe. Den bruker det som allerede ligger i databasen."],
+            ["Hver uke", "Innlegg, nyhetsbrev, oppdateringer på det som er til salgs."],
+            ["Alltid", "Et menneske leser gjennom før noe går ut."],
+          ]}
+          wide
+        />
+        <p
+          className="mt-[3vh] max-w-[52ch] font-serif text-[clamp(1rem,1.3vw,1.55rem)] leading-[1.35] text-pretty"
+          style={{ color: rust }}
+        >
+          Den finner aldri på et tall. Alt den skriver, står allerede et sted.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function AdvantiSalg() {
+  return (
+    <div className="grid h-full grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-[5vw]">
+      <div />
+      <div className="flex h-full flex-col justify-center">
+        <p className={label} style={{ color: meta }}>
+          Og én til
+        </p>
+        <h2 className="mt-[2.4vh] max-w-[27ch] font-serif text-[clamp(1.6rem,2.7vw,3.2rem)] leading-[1.04] font-semibold tracking-[-0.025em] text-pretty">
+          Den leter etter treff hver eneste dag.
+        </h2>
+        <Beats
+          items={[
+            ["Hver morgen", "Går gjennom nye kjøpere mot alt vi har på selgersiden."],
+            ["Finner den noe", "Legger den det på bordet, med begrunnelsen."],
+            ["Så", "Er det vi som ringer."],
+          ]}
+          wide
+        />
+        <p
+          className="mt-[3vh] max-w-[52ch] font-serif text-[clamp(1rem,1.3vw,1.55rem)] leading-[1.35] text-pretty"
+          style={{ color: rust }}
+        >
+          Den gjør ikke handelen. Den finner den. Det er to forskjellige jobber.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function Reglene() {
+  return (
+    <Statement
+      eyebrow="Reglene"
+      heading="Hjernen foreslår. Mennesket bestemmer."
+      items={[
+        ["Hjernen", "Kunnskap og påstander. Rikt, men ikke rent nok."],
+        ["Disken", "Et menneske ser forslaget. Godkjenner, eller forkaster."],
+        ["CRM-et", "Operativ sannhet. Ingenting inn uten et menneske."],
+        ["Referatet", "Vi tar råteksten, aldri sammendraget. Sammendrag finner på enighet som aldri fant sted."],
+      ]}
+      wide
+      close="Agenten skriver utkast. Jeg trykker send. Kunderelasjonen delegerer vi ikke."
+    />
+  )
+}
+
+function Feilene() {
+  return (
+    <Statement
+      eyebrow="Ærlig talt"
+      heading="En hjerne ingen luker blir en søppelfylling med god søkefunksjon."
+      items={[
+        ["Uke én", "Et leketøy. Du retter mer enn du sparer."],
+        ["Uke to", "Her slutter de fleste."],
+        ["Uke tolv", "Biblioteket svarer før du er ferdig med å spørre."],
+      ]}
+      wide
+      close="Noen må fortsatt luke. Det er en jobb, ikke en innstilling."
+    />
+  )
+}
+
+function EnHylle() {
+  return (
+    <Statement
+      eyebrow="Hvis du skal begynne"
+      heading="Ingen bygger lageret først."
+      items={[
+        ["I dag", "Velg én ting du gjør hver uke og ikke liker."],
+        ["I morgen", "Skriv ned hvordan du gjør den. På norsk, i en fil."],
+        ["Neste uke", "La den gå av seg selv."],
+      ]}
+      wide
+      close="Det blir ikke stort fordi noen planla det. Det blir stort fordi noen la til én hylle om gangen."
+    />
+  )
+}
+
+function Slutt() {
+  return (
+    <div className="flex h-full w-[min(58%,54rem)] flex-col justify-center">
+      <p className={label} style={{ color: rust }}>
+        Til slutt
+      </p>
+      <h2 className={`${display} mt-[3.5vh] max-w-[12ch]`}>
+        Nå får jeg beskjed.
+      </h2>
+      <p className={`${lead} mt-[4.5vh] max-w-[44ch]`} style={{ color: meta }}>
+        Det er alt jeg egentlig har prøvd å bygge. Ikke et system som passer på
+        oss — et som husker det vi ikke rekker.
+      </p>
+    </div>
+  )
+}
+
+/* ------------------------------------------------------------------- dekket */
+
+const solid = (x: number, y: number, scale: number, opacity: number, rotation: number) => ({
+  x,
+  y,
+  scale,
+  opacity,
+  rotation,
+})
+
+const slides: Slide[] = [
+  { id: "intro", label: "Intro", Content: Cover, figure: solid(6, 0, 1.18, 1, 286) },
+  { id: "ommeg", label: "Kort om meg", Content: OmMeg, figure: solid(18, -19, 0.48, 0.42, 314) },
+  { id: "tresteg", label: "Slik ser jeg AI", Content: TreSteg, figure: solid(16, -17, 0.54, 0.56, 342) },
+  { id: "steg1", label: "Steg 01 · chat", Content: Steg1, figure: solid(46, -32, 0.38, 0.13, 370) },
+  { id: "steg2", label: "Steg 02 · agenter", Content: Steg2, figure: solid(46, -32, 0.38, 0.13, 398) },
+  { id: "steg3", label: "Steg 03 · generativ UI", Content: Steg3, figure: solid(46, -32, 0.38, 0.13, 426) },
+  { id: "bransjen", label: "Utgangspunktet", Content: Bransjen, figure: solid(17, -18, 0.5, 0.5, 454) },
+  { id: "grensa", label: "Grensa", Content: Grensa, figure: solid(19, -20, 0.44, 0.46, 482) },
+  { id: "paanytt", label: "First principles", Content: FirstPrinciples, figure: solid(15, -16, 0.58, 0.6, 510) },
+  { id: "snudd", label: "Resultatet", Content: Snudd, figure: solid(13, -13, 0.66, 0.68, 538) },
+  {
+    id: "loop",
+    label: "Arbeidsløkka",
+    Content: Loop,
+    figure: solid(24, -24, 0.36, 0, 552),
+  },
+  { id: "braindump", label: "Steg 1 · du skriver", Content: Braindump, figure: solid(44, -30, 0.4, 0.16, 566) },
+  { id: "connectorer", label: "Steg 2 · connectorer", Content: Connectorer, figure: solid(46, -32, 0.38, 0.14, 594) },
+  { id: "lagrer", label: "Steg 3 · den lagrer", Content: Lagrer, figure: solid(46, -32, 0.38, 0.14, 622) },
+  { id: "tilbake", label: "Steg 4 · du får det igjen", Content: Tilbake, figure: solid(46, -32, 0.38, 0.14, 650) },
+  { id: "engangsarbeid", label: "Disiplinen", Content: Engangsarbeid, figure: solid(14, -14, 0.62, 0.64, 678) },
+  {
+    id: "organisasjon",
+    label: "Organisasjonen",
+    Content: Organisasjonen,
+    figure: solid(24, -24, 0.36, 0, 692),
+    node: chartFrame,
+  },
+  {
+    id: "viktor",
+    label: "Nærbilde · Viktor",
+    Content: Viktor,
+    enter: "slide-in-from-right-3 [animation-delay:240ms] [animation-fill-mode:backwards]",
+    figure: solid(24, -24, 0.36, 0, 706),
+    node: ceoCloseFrame,
+    nodeLabel: { role: "chief of staff", name: "Viktor" },
+  },
+  {
+    id: "cmo",
+    label: "Nærbilde · Advanti CMO",
+    Content: AdvantiCmo,
+    enter: "slide-in-from-right-3 [animation-delay:240ms] [animation-fill-mode:backwards]",
+    figure: solid(24, -24, 0.36, 0, 720),
+    node: ceoCloseFrame,
+    nodeLabel: { role: "marked", name: "Advanti CMO" },
+  },
+  {
+    id: "salg",
+    label: "Nærbilde · Advanti Salg",
+    Content: AdvantiSalg,
+    enter: "slide-in-from-right-3 [animation-delay:240ms] [animation-fill-mode:backwards]",
+    figure: solid(24, -24, 0.36, 0, 734),
+    node: ceoCloseFrame,
+    nodeLabel: { role: "salg", name: "Advanti Salg" },
+  },
+  { id: "regler", label: "Reglene", Content: Reglene, figure: solid(18, -18, 0.5, 0.5, 762), node: hiddenClose },
+  { id: "feil", label: "Ærlig talt", Content: Feilene, figure: solid(16, -16, 0.56, 0.56, 790) },
+  { id: "tror", label: "Hva jeg tror", Content: HvaJegTror, figure: solid(20, -20, 0.42, 0.4, 818) },
+  { id: "hylle", label: "Mandag morgen", Content: EnHylle, figure: solid(11, -10, 0.78, 0.8, 846) },
+  { id: "slutt", label: "Slutt · spørsmål", Content: Slutt, figure: solid(8, 1, 1.24, 0.95, 874) },
+]
 
 export function AiITreStegDeck() {
   const [index, setIndex] = useState(0)
-  const ActiveSlide = slides[index]
+  const slide = slides[index]
   const go = useCallback(
     (next: number) => setIndex(Math.max(0, Math.min(slides.length - 1, next))),
     [],
@@ -281,6 +978,15 @@ export function AiITreStegDeck() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
+      const target = event.target
+      if (
+        target instanceof HTMLElement &&
+        (target.isContentEditable ||
+          target.matches("button, a, input, select, textarea"))
+      ) {
+        return
+      }
+
       if (event.key === "ArrowRight" || event.key === " " || event.key === "PageDown") {
         event.preventDefault()
         setIndex((current) => Math.min(slides.length - 1, current + 1))
@@ -299,15 +1005,34 @@ export function AiITreStegDeck() {
   return (
     <main
       id="main"
-      className="relative h-dvh min-h-[34rem] overflow-hidden bg-[#f8f8f4] [font-synthesis:none]"
+      className="relative h-dvh min-h-[34rem] overflow-hidden [font-synthesis:none]"
+      style={{ backgroundColor: paper.ground, color: ink }}
       aria-roledescription="lysbildefremvisning"
     >
-      <div className="absolute inset-0" aria-hidden="true">
-        <PlotterField seed={260824} side="right" showTraces={index !== 0} />
-      </div>
+      {/* Skallet står stille gjennom hele foredraget: topptekst, legeme, bunntekst,
+          framdrift. Bare selve teksten byttes ut — så ingenting hopper. */}
+      <header
+        className={`absolute inset-x-[5.5vw] top-[4vh] z-10 flex items-baseline justify-between gap-8 ${label}`}
+        style={{ color: meta }}
+      >
+        <p>Christer Hagen</p>
+        <p className="tabular-nums">Kraft i Nord · 2026</p>
+      </header>
 
-      <section className="absolute inset-0" aria-live="polite" aria-atomic="true">
-        <ActiveSlide />
+      <TravellingSolid figure={slide.figure} />
+      <MorphingNode frame={slide.node ?? hidden} nodeLabel={slide.nodeLabel} />
+
+      <section
+        key={slide.id}
+        className={`absolute inset-0 z-[1] animate-in fade-in-0 duration-300 ease-out motion-reduce:animate-none ${
+          slide.enter ?? "slide-in-from-bottom-2"
+        }`}
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        <div className="h-full px-[5.5vw] pt-[11vh] pb-[13vh]">
+          <slide.Content />
+        </div>
       </section>
 
       <button
@@ -315,19 +1040,40 @@ export function AiITreStegDeck() {
         aria-label="Forrige lysbilde"
         onClick={() => go(index - 1)}
         disabled={index === 0}
-        className="absolute inset-y-0 start-0 z-20 w-[14vw] cursor-w-resize disabled:pointer-events-none disabled:opacity-0"
+        className="absolute inset-y-0 start-0 z-20 w-[14vw] cursor-w-resize outline-none focus-visible:outline-2 focus-visible:-outline-offset-4 disabled:pointer-events-none disabled:opacity-0"
+        style={{ outlineColor: rust }}
       />
       <button
         type="button"
         aria-label="Neste lysbilde"
         onClick={() => go(index + 1)}
         disabled={index === slides.length - 1}
-        className="absolute inset-y-0 end-0 z-20 w-[28vw] cursor-e-resize disabled:pointer-events-none disabled:opacity-0"
+        className="absolute inset-y-0 end-0 z-20 w-[26vw] cursor-e-resize outline-none focus-visible:outline-2 focus-visible:-outline-offset-4 disabled:pointer-events-none disabled:opacity-0"
+        style={{ outlineColor: rust }}
       />
 
-      <div className="absolute inset-x-[5vw] bottom-[2.2vh] z-30 flex items-center justify-end gap-5 text-[clamp(0.75rem,0.78vw,0.95rem)] leading-none font-semibold tracking-[0.1em] text-[#171717] tabular-nums">
-        <span aria-hidden>← →</span>
-        <span>{String(index + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}</span>
+      <footer
+        className={`absolute inset-x-[5.5vw] bottom-[4.5vh] z-10 flex items-baseline justify-between gap-8 ${label}`}
+      >
+        <p style={{ color: rust }}>{slide.label}</p>
+        <p className="tabular-nums" style={{ color: meta }}>
+          {String(index + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
+        </p>
+      </footer>
+
+      {/* Framdrift: skalering, ikke bredde — holder animasjonen unna layout. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 z-10 h-[3px]"
+        style={{ backgroundColor: rule }}
+      >
+        <div
+          className="h-full origin-left transition-transform duration-300 ease-out motion-reduce:transition-none"
+          style={{
+            backgroundColor: rust,
+            transform: `scaleX(${(index + 1) / slides.length})`,
+          }}
+        />
       </div>
     </main>
   )
