@@ -1,11 +1,14 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react"
 
 import { DeckBrief } from "@/components/deck-brief"
 import { DeckPage } from "@/components/deck-page"
 import { StepAgent, StepChat, StepUI } from "@/components/deck-steps"
 import { DeckConnectors } from "@/components/deck-connectors"
+import { DeckAgentFile } from "@/components/deck-agent-file"
+import { DeckGate } from "@/components/deck-gate"
+import { DeckUtkast } from "@/components/deck-utkast"
 import { DeckVisual } from "@/components/deck-visual"
 import savedVisual from "@/data/deck-visual.json"
 import {
@@ -438,6 +441,32 @@ function Grensa() {
   )
 }
 
+/**
+ * Reglene kjørt én gang, på Ole. Dekket har til nå bare vist ting som går inn i
+ * maskinen eller tilbake til deg selv; dette er eneste gang noe går ut til en
+ * kunde, og det er den eneste demonstrasjonen som er verdt noe for en sal som
+ * skal tro på resten.
+ */
+function Utkastet() {
+  return (
+    <Split figure={<DeckUtkast className="h-[min(66vh,42rem)] w-full" />}>
+      <p className={label} style={{ color: rust }}>Reglene, én gang</p>
+      <h2 className="mt-[2.4vh] max-w-[18ch] font-serif text-[clamp(1.6rem,2.7vw,3.2rem)] leading-[1.04] font-semibold tracking-[-0.025em] text-pretty">Hver setning har en fotnote.</h2>
+      <p className={`${lead} mt-[3.2vh] max-w-[33ch]`} style={{ color: meta }}>
+        Ole sier én setning på telefonen. Agenten slår opp tre sider i hjernen,
+        og skriver utkastet av det som allerede sto der.
+      </p>
+      <p className="mt-[2.6vh] max-w-[38ch] font-serif text-[clamp(1rem,1.3vw,1.55rem)] leading-[1.35] text-pretty" style={{ color: meta }}>
+        Tallene i margen er ikke pynt. De peker på fila hvert tall kom fra, så du
+        kan ettergå den. Finner den ikke dekning, skriver den ikke setningen.
+      </p>
+      <p className="mt-[2.6vh] max-w-[38ch] font-serif text-[clamp(1rem,1.3vw,1.55rem)] leading-[1.35] text-pretty" style={{ color: rust }}>
+        Og så stopper den. E-posten ligger der til jeg har lest den.
+      </p>
+    </Split>
+  )
+}
+
 function HvaJegTror() {
   return (
     <Statement
@@ -500,7 +529,7 @@ function TreSteg() {
 
 function Steg1() {
   return (
-    <Split figure={<StepChat className="h-[min(60vh,31rem)] w-full" />}>
+    <Split figure={<StepChat className="h-[min(64vh,40rem)] w-full" />}>
       <p className={label} style={{ color: rust }}>Steg 01</p>
       <h2 className="mt-[2.4vh] max-w-[16ch] font-serif text-[clamp(1.6rem,2.7vw,3.2rem)] leading-[1.04] font-semibold tracking-[-0.025em] text-pretty">Du snakker med den.</h2>
       <p className={`${lead} mt-[3.2vh] max-w-[32ch]`} style={{ color: meta }}>
@@ -517,7 +546,7 @@ function Steg1() {
 
 function Steg2() {
   return (
-    <Split figure={<StepAgent className="h-[min(60vh,31rem)] w-full" />}>
+    <Split figure={<StepAgent className="h-[min(64vh,40rem)] w-full" />}>
       <p className={label} style={{ color: rust }}>Steg 02</p>
       <h2 className="mt-[2.4vh] max-w-[16ch] font-serif text-[clamp(1.6rem,2.7vw,3.2rem)] leading-[1.04] font-semibold tracking-[-0.025em] text-pretty">Den gjør jobben for deg.</h2>
       <p className={`${lead} mt-[3.2vh] max-w-[32ch]`} style={{ color: meta }}>
@@ -527,7 +556,33 @@ function Steg2() {
       </p>
       <p className="mt-[3vh] max-w-[36ch] font-serif text-[clamp(1rem,1.3vw,1.55rem)] leading-[1.35] text-pretty" style={{ color: rust }}>
         En agent er ikke et program. Det er en side med tekst som sier hva
-        jobben er — og som har lov til å bruke verktøyene dine.
+        jobben er, og som har lov til å bruke verktøyene dine.
+      </p>
+    </Split>
+  )
+}
+
+/**
+ * Nærbildet av AGENT.MD-boksen lysbilde 5 nettopp tegnet. Samme grep som
+ * org-kartet og Viktor: vis helheten, zoom så inn i den ene boksen alt henger
+ * på. Ordet «agent» bærer sju senere lysbilder, og fram til nå har det hatt én
+ * setning nederst på et lysbilde å stå på.
+ */
+function AgentFil() {
+  return (
+    <Split figure={<DeckAgentFile className="h-[min(66vh,42rem)] w-full" />}>
+      <p className={label} style={{ color: rust }}>Steg 02, tett på</p>
+      <h2 className="mt-[2.4vh] max-w-[18ch] font-serif text-[clamp(1.6rem,2.7vw,3.2rem)] leading-[1.04] font-semibold tracking-[-0.025em] text-pretty">En side med tekst. Og en nøkkel.</h2>
+      <p className={`${lead} mt-[3.2vh] max-w-[33ch]`} style={{ color: meta }}>
+        Siden er vanlig norsk, ikke kode. Du kunne lest den høyt. Og du har
+        skrevet sånne før, de heter stillingsbeskrivelser.
+      </p>
+      <p className="mt-[2.6vh] max-w-[38ch] font-serif text-[clamp(1rem,1.3vw,1.55rem)] leading-[1.35] text-pretty" style={{ color: meta }}>
+        Nøkkelen er hele forskjellen fra chatten på forrige lysbilde. Den kan
+        skrive e-posten. Agenten kan sende den.
+      </p>
+      <p className="mt-[2.6vh] max-w-[38ch] font-serif text-[clamp(1rem,1.3vw,1.55rem)] leading-[1.35] text-pretty" style={{ color: rust }}>
+        Vi har tretten. Ingen av dem er programmert. De er skrevet.
       </p>
     </Split>
   )
@@ -535,7 +590,7 @@ function Steg2() {
 
 function Steg3() {
   return (
-    <Split figure={<StepUI className="h-[min(60vh,31rem)] w-full" />}>
+    <Split figure={<StepUI className="h-[min(64vh,40rem)] w-full" />}>
       <p className={label} style={{ color: rust }}>Steg 03</p>
       <h2 className="mt-[2.4vh] max-w-[16ch] font-serif text-[clamp(1.6rem,2.7vw,3.2rem)] leading-[1.04] font-semibold tracking-[-0.025em] text-pretty">Skjermen lages rundt deg.</h2>
       <p className={`${lead} mt-[3.2vh] max-w-[32ch]`} style={{ color: meta }}>
@@ -674,14 +729,14 @@ function Connectorer() {
           Et kvarter å koble på hver av dem. Så går de av seg selv.
         </p>
       </div>
-      <DeckConnectors className="h-[min(66vh,34rem)] w-full" />
+      <DeckConnectors className="h-[min(68vh,44rem)] w-full" />
     </div>
   )
 }
 
 function Lagrer() {
   return (
-    <Split figure={<DeckPage className="h-[min(60vh,32rem)] w-full" />}>
+    <Split figure={<DeckPage className="h-[min(64vh,41rem)] w-full" />}>
       <p className={label} style={{ color: rust }}>Steg 3 · den lagrer</p>
       <h2 className="mt-[2.4vh] max-w-[18ch] font-serif text-[clamp(1.6rem,2.7vw,3.2rem)] leading-[1.04] font-semibold tracking-[-0.025em] text-pretty">
         Alt havner ett sted, og bare ett.
@@ -701,7 +756,7 @@ function Lagrer() {
 
 function Tilbake() {
   return (
-    <Split figure={<DeckBrief className="h-[min(58vh,30rem)] w-full" />}>
+    <Split figure={<DeckBrief className="h-[min(62vh,39rem)] w-full" />}>
       <p className={label} style={{ color: rust }}>Steg 4 · du får det igjen</p>
       <h2 className="mt-[2.4vh] max-w-[18ch] font-serif text-[clamp(1.6rem,2.7vw,3.2rem)] leading-[1.04] font-semibold tracking-[-0.025em] text-pretty">
         Og så får du alt sammen tilbake.
@@ -829,36 +884,37 @@ function AdvantiSalg() {
   )
 }
 
+/**
+ * De tre første reglene er tegningen. Hjernen, disken og CRM-et står i figuren
+ * med sine egne ord, så de skal ikke stå i en liste ved siden av den også.
+ *
+ * Teksten gjør den ene jobben tegningen ikke kan: den sier hvorfor det finnes
+ * to lagre i det hele tatt. Uten Ole og de 600 kvadratmeterne er skillet mellom
+ * påstand og faktum en abstraksjon, og salen sitter med et pent diagram de ikke
+ * vet hva de skal med.
+ *
+ * Referatet er en regel om noe annet, og blir stående nederst som tekst.
+ */
 function Reglene() {
   return (
-    <Statement
-      eyebrow="Reglene"
-      heading="Hjernen foreslår. Mennesket bestemmer."
-      items={[
-        ["Hjernen", "Kunnskap og påstander. Rikt, men ikke rent nok."],
-        ["Disken", "Et menneske ser forslaget. Godkjenner, eller forkaster."],
-        ["CRM-et", "Operativ sannhet. Ingenting inn uten et menneske."],
-        ["Referatet", "Vi tar råteksten, aldri sammendraget. Sammendrag finner på enighet som aldri fant sted."],
-      ]}
-      wide
-      close="Agenten skriver utkast. Jeg trykker send. Kunderelasjonen delegerer vi ikke."
-    />
-  )
-}
-
-function Feilene() {
-  return (
-    <Statement
-      eyebrow="Ærlig talt"
-      heading="En hjerne ingen luker blir en søppelfylling med god søkefunksjon."
-      items={[
-        ["Uke én", "Et leketøy. Du retter mer enn du sparer."],
-        ["Uke to", "Her slutter de fleste."],
-        ["Uke tolv", "Biblioteket svarer før du er ferdig med å spørre."],
-      ]}
-      wide
-      close="Noen må fortsatt luke. Det er en jobb, ikke en innstilling."
-    />
+    <Split figure={<DeckGate className="h-[min(66vh,42rem)] w-full" />}>
+      <p className={label} style={{ color: rust }}>Reglene</p>
+      <h2 className="mt-[2.4vh] max-w-[20ch] font-serif text-[clamp(1.6rem,2.7vw,3.2rem)] leading-[1.04] font-semibold tracking-[-0.025em] text-pretty">Hjernen foreslår. Mennesket bestemmer.</h2>
+      <p className={`${lead} mt-[3.2vh] max-w-[34ch]`} style={{ color: meta }}>
+        Ole sa 600 kvm. Det er en påstand, ikke et faktum, og påstander skal rett
+        inn i hjernen sammen med alt annet noen har sagt. Men i det tallet står i
+        CRM-et, ringer noen en gårdeier på grunnlag av det. Derfor står disken
+        imellom.
+      </p>
+      <p className="mt-[2.6vh] max-w-[40ch] font-serif text-[clamp(1rem,1.3vw,1.55rem)] leading-[1.35] text-pretty" style={{ color: meta }}>
+        Av referatet tar vi råteksten, aldri sammendraget. Sammendrag finner på
+        enighet som aldri fant sted.
+      </p>
+      <p className="mt-[2.6vh] max-w-[38ch] font-serif text-[clamp(1rem,1.3vw,1.55rem)] leading-[1.35] text-pretty" style={{ color: rust }}>
+        Agenten skriver utkast. Jeg trykker send. Kunderelasjonen delegerer vi
+        ikke.
+      </p>
+    </Split>
   )
 }
 
@@ -911,6 +967,7 @@ const slides: Slide[] = [
   { id: "tresteg", label: "Slik ser jeg AI", Content: TreSteg, figure: solid(16, -17, 0.54, 0.56, 342) },
   { id: "steg1", label: "Steg 01 · chat", Content: Steg1, figure: solid(46, -32, 0.38, 0.13, 370) },
   { id: "steg2", label: "Steg 02 · agenter", Content: Steg2, figure: solid(46, -32, 0.38, 0.13, 398) },
+  { id: "agentfil", label: "Hva en agent er", Content: AgentFil, figure: solid(46, -32, 0.38, 0.13, 412) },
   { id: "steg3", label: "Steg 03 · generativ UI", Content: Steg3, figure: solid(46, -32, 0.38, 0.13, 426) },
   { id: "bransjen", label: "Utgangspunktet", Content: Bransjen, figure: solid(17, -18, 0.5, 0.5, 454) },
   { id: "grensa", label: "Grensa", Content: Grensa, figure: solid(19, -20, 0.44, 0.46, 482) },
@@ -961,15 +1018,40 @@ const slides: Slide[] = [
     node: ceoCloseFrame,
     nodeLabel: { role: "salg", name: "Advanti Salg" },
   },
-  { id: "regler", label: "Reglene", Content: Reglene, figure: solid(18, -18, 0.5, 0.5, 762), node: hiddenClose },
-  { id: "feil", label: "Ærlig talt", Content: Feilene, figure: solid(16, -16, 0.56, 0.56, 790) },
-  { id: "tror", label: "Hva jeg tror", Content: HvaJegTror, figure: solid(20, -20, 0.42, 0.4, 818) },
-  { id: "hylle", label: "Mandag morgen", Content: EnHylle, figure: solid(11, -10, 0.78, 0.8, 846) },
-  { id: "slutt", label: "Slutt · spørsmål", Content: Slutt, figure: solid(8, 1, 1.24, 0.95, 874) },
+  { id: "regler", label: "Reglene", Content: Reglene, figure: solid(46, -32, 0.38, 0.14, 762), node: hiddenClose },
+  { id: "utkast", label: "Reglene, én gang", Content: Utkastet, figure: solid(46, -32, 0.38, 0.14, 776) },
+  { id: "tror", label: "Hva jeg tror", Content: HvaJegTror, figure: solid(20, -20, 0.42, 0.4, 790) },
+  { id: "hylle", label: "Mandag morgen", Content: EnHylle, figure: solid(11, -10, 0.78, 0.8, 818) },
+  { id: "slutt", label: "Slutt · spørsmål", Content: Slutt, figure: solid(8, 1, 1.24, 0.95, 846) },
 ]
+
+/**
+ * useLayoutEffect kjører før første maling, så gjenopprettingen er usynlig. Med
+ * en vanlig useEffect ville salen sett lysbilde 1 blinke først.
+ */
+const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect
+
+const PLASS = "deck:ai-i-tre-steg"
 
 export function AiITreStegDeck() {
   const [index, setIndex] = useState(0)
+
+  /**
+   * En reload midt i et foredrag skal ikke sende deg tilbake til start foran
+   * salen. sessionStorage og ikke localStorage: neste gang du åpner dekket for
+   * å øve, vil du begynne på begynnelsen.
+   */
+  useIsoLayoutEffect(() => {
+    const lagret = Number(sessionStorage.getItem(PLASS))
+    if (Number.isInteger(lagret) && lagret > 0 && lagret < slides.length) {
+      setIndex(lagret)
+    }
+  }, [])
+
+  useEffect(() => {
+    sessionStorage.setItem(PLASS, String(index))
+  }, [index])
+
   const slide = slides[index]
   const go = useCallback(
     (next: number) => setIndex(Math.max(0, Math.min(slides.length - 1, next))),
@@ -1005,7 +1087,7 @@ export function AiITreStegDeck() {
   return (
     <main
       id="main"
-      className="relative h-dvh min-h-[34rem] overflow-hidden [font-synthesis:none]"
+      className="relative h-dvh min-h-[28rem] overflow-hidden [font-synthesis:none] select-none"
       style={{ backgroundColor: paper.ground, color: ink }}
       aria-roledescription="lysbildefremvisning"
     >
@@ -1041,7 +1123,7 @@ export function AiITreStegDeck() {
         onClick={() => go(index - 1)}
         disabled={index === 0}
         className="absolute inset-y-0 start-0 z-20 w-[14vw] cursor-w-resize outline-none focus-visible:outline-2 focus-visible:-outline-offset-4 disabled:pointer-events-none disabled:opacity-0"
-        style={{ outlineColor: rust }}
+        style={{ outlineColor: ink }}
       />
       <button
         type="button"
@@ -1049,7 +1131,7 @@ export function AiITreStegDeck() {
         onClick={() => go(index + 1)}
         disabled={index === slides.length - 1}
         className="absolute inset-y-0 end-0 z-20 w-[26vw] cursor-e-resize outline-none focus-visible:outline-2 focus-visible:-outline-offset-4 disabled:pointer-events-none disabled:opacity-0"
-        style={{ outlineColor: rust }}
+        style={{ outlineColor: ink }}
       />
 
       <footer

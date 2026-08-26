@@ -213,6 +213,63 @@
     40%  { transform: scale(1.72); opacity: 0; }
     100% { transform: scale(1.72); opacity: 0; }
     }
+  /* Disken på lysbilde 21. Én sløyfe på 6 s = ett ja (0–3 s) og ett nei
+     (3–6 s). Alle fem keyframene deler den samme klokka, så prosentene er
+     lesbare som tid: 16,67 % = ett sekund.
+
+     Reisen er lineær, og platået i midten er ekte stillstand — arket står
+     på disken i 0,9 sekunder før noe skjer. Den pausen er mennesket, og den
+     er den eneste grunnen til at bildet finnes. Ingen puls, ingen spinner:
+     et ark som venter på noen ser ut som et ark som venter på noen. */
+  @keyframes deck-gate-pass {
+    0%    { offset-distance: 0%;   opacity: 0; }
+    2%    { offset-distance: 0%;   opacity: 1; }
+    15%   { offset-distance: 45%;  opacity: 1; }  /* framme ved disken */
+    30%   { offset-distance: 45%;  opacity: 1; }  /* holdt — mennesket leser */
+    40.8% { offset-distance: 100%; opacity: 1; }  /* ja: gjennom porten */
+    43.3% { offset-distance: 100%; opacity: 0; }
+    100%  { offset-distance: 100%; opacity: 0; }
+    }
+  @keyframes deck-gate-turn {
+    0%    { offset-distance: 0%;   opacity: 0; }
+    50%   { offset-distance: 0%;   opacity: 0; }
+    52%   { offset-distance: 0%;   opacity: 1; }
+    65%   { offset-distance: 50%;  opacity: 1; }
+    80%   { offset-distance: 50%;  opacity: 1; }
+    91.7% { offset-distance: 100%; opacity: 1; }  /* nei: ut av bildet */
+    93.3% { offset-distance: 100%; opacity: 0; }
+    100%  { offset-distance: 100%; opacity: 0; }
+    }
+  /* Porten er tegnet i hvile og forsvinner bare mens det godkjente passerer.
+     Siste keyframe er lukket, så reduced motion lander på riktig påstand. */
+  @keyframes deck-gate-open {
+    0%    { opacity: 1; }
+    29%   { opacity: 1; }
+    31%   { opacity: 0; }
+    41%   { opacity: 0; }
+    43.5% { opacity: 1; }
+    100%  { opacity: 1; }
+    }
+  /* Merket lander mot slutten av pausen, ikke etter at arket har rørt seg:
+     avgjørelsen er årsaken, bevegelsen er følgen. Rekkefølgen er ja (28 %) →
+     porten åpner (29 %) → arket går (30 %). Ser du det i motsatt rekkefølge,
+     ser det ut som mennesket signerer noe som allerede har skjedd. */
+  @keyframes deck-gate-yes {
+    0%   { opacity: 0; }
+    25%  { opacity: 0; }
+    28%  { opacity: 1; }
+    41%  { opacity: 1; }
+    44%  { opacity: 0; }
+    100% { opacity: 0; }
+    }
+  @keyframes deck-gate-no {
+    0%   { opacity: 0; }
+    75%  { opacity: 0; }
+    78%  { opacity: 1; }
+    91%  { opacity: 1; }
+    94%  { opacity: 0; }
+    100% { opacity: 0; }
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
