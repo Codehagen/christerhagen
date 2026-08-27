@@ -1033,8 +1033,19 @@ const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayout
 
 const PLASS = "deck:ai-i-tre-steg"
 
+/**
+ * Høyre side av toppteksten. Sto før «Kraft i Nord · 2026», altså ett bestemt
+ * arrangement hardkodet inn i et dekk som skal holdes flere ganger. Standarden
+ * er nå noe som er sant uansett hvem som sitter i salen.
+ *
+ * Overstyres per foredrag med ?sted= i URL-en, så et nytt arrangement er en ny
+ * lenke og ikke en ny deploy. `?sted=` uten verdi tømmer feltet helt.
+ */
+const STED_STANDARD = "Advanti Estate · Bodø"
+
 export function AiITreStegDeck() {
   const [index, setIndex] = useState(0)
+  const [sted, setSted] = useState(STED_STANDARD)
 
   /**
    * En reload midt i et foredrag skal ikke sende deg tilbake til start foran
@@ -1046,6 +1057,12 @@ export function AiITreStegDeck() {
     if (Number.isInteger(lagret) && lagret > 0 && lagret < slides.length) {
       setIndex(lagret)
     }
+
+    // Samme effekt, fordi begge må sitte før første maling. Leses fra
+    // location og ikke useSearchParams: da forblir lysbildet statisk
+    // prerendret og trenger ingen Suspense-grense rundt seg.
+    const fra = new URLSearchParams(window.location.search)
+    if (fra.has("sted")) setSted(fra.get("sted")!.trim())
   }, [])
 
   useEffect(() => {
@@ -1097,8 +1114,8 @@ export function AiITreStegDeck() {
         className={`absolute inset-x-[5.5vw] top-[4vh] z-10 flex items-baseline justify-between gap-8 ${label}`}
         style={{ color: meta }}
       >
-        <p>Christer Hagen</p>
-        <p className="tabular-nums">Kraft i Nord · 2026</p>
+        <p className="shrink-0">Christer Hagen</p>
+        <p className="truncate text-end tabular-nums">{sted}</p>
       </header>
 
       <TravellingSolid figure={slide.figure} />
