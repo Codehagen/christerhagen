@@ -4,6 +4,22 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
+  /**
+   * Dekket lå på /no/presentasjon/ai-i-tre-steg før det fikk navn etter salen
+   * det holdes i. Lenken er delt muntlig, så den gamle adressen får leve som en
+   * videresending. 307 og ikke 308: navnet på et dekk som gjenbrukes kan komme
+   * til å endre seg igjen, og en permanent redirect ville lagt seg fast i
+   * nettleserne til alle som hadde besøkt den gamle lenken.
+   */
+  async redirects() {
+    return [
+      {
+        source: "/no/presentasjon/ai-i-tre-steg",
+        destination: "/no/presentasjon/Rotary",
+        permanent: false,
+      },
+    ]
+  },
   async headers() {
     return [
       {
