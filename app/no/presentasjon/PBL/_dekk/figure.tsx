@@ -349,9 +349,6 @@ export function Profile({ colors }: { colors: { ink: string; meta: string; body:
       <p className="mt-[2vh] max-w-[min(16vw,16rem)] font-serif text-[clamp(0.95rem,1.15vw,1.4rem)] leading-[1.4] text-pretty" style={{ color: colors.body }}>
         Har startet flere selskaper enn jeg tør å telle. Bodø.
       </p>
-      <p className="mt-[1.6vh] font-mono text-[clamp(0.7rem,0.84vw,1rem)]" style={{ color: colors.meta }}>
-        370 følgere
-      </p>
     </div>
   )
 }
