@@ -323,7 +323,13 @@ export function Contributions({ colors }: { colors: { rust: string; rule: string
 }
 
 /** Profilkolonnen: samme rekkefølge som på GitHub, med portrettet fra nettsiden. */
-export function Profile({ colors }: { colors: { ink: string; meta: string; body: string; rule: string } }) {
+export function Profile({
+  colors,
+  companies,
+}: {
+  colors: { ink: string; meta: string; body: string; rule: string; rust: string }
+  companies: Array<[string, string]>
+}) {
   return (
     <div>
       {/* Portrettet er helfigur; skalert inn mot ansiktet blir det en avatar. */}
@@ -349,6 +355,19 @@ export function Profile({ colors }: { colors: { ink: string; meta: string; body:
       <p className="mt-[2vh] max-w-[min(16vw,16rem)] font-serif text-[clamp(0.95rem,1.15vw,1.4rem)] leading-[1.4] text-pretty" style={{ color: colors.body }}>
         Har startet flere selskaper enn jeg tør å telle. Bodø.
       </p>
+      {/* Som organisasjonene på en GitHub-profil: gruppert, kort, ingen logoer. */}
+      <dl className="m-0 mt-[2.6vh] grid max-w-[min(17vw,17rem)] gap-[1.5vh] border-t pt-[2.2vh]" style={{ borderColor: colors.rule }}>
+        {companies.map(([group, names]) => (
+          <div key={group}>
+            <dt className="font-mono text-[clamp(0.6rem,0.7vw,0.84rem)] uppercase tracking-[0.14em]" style={{ color: colors.rust }}>
+              {group}
+            </dt>
+            <dd className="m-0 mt-[0.6vh] font-serif text-[clamp(0.84rem,1vw,1.2rem)] leading-[1.35] text-pretty" style={{ color: colors.body }}>
+              {names}
+            </dd>
+          </div>
+        ))}
+      </dl>
     </div>
   )
 }

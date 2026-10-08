@@ -21,7 +21,7 @@ export type Slide =
   | (Base & { kind: "demo"; body: string; links: Array<{ label: string; href: string; note: string }> })
   | (Base & { kind: "tracks"; tracks: Array<[Track, string]>; close?: string })
   | (Base & { kind: "end"; lead: string })
-  | (Base & { kind: "github"; caption: string; who: Array<[Track, string, string]> })
+  | (Base & { kind: "github"; caption: string; who: Array<[Track, string, string]>; companies: Array<[string, string]> })
   | (Base & {
       kind: "feed"
       body: string
@@ -43,30 +43,22 @@ export const slides: Slide[] = [
     lead: "Jeg skal vise dere hvordan vi gjorde det — fra en kundesamtale som ble en app samme formiddag, til et selskap vi lanserte i går.",
   },
   {
-    kind: "statement",
-    id: "ommeg",
-    chapter: "Intro",
-    eyebrow: "Kort om meg",
-    title: "Megler først. Utvikler etterpå.",
-    items: [
-      ["9 år", "Eiendomsmegler MNEF."],
-      ["2024", "Partner i Advanti Estate, Bodø."],
-      ["2026", "Solgte Docdir til Visma."],
-      ["I går", "Lanserte Verid."],
-    ],
-    close: "Tolv selskaper. To fungerte. Du må bare holde på lenge nok.",
-  },
-  {
     kind: "github",
     id: "github",
     chapter: "Intro",
-    eyebrow: "Kort om meg, versjon to",
+    eyebrow: "Kort om meg",
     title: "Hvem jeg er, kommer an på hvem du spør.",
     caption: "9 306 bidrag siste år. 362 av 369 dager. 299 dager på rad. Beste dag: 20. mars, 245 bidrag. Ikke spør hva som skjedde.",
     who: [
       ["Salg", "Megler i ni år.", "Den eneste i rommet som kan selge dere et næringsbygg i pausen."],
       ["Marked", "Bygger ting jeg selv har savnet.", "Så markedsplanen er å finne flere som ligner på meg."],
       ["Utviklere", "Tre exits på ting jeg har kodet.", "Den siste var Docdir, til Visma. Ingen av dem ble solgt fordi koden var pen."],
+    ],
+    companies: [
+      ["Bygger", "Verid · Advanti Estate · Bedrifty · Codebase"],
+      ["Solgt", "Docdir (Visma) · Utleieoversikten"],
+      ["Investert i", "Codenord · Propdock · Vendo · Fotovibe · Somevibe"],
+      ["Lagt ned", "Sailsdock · Refenze. Vi snakker ikke om dem."],
     ],
   },
   {

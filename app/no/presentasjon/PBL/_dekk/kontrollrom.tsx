@@ -329,7 +329,7 @@ function Body({ slide }: { slide: Slide }) {
     case "github":
       return (
         <div className="grid h-full grid-cols-[auto_minmax(0,1fr)] items-center gap-x-[4vw]">
-          <Profile colors={{ ink: c.ink, meta: c.meta, body: c.body, rule: c.line }} />
+          <Profile companies={slide.companies} colors={{ ink: c.ink, meta: c.meta, body: c.body, rule: c.line, rust: c.rust }} />
           <div>
             <Title slide={slide} />
             <div className="mt-[3.6vh]">
