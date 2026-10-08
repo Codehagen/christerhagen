@@ -319,20 +319,6 @@ description: Finn leietakere og kjøpere.
     close: "Den viktigste linja er den siste.",
   },
   {
-    kind: "stats",
-    id: "bygget",
-    chapter: "Advanti",
-    eyebrow: "Slik ble det bygget",
-    title: "Første versjon feilet.",
-    body: "Ti agenter på én dag i april. Fem dager senere så vi at matcheren leste en tom fil. Lærdommen: lukkede løkker — det én agent lager, må en annen kunne lese.",
-    stats: [
-      ["4 mnd", "fra første commit til CRM-et vi bruker hver dag"],
-      ["1 468", "commits"],
-      ["432", "av dem skrevet av en AI-agent"],
-    ],
-    close: "Ikke bygg agenten før ritualet er bevist.",
-  },
-  {
     kind: "figure",
     id: "reglene",
     chapter: "Advanti",
@@ -367,8 +353,11 @@ description: Finn leietakere og kjøpere.
     chapter: "Advanti",
     eyebrow: "Demo",
     title: "Det de ansatte faktisk bruker.",
-    body: "CRM-et, datarommene og agentene i drift — bygget av oss.",
-    links: [{ label: "app.advantiestate.no", href: "https://app.advantiestate.no", note: "Krever innlogging" }],
+    body: "CRM-et, datarommene og agentene i drift, bygget av oss. Og denne presentasjonen, laget på samme måte.",
+    links: [
+      { label: "app.advantiestate.no", href: "https://app.advantiestate.no", note: "Krever innlogging" },
+      { label: "Slik lager jeg presentasjoner", href: "/no/presentasjon/PBL/prototype", note: "Tre versjoner av dette dekket" },
+    ],
   },
   {
     kind: "timeline",

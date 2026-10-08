@@ -267,7 +267,7 @@ function Body({ slide }: { slide: Slide }) {
         <div className="flex h-full flex-col justify-center">
           <Title slide={slide} big />
           <p className={`${text} mt-[2.4vh]`} style={{ color: c.body }}>{slide.body}</p>
-          <ul className="m-0 mt-[4.4vh] grid max-w-[60rem] list-none border-t p-0" style={{ borderColor: c.line }}>
+          <ul className="m-0 mt-[4.4vh] grid max-w-[76rem] list-none border-t p-0" style={{ borderColor: c.line }}>
             {slide.links.map((l) => (
               <li key={l.href} className="border-b" style={{ borderColor: c.line }}>
                 <DemoLink
@@ -278,7 +278,7 @@ function Body({ slide }: { slide: Slide }) {
                   <span className={`${head} text-[clamp(1.6rem,2.8vw,3.4rem)] leading-none underline decoration-1 underline-offset-[0.14em] group-hover:decoration-2`} style={{ textDecorationColor: c.rust }}>
                     {l.label}
                   </span>
-                  <span className="font-mono text-[clamp(0.75rem,0.9vw,1.08rem)]" style={{ color: c.meta }}>{l.note} ↗</span>
+                  <span className="shrink-0 whitespace-nowrap font-mono text-[clamp(0.75rem,0.9vw,1.08rem)]" style={{ color: c.meta }}>{l.note} ↗</span>
                 </DemoLink>
               </li>
             ))}
