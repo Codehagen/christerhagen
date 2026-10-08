@@ -5,7 +5,7 @@
 
 import { DemoLink, pad, type StageProps } from "./engine"
 import type { Chapter, Slide, Track } from "./content"
-import { Braindump, Contributions, Feed, StepFigure, VideoClip } from "./figure"
+import { Braindump, Contributions, Feed, Reorder, StepFigure, VideoClip } from "./figure"
 
 const paper = "#f5f2ea"
 const ink = "#211e18"
@@ -278,6 +278,21 @@ function Body({ slide, t }: { slide: Slide; t: T }) {
               </div>
             ))}
           </Band>
+        </div>
+      )
+    case "principles":
+      return (
+        <div className="grid h-full grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-[4vw]">
+          <div className={layout}>
+            <Title slide={slide} t={t} size="clamp(2.4rem,4.8vw,5.8rem)" />
+            <div>
+              <p className={small} style={{ color: t.soft }}>{slide.body}</p>
+              <p className={`${small} mt-[2.4vh]`} style={{ color: t.accent }}>{slide.close}</p>
+            </div>
+          </div>
+          <div className="self-center">
+            <Reorder colors={{ ink: t.fg, rust: t.accent, meta: t.soft, rule: t.rule, body: t.soft }} />
+          </div>
         </div>
       )
     case "figure":

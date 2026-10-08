@@ -21,6 +21,7 @@ export type Slide =
   | (Base & { kind: "demo"; body: string; links: Array<{ label: string; href: string; note: string }> })
   | (Base & { kind: "tracks"; tracks: Array<[Track, string]>; close?: string })
   | (Base & { kind: "end"; lead: string })
+  | (Base & { kind: "principles"; body: string; questions: Array<[string, string]>; close: string })
   | (Base & { kind: "github"; caption: string; who: Array<[Track, string, string]>; companies: Array<[string, string]> })
   | (Base & {
       kind: "feed"
@@ -162,18 +163,18 @@ export const slides: Slide[] = [
     ],
   },
   {
-    kind: "statement",
+    kind: "principles",
     id: "advanti",
     chapter: "Advanti",
     eyebrow: "Det første vi gjorde",
-    title: "Vi satte oss ned og tegnet opp et salg.",
-    body: "Før vi skrev en linje kode, gikk vi gjennom hvordan et næringssalg faktisk går. Steg for steg: hva som skjer, hvem som venter på hva, og hvor det blir stille.",
-    items: [
-      ["Uke 1", "Teaseren går ut. Kjøperne svarer: send oss tallene."],
-      ["Ukene etter", "Salgsoppgaven skrives. Kjøperne venter."],
-      ["Uke 3", "Datarommet åpner. Nå får kjøperne det de spurte om i uke 1."],
+    title: "Vi tegnet opp et salg, og spurte hvorfor.",
+    body: "Før vi skrev en linje kode, gikk vi gjennom hvordan et næringssalg faktisk går. Så brøt vi det ned til det som må være sant, og bygde opp igjen derfra. Det er first principles.",
+    questions: [
+      ["Målet", "Hva er jobben egentlig til for? Finne kjøper fort, og få svar til dem enda fortere."],
+      ["Behovet", "Hva trenger kjøperen for å si ja? Tallene: leiekontrakter, tilstand, regnskap."],
+      ["Vanen", "Hvorfor kommer det sist? Fordi det alltid har gjort det. Ingen har bestemt det."],
     ],
-    close: "Det kjøperen trenger først, kom sist. Så vi snudde det. Datarommet er klart fra dag én, og kjøperen får svar samme dag.",
+    close: "Spør hvorfor til svaret er «sånn har vi alltid gjort det». Der ligger jobben.",
   },
   {
     kind: "braindump",

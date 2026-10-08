@@ -371,3 +371,72 @@ export function Profile({
     </div>
   )
 }
+
+const salg = [
+  { id: "teaser", name: "Teaser", before: "Uke 1", after: "Dag 1" },
+  { id: "oppgave", name: "Salgsoppgave", before: "Uke 1–3 · skrives for hånd", after: "Hentes ut av datarommet" },
+  { id: "datarom", name: "Datarom", before: "Uke 3 · kjøperen får svar", after: "Dag 1 · kjøperen får svar" },
+]
+const before = ["teaser", "oppgave", "datarom"]
+const after = ["datarom", "teaser", "oppgave"]
+
+/**
+ * Salget slik det alltid har vært, og så snudd. Datarommet glir fra bunnen til
+ * toppen; de to andre flytter seg ett hakk ned. Det er raden som flytter seg,
+ * ikke innholdet, så bevegelsen er bare transform.
+ */
+export function Reorder({ colors }: { colors: { ink: string; rust: string; meta: string; rule: string; body: string } }) {
+  const [snudd, setSnudd] = useState(false)
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setSnudd(true), 1400)
+    return () => window.clearTimeout(timer)
+  }, [])
+
+  const order = snudd ? after : before
+  const label = "font-mono uppercase tracking-[0.14em] text-[clamp(0.62rem,0.72vw,0.88rem)] leading-none"
+
+  return (
+    <div className="w-full max-w-[34rem]">
+      <div className="relative h-[1em]">
+        {["Slik det alltid har vært", "Slik vi gjør det"].map((text, i) => (
+          <p
+            key={text}
+            className={`${label} absolute inset-0 transition-opacity duration-300 ease-out motion-reduce:transition-none`}
+            style={{ color: i ? colors.rust : colors.meta, opacity: (i === 1) === snudd ? 1 : 0 }}
+          >
+            {text}
+          </p>
+        ))}
+      </div>
+      <div className="relative mt-[2.4vh] h-[calc(3*clamp(4.2rem,9.5vh,6.4rem)+2*1.4vh)]">
+        {salg.map((step) => {
+          const pos = order.indexOf(step.id)
+          const moved = snudd && step.id === "datarom"
+          return (
+            <div
+              key={step.id}
+              className="absolute inset-x-0 top-0 flex h-[clamp(4.2rem,9.5vh,6.4rem)] items-center justify-between gap-6 border px-[1.4vw] transition-[transform,border-color] duration-[800ms] ease-[cubic-bezier(0.65,0,0.35,1)] motion-reduce:transition-none"
+              style={{
+                transform: `translateY(calc(${pos} * (100% + 1.4vh)))`,
+                borderColor: moved ? colors.rust : colors.rule,
+              }}
+            >
+              <span className="font-mono text-[clamp(0.8rem,1vw,1.2rem)] tabular-nums" style={{ color: colors.meta }}>
+                {pad2(pos + 1)}
+              </span>
+              <span className="flex-1 font-serif text-[clamp(1.15rem,1.6vw,1.95rem)] leading-none font-semibold" style={{ color: colors.ink }}>
+                {step.name}
+              </span>
+              <span className="text-end font-mono text-[clamp(0.66rem,0.8vw,0.96rem)] leading-[1.4]" style={{ color: moved ? colors.rust : colors.body }}>
+                {snudd ? step.after : step.before}
+              </span>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+const pad2 = (n: number) => String(n).padStart(2, "0")

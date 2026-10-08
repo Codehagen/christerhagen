@@ -4,7 +4,7 @@
 // dempet for mørkt. Ingen kort, ingen glød — hårfine linjer og en kapittelskinne.
 
 import { DemoLink, pad, type StageProps } from "./engine"
-import { Braindump, Contributions, Feed, Profile, StepFigure, VideoClip } from "./figure"
+import { Braindump, Contributions, Feed, Profile, Reorder, StepFigure, VideoClip } from "./figure"
 import type { Chapter, Slide, Track } from "./content"
 
 // Utledet fra nettstedets --ink / --paper / --rust, ikke valgt fritt.
@@ -346,6 +346,18 @@ function Body({ slide }: { slide: Slide }) {
               ))}
             </Columns>
           </div>
+        </div>
+      )
+    case "principles":
+      return (
+        <div className="grid h-full grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] items-center gap-[4.5vw]">
+          <div>
+            <Title slide={slide} />
+            <p className={`${text} mt-[3vh] max-w-[46ch]`} style={{ color: c.body }}>{slide.body}</p>
+            <Rows items={slide.questions} keyCol="7rem" />
+            <Close>{slide.close}</Close>
+          </div>
+          <Reorder colors={{ ink: c.ink, rust: c.rust, meta: c.meta, rule: c.line, body: c.body }} />
         </div>
       )
     case "figure":

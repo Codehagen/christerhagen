@@ -4,7 +4,7 @@
 
 import { DemoLink, pad, type StageProps } from "./engine"
 import type { Slide, Track } from "./content"
-import { Braindump, Contributions, Feed, StepFigure, VideoClip } from "./figure"
+import { Braindump, Contributions, Feed, Reorder, StepFigure, VideoClip } from "./figure"
 
 const c = {
   paper: "#f5f2ea",
@@ -280,6 +280,21 @@ function Body({ slide }: { slide: Slide }) {
                 <p className={`${text} mt-[1vh]`} style={{ color: c.body }}>{joke}</p>
               </div>
             ))}
+          </div>
+        </div>
+      )
+    case "principles":
+      return (
+        <div className="grid h-full grid-cols-12 content-center items-center gap-x-[3vw]">
+          <div className="col-span-7">
+            <Kicker slide={slide} />
+            <h2 className={`${head} mt-[2.6vh] text-[clamp(2rem,3.6vw,4.4rem)] leading-[0.98]`}>{slide.title}</h2>
+            <p className={`${text} mt-[3vh]`} style={{ color: c.body }}>{slide.body}</p>
+            <div className="mt-[3vh]"><Rows items={slide.questions} keyWidth="7rem" /></div>
+            <Close>{slide.close}</Close>
+          </div>
+          <div className="col-span-5">
+            <Reorder colors={{ ink: c.ink, rust: c.rust, meta: c.meta, rule: c.rule, body: c.body }} />
           </div>
         </div>
       )
