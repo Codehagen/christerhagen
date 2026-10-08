@@ -56,9 +56,9 @@ export const slides: Slide[] = [
     ],
     companies: [
       ["Bygger", "Verid · Advanti Estate · Bedrifty · Codebase"],
-      ["Solgt", "Docdir (Visma) · Utleieoversikten"],
-      ["Investert i", "Codenord · Propdock · Vendo · Fotovibe · Somevibe"],
-      ["Lagt ned", "Sailsdock · Refenze. Vi snakker ikke om dem."],
+      ["Solgt", "Docdir (Visma) · Utleieoversikten · Sailsdock"],
+      ["Investert i", "Propdock · Fotovibe · Somevibe"],
+      ["Lagt ned", "Refenze · Vendo · Codenord"],
     ],
   },
   {
