@@ -32,7 +32,7 @@ export type Slide =
     })
   | (Base & { kind: "video"; src: string; poster: string; credit: string; href: string; body: string })
   | (Base & { kind: "braindump"; body: string; note: string; result: Array<[string, string]>; close: string })
-  | (Base & { kind: "figure"; figure: "chat" | "agent" | "agentfil" | "ui" | "connectors" | "page" | "brief" | "gate" | "utkast" | "brain" | "brainstack"; body: string; close: string })
+  | (Base & { kind: "figure"; figure: "chat" | "agent" | "agentfil" | "ui" | "connectors" | "page" | "brief" | "gate" | "utkast" | "brain" | "brainstack" | "clipping" | "race"; body: string; close: string })
 
 export const slides: Slide[] = [
   {
@@ -402,29 +402,23 @@ description: Finn leietakere og kjøpere.
     ],
   },
   {
-    kind: "statement",
+    kind: "figure",
     id: "verid-hvorfor",
     chapter: "Verid",
     eyebrow: "Lansert i går",
     title: "Jeg bygger det jeg selv har savnet som megler.",
-    body: "En megler må vite hvem de handler med. I dag hentes opplysningene fra flere steder og legges i saksmappen for hånd. Det tar minst en time per sak, og jeg har aldri møtt en megler som synes det er gøy.",
-    items: [
-      ["Docdir", "Salgsoppgaven. Solgt til Visma."],
-      ["Verid", "Kundekontrollen etter hvitvaskingsloven."],
-    ],
-    close: "Hvitvasking skal tas på alvor. Da må det være enkelt å gjøre det riktig i hver eneste sak.",
+    figure: "clipping",
+    body: "Med Docdir var det salgsoppgaven. Nå er det kundekontrollen. En megler må vite hvem de handler med, og i dag hentes opplysningene fra flere steder og legges i saksmappen for hånd.",
+    close: "Jeg har aldri møtt en megler som synes hvitvaskingsarbeid er gøy.",
   },
   {
-    kind: "stats",
+    kind: "figure",
     id: "verid",
     chapter: "Verid",
     eyebrow: "Verid",
     title: "Fra en time til fem minutter.",
+    figure: "race",
     body: "Verid sjekker sanksjons- og PEP-lister, eierskap og offentlige registre, med kilde og tidspunkt på hver opplysning. Megleren vurderer og signerer med navn. Flere meglerforetak bruker det allerede.",
-    stats: [
-      ["1 time", "før, per sak"],
-      ["5 min", "med Verid"],
-    ],
     close: "AI foreslår. Et menneske signerer. Samme regel på kontoret, i tunnelen og her.",
   },
   {

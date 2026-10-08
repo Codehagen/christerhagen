@@ -29,6 +29,8 @@ const figures = {
   utkast: DeckUtkast,
   brain: BrainGraph,
   brainstack: BrainStack,
+  clipping: Clipping,
+  race: VeridRace,
 }
 
 export function StepFigure({ name, className }: { name: keyof typeof figures; className?: string }) {
@@ -602,5 +604,137 @@ export function BrainStack({ className }: { className?: string }) {
         <text x={260} y={441} textAnchor="middle" fill={deckInk} fontSize={14} style={serif}>CRM · det vi handler på</text>
       </g>
     </svg>
+  )
+}
+
+/* ── Verid ───────────────────────────────────────────────────────────── */
+
+/** Bodø Nu, 7. oktober 2026. Overskriften og undertittelen er hentet fra saken. */
+export function Clipping({ className }: { className?: string }) {
+  return (
+    <div className={`flex items-center justify-center ${className ?? ""}`}>
+      <figure
+        className="m-0 w-full max-w-[32rem] -rotate-[1.2deg] border px-[2.2vw] py-[3.4vh] animate-in fade-in-0 slide-in-from-bottom-2 duration-500 motion-reduce:animate-none"
+        style={{ borderColor: deckInk, background: "var(--deck-ground)" }}
+      >
+        <p className="font-mono text-[clamp(0.62rem,0.74vw,0.9rem)] uppercase tracking-[0.16em]" style={{ color: deckRust }}>
+          Bodø Nu · 7. oktober 2026
+        </p>
+        <p className="mt-[2.4vh] font-serif text-[clamp(1.6rem,2.6vw,3.2rem)] leading-[1.04] font-semibold text-balance" style={{ color: deckInk }}>
+          Christer solgte til Visma – nå satser han på nytt
+        </p>
+        <p className="mt-[2vh] font-serif text-[clamp(1rem,1.3vw,1.55rem)] leading-[1.3] italic" style={{ color: deckInk, opacity: 0.75 }}>
+          «Kan bli det største jeg har laget»
+        </p>
+        <div className="mt-[3vh] grid gap-[0.9vh]" aria-hidden="true">
+          {[100, 92, 97, 60].map((w, i) => (
+            <span key={i} className="block h-[2px]" style={{ width: `${w}%`, background: deckInk, opacity: 0.18 }} />
+          ))}
+        </div>
+      </figure>
+    </div>
+  )
+}
+
+const raceLabel = "font-mono uppercase tracking-[0.14em] text-[clamp(0.62rem,0.72vw,0.88rem)] leading-none"
+
+function RaceRow({
+  name,
+  value,
+  fill,
+  hot,
+  children,
+}: {
+  name: string
+  value: string
+  fill: number
+  hot: boolean
+  children?: React.ReactNode
+}) {
+  return (
+    <div>
+      <div className="flex items-baseline justify-between gap-6">
+        <p className={raceLabel} style={{ color: hot ? deckRust : deckInk, opacity: hot ? 1 : 0.7 }}>{name}</p>
+        <p className="font-mono text-[clamp(1.6rem,2.8vw,3.4rem)] leading-none tabular-nums" style={{ color: hot ? deckRust : deckInk }}>
+          {value}
+        </p>
+      </div>
+      <div className="mt-[1.4vh] h-[10px] w-full" style={{ boxShadow: `inset 0 0 0 1px ${deckInk}` }}>
+        <div className="h-full origin-left" style={{ background: hot ? deckRust : deckInk, opacity: hot ? 1 : 0.55, transform: `scaleX(${fill})` }} />
+      </div>
+      {children}
+    </div>
+  )
+}
+
+const manualSteps = ["Brønnøysund", "Kartverket", "Sanksjoner", "PEP", "Medier", "Saksmappe"]
+
+/**
+ * Kappløpet. Sekstiminuttersklokka går på fem sekunder, så fem minutter er
+ * snaue halvsekundet: Verid er ferdig før salen har lest raden.
+ * Tidsforløp er konstant fart, derfor lineær tid og ingen easing på fyllet.
+ */
+export function VeridRace({ className }: { className?: string }) {
+  const span = 5000 // 60 minutter på 5 sekunder
+  const delay = 700
+  const [ms, setMs] = useState(0)
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const t = window.setTimeout(() => setMs(span), 0)
+      return () => window.clearTimeout(t)
+    }
+    let raf = 0
+    const start = performance.now() + delay
+    const tick = (now: number) => {
+      const elapsed = Math.min(span, Math.max(0, now - start))
+      setMs(elapsed)
+      if (elapsed < span) raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [])
+
+  const minutes = (ms / span) * 60
+  const clock = (m: number) => {
+    const total = Math.round(m * 60)
+    return `${String(Math.floor(total / 60)).padStart(2, "0")}:${String(total % 60).padStart(2, "0")}`
+  }
+  const verid = Math.min(minutes, 5)
+  const veridDone = minutes >= 5
+  const done = minutes >= 60
+  const label = raceLabel
+
+  return (
+    <div className={`flex w-full max-w-[38rem] flex-col justify-center gap-[5vh] ${className ?? ""}`} role="img" aria-label="For hånd tar kundekontrollen en time. Med Verid tar den fem minutter.">
+      <RaceRow name="Med Verid" value={clock(verid)} fill={verid / 60} hot>
+        <p
+          className={`${label} mt-[1.4vh] transition-opacity duration-300 ease-out motion-reduce:transition-none`}
+          style={{ color: deckRust, opacity: veridDone ? 1 : 0 }}
+        >
+          Rapport klar · signert av megleren
+        </p>
+      </RaceRow>
+      <RaceRow name="For hånd" value={clock(minutes)} fill={minutes / 60} hot={false}>
+        <div className="mt-[1.4vh] flex flex-wrap gap-x-[1.2vw] gap-y-[0.8vh]">
+          {manualSteps.map((step, i) => {
+            const at = ((i + 1) / manualSteps.length) * 60 - 4
+            const ticked = minutes >= at
+            return (
+              <span key={step} className="font-mono text-[clamp(0.66rem,0.78vw,0.94rem)]" style={{ color: deckInk, opacity: ticked ? 0.85 : 0.3 }}>
+                {ticked ? "✓ " : "· "}
+                {step}
+              </span>
+            )
+          })}
+        </div>
+      </RaceRow>
+      <p
+        className="font-serif text-[clamp(1.6rem,2.6vw,3.2rem)] leading-none font-semibold transition-[opacity,transform] duration-500 ease-out motion-reduce:transition-none"
+        style={{ color: deckInk, opacity: done ? 1 : 0, transform: done ? "none" : "translateY(8px)" }}
+      >
+        12 ganger raskere.
+      </p>
+    </div>
   )
 }
