@@ -194,7 +194,7 @@ export const slides: Slide[] = [
     title: "Slik er hjernen bygget.",
     track: "Utviklere",
     figure: "brainstack",
-    body: "Sidene er markdown. De ligger i Postgres med pgvector, så agentene kan søke på mening og ikke bare ord. Agentene snakker med hjernen over MCP. Om natta synker Wintermute inn nye kilder og lager nye embeddings for sider som er endret.",
+    body: "Sidene er markdown. De ligger i Postgres med pgvector, så agentene kan søke på mening og ikke bare ord. Agentene snakker med hjernen over MCP. Om natta henter nattskiftet inn nye kilder og oppdaterer embeddings for sidene som er endret.",
     close: "Hjernen kan ta feil. CRM-et kan ikke det. Ingenting flyttes fra hjernen til CRM-et før en megler har godkjent det.",
   },
   {
@@ -256,7 +256,7 @@ export const slides: Slide[] = [
       { name: "Advanti CMO", role: "Marked", mode: "Hver uke", does: "Innlegg og nyhetsbrev. Finner aldri på et tall.", track: "Marked" },
       { name: "Advanti Dok", role: "Dokumenter", mode: "Ved behov", does: "Oppdragsavtaler og leiekontrakter." },
       { name: "Advanti Salg", role: "Salg", mode: "Hver morgen", does: "Matcher kjøpere mot alt vi har til salgs.", track: "Salg" },
-      { name: "Wintermute", role: "Bakgrunn", mode: "Natt", does: "Synker, beriker og helsesjekker." },
+      { name: "Nattskiftet", role: "Bakgrunn", mode: "Natt", does: "Synker, beriker og helsesjekker." },
     ],
     close: "Tretten agenter. Ingen av dem er programmert. De er skrevet.",
   },

@@ -152,7 +152,7 @@ function Body({ slide }: { slide: Slide }) {
             </div>
             {stub}
 
-            {/* Viktor, med Wintermute på siden */}
+            {/* Viktor, med nattskiftet på siden */}
             <div className="relative grid grid-cols-[1fr_auto_1fr] items-center">
               <div />
               <div className="border px-[2vw] py-[1.4vh] text-center" style={{ borderColor: c.rust }}>

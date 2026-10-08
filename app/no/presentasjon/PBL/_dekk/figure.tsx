@@ -538,7 +538,7 @@ export function BrainGraph({ className }: { className?: string }) {
 }
 
 /**
- * Hjernen for utviklerne: kildene inn, GBrain i midten, agentene over MCP, og
+ * Hjernen for utviklerne: kildene inn, hjernen i midten, agentene over MCP, og
  * en port med en megler foran CRM-et.
  */
 export function BrainStack({ className }: { className?: string }) {
@@ -558,13 +558,13 @@ export function BrainStack({ className }: { className?: string }) {
       <g {...fadeIn(1000)}>
         <rect x={118} y={58} width={284} height={18} fill="var(--deck-ground, #f5f2ea)" />
         <text x={260} y={70} textAnchor="middle" fill={deckRust} fontSize={10} letterSpacing={0.6} style={monoFont}>
-          Wintermute · GBrain Sync · Embed Stale · Dream
+          Nattskiftet · synk · nye embeddings
         </text>
       </g>
 
       <g {...fadeIn(1300)}>
         <path d={boxPath(0, 96, 520, 128)} stroke={deckInk} strokeOpacity={0.6} strokeWidth={1.3} />
-        <text x={16} y={118} fill={deckRust} fontSize={10} letterSpacing={1.6} style={monoFont}>GBRAIN · FELLES HJERNE</text>
+        <text x={16} y={118} fill={deckRust} fontSize={10} letterSpacing={1.6} style={monoFont}>COMPANY BRAIN · FELLES HJERNE</text>
         <path d={boxPath(16, 132, 236, 76)} stroke={deckInk} strokeOpacity={0.35} strokeWidth={1} />
         <text x={30} y={156} fill={deckInk} fontSize={14} style={serif}>Markdown-sider</text>
         <text x={30} y={176} fill={deckInk} fillOpacity={0.7} fontSize={10} style={monoFont}>én per person, selskap,</text>
@@ -599,7 +599,7 @@ export function BrainStack({ className }: { className?: string }) {
 
       <g {...fadeIn(2700)}>
         <path d={boxPath(110, 410, 300, 50)} stroke={deckRust} strokeWidth={1.4} />
-        <text x={260} y={441} textAnchor="middle" fill={deckInk} fontSize={14} style={serif}>Supabase-CRM · det vi handler på</text>
+        <text x={260} y={441} textAnchor="middle" fill={deckInk} fontSize={14} style={serif}>CRM · det vi handler på</text>
       </g>
     </svg>
   )
