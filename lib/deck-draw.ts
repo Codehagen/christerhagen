@@ -6,9 +6,15 @@ import { visualPalettes } from "@/lib/deck-visual"
  */
 
 export const deckPaper = visualPalettes.papir
-export const deckInk = deckPaper.primary
-export const deckRust = deckPaper.secondary
-export const deckGround = deckPaper.ground
+/**
+ * Fargene går gjennom CSS-variabler med papirfargene som standard. Et dekk på
+ * mørk flate setter --deck-ink, --deck-rust og --deck-ground på en forelder, og
+ * de samme tegningene skifter blekk uten en egen kopi. Uten variablene er
+ * resultatet nøyaktig som før.
+ */
+export const deckInk = `var(--deck-ink, ${deckPaper.primary})`
+export const deckRust = `var(--deck-rust, ${deckPaper.secondary})`
+export const deckGround = `var(--deck-ground, ${deckPaper.ground})`
 
 /** Fire streker som krysser i hjørnene — sånn tegner en plotter en boks. */
 export function boxPath(x: number, y: number, w: number, h: number, overshoot = 2.5) {
