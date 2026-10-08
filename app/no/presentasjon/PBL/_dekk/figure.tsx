@@ -31,6 +31,9 @@ const figures = {
   brainstack: BrainStack,
   clipping: Clipping,
   race: VeridRace,
+  salgdemo: SalgDemo,
+  markedutkast: MarkedUtkast,
+  prflow: PrFlow,
 }
 
 export function StepFigure({ name, className }: { name: keyof typeof figures; className?: string }) {
@@ -736,5 +739,143 @@ export function VeridRace({ className }: { className?: string }) {
         12 ganger raskere.
       </p>
     </div>
+  )
+}
+
+/* ── Ta med herfra ───────────────────────────────────────────────────── */
+
+function Lines({ x, y, widths, gap = 14, hot = -1 }: { x: number; y: number; widths: number[]; gap?: number; hot?: number }) {
+  return (
+    <>
+      {widths.map((w, i) => (
+        <path
+          key={i}
+          d={`M ${x} ${y + i * gap} h ${w}`}
+          stroke={i === hot ? deckRust : deckInk}
+          strokeOpacity={i === hot ? 1 : 0.18}
+          strokeWidth={2.4}
+        />
+      ))}
+    </>
+  )
+}
+
+function Caption({ x, y, children, hot = false, anchor = "start", delay }: { x: number; y: number; children: string; hot?: boolean; anchor?: "start" | "middle" | "end"; delay: number }) {
+  return (
+    <g {...fadeIn(delay)}>
+      <text x={x} y={y} textAnchor={anchor} fill={hot ? deckRust : deckInk} fillOpacity={hot ? 1 : 0.7} fontSize={11} letterSpacing={1.2} style={monoFont}>
+        {children}
+      </text>
+    </g>
+  )
+}
+
+/** Salg: møtenotatet mandag, prototypen samme kveld, kunden som trykker tirsdag. */
+export function SalgDemo({ className }: { className?: string }) {
+  const blocks = [
+    { x: 260, y: 70, w: 140, h: 26 },
+    { x: 260, y: 106, w: 65, h: 58 },
+    { x: 335, y: 106, w: 65, h: 58 },
+    { x: 260, y: 174, w: 140, h: 18 },
+  ]
+  return (
+    <svg aria-hidden="true" viewBox="0 0 420 330" fill="none" preserveAspectRatio="xMidYMid meet" className={className}>
+      <g {...fadeIn(0)}>
+        <path d={boxPath(0, 40, 160, 190)} stroke={deckInk} strokeOpacity={0.55} strokeWidth={1.2} />
+        <text x={16} y={66} fill={deckRust} fontSize={10} letterSpacing={1.6} style={monoFont}>MØTENOTAT</text>
+        <Lines x={16} y={92} widths={[126, 106, 128, 96, 120, 88, 112]} gap={18} hot={3} />
+      </g>
+      <Edge d="M 160 135 H 240" delay={700} highlight />
+      <Caption x={200} y={124} anchor="middle" hot delay={800}>SAMME DAG</Caption>
+      <g {...fadeIn(1000)}>
+        <path d={boxPath(240, 20, 180, 230)} stroke={deckInk} strokeOpacity={0.55} strokeWidth={1.2} />
+        <text x={260} y={48} fill={deckRust} fontSize={10} letterSpacing={1.6} style={monoFont}>PROTOTYPE</text>
+      </g>
+      {blocks.map((b, i) => (
+        <g key={i} {...fadeIn(1300 + i * 220)}>
+          <path d={boxPath(b.x, b.y, b.w, b.h, 1.5)} stroke={i === 3 ? deckRust : deckInk} strokeOpacity={i === 3 ? 1 : 0.4} strokeWidth={1.1} />
+        </g>
+      ))}
+      <g {...fadeIn(2400)}>
+        <path d="M 368 186 l 0 18 l 5 -5 l 4 9 l 3 -1.5 l -4 -9 l 7 0 z" fill={deckInk} />
+        <circle cx={369} cy={186} r={11} stroke={deckRust} strokeWidth={1.2} />
+      </g>
+      <Caption x={80} y={262} anchor="middle" delay={300}>MANDAG · MØTET</Caption>
+      <Caption x={420} y={282} anchor="end" delay={1200}>SAMME KVELD · DEMOEN</Caption>
+      <Caption x={420} y={306} anchor="end" hot delay={2600}>TIRSDAG · KUNDEN TRYKKER</Caption>
+    </svg>
+  )
+}
+
+/** Marked: det som skjedde denne uka til venstre, utkastene til høyre. */
+export function MarkedUtkast({ className }: { className?: string }) {
+  const week = ["En kunde vi hjalp", "En ny funksjon", "Et spørsmål som kom inn", "Et tall vi er stolte av"]
+  return (
+    <svg aria-hidden="true" viewBox="0 0 420 320" fill="none" preserveAspectRatio="xMidYMid meet" className={className}>
+      <Caption x={0} y={20} delay={0}>DENNE UKA</Caption>
+      <Caption x={240} y={20} hot delay={900}>UTKAST</Caption>
+      {week.map((item, i) => {
+        const y = 40 + i * 68
+        return (
+          <g key={item}>
+            <g {...fadeIn(150 + i * 160)}>
+              <path d={boxPath(0, y, 180, 48)} stroke={deckInk} strokeOpacity={0.5} strokeWidth={1.1} />
+              <text x={14} y={y + 29} fill={deckInk} fontSize={13} style={serif}>{item}</text>
+            </g>
+            <Edge d={`M 180 ${y + 24} H 240`} delay={1000 + i * 260} highlight />
+            <g {...fadeIn(1250 + i * 260)}>
+              <path d={boxPath(240, y, 180, 48)} stroke={deckRust} strokeWidth={1.1} />
+              <Lines x={254} y={y + 17} widths={[136, 110]} />
+              <path d={`M 254 ${y + 37} h 60`} stroke={deckRust} strokeWidth={2.4} />
+            </g>
+          </g>
+        )
+      })}
+    </svg>
+  )
+}
+
+/** Utviklere: skjermbildet med feilen, saken, boten, PR-en og knappen du trykker på. */
+export function PrFlow({ className }: { className?: string }) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 420 360" fill="none" preserveAspectRatio="xMidYMid meet" className={className}>
+      <g {...fadeIn(0)}>
+        <path d={boxPath(0, 10, 190, 130)} stroke={deckInk} strokeOpacity={0.55} strokeWidth={1.2} />
+        <text x={14} y={34} fill={deckRust} fontSize={10} letterSpacing={1.6} style={monoFont}>SKJERMBILDE</text>
+        <Lines x={14} y={56} widths={[150, 120, 140]} gap={16} />
+        <path d={boxPath(14, 100, 70, 22, 1.5)} stroke={deckInk} strokeOpacity={0.5} strokeWidth={1.1} />
+      </g>
+      <g {...fadeIn(500)}>
+        <ellipse cx={49} cy={111} rx={48} ry={20} stroke={deckRust} strokeWidth={1.6} />
+        <text x={0} y={170} fill={deckInk} fontSize={14} style={serif}>«Knappen gjør ingenting.»</text>
+      </g>
+
+      <Edge d="M 190 75 H 240" delay={900} />
+      <g {...fadeIn(1100)}>
+        <path d={boxPath(240, 40, 180, 70)} stroke={deckInk} strokeOpacity={0.55} strokeWidth={1.2} />
+        <text x={254} y={64} fill={deckRust} fontSize={10} letterSpacing={1.6} style={monoFont}>SAK</text>
+        <Lines x={254} y={84} widths={[140, 96]} />
+      </g>
+
+      <Edge d="M 330 110 V 150" delay={1500} />
+      <g {...fadeIn(1700)}>
+        <path d={boxPath(260, 150, 140, 40)} stroke={deckInk} strokeOpacity={0.55} strokeWidth={1.2} strokeDasharray="5 4" />
+        <text x={330} y={175} textAnchor="middle" fill={deckInk} fontSize={11} letterSpacing={1.4} style={monoFont}>BOT</text>
+      </g>
+
+      <Edge d="M 330 190 V 230" delay={2100} />
+      <g {...fadeIn(2300)}>
+        <path d={boxPath(240, 230, 180, 110)} stroke={deckInk} strokeOpacity={0.55} strokeWidth={1.2} />
+        <text x={254} y={254} fill={deckRust} fontSize={10} letterSpacing={1.6} style={monoFont}>PULL REQUEST</text>
+        <text x={254} y={278} fill={deckRust} fontSize={12} style={monoFont}>+ onClick={"{lagre}"}</text>
+        <text x={254} y={296} fill={deckInk} fillOpacity={0.55} fontSize={12} style={monoFont}>− onClick={"{() => {}}"}</text>
+        <path d={boxPath(330, 310, 76, 22, 1.5)} stroke={deckRust} strokeWidth={1.3} />
+        <text x={368} y={325} textAnchor="middle" fill={deckRust} fontSize={10} letterSpacing={1.4} style={monoFont}>MERGE</text>
+      </g>
+      <g {...fadeIn(2800)}>
+        <path d="M 160 321 H 322" stroke={deckRust} strokeWidth={1.1} strokeDasharray="3 4" />
+        <text x={0} y={326} fill={deckInk} fontSize={14} style={serif}>Du leser, og trykker.</text>
+      </g>
+    </svg>
   )
 }

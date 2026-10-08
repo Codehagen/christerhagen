@@ -32,7 +32,7 @@ export type Slide =
     })
   | (Base & { kind: "video"; src: string; poster: string; credit: string; href: string; body: string })
   | (Base & { kind: "braindump"; body: string; note: string; result: Array<[string, string]>; close: string })
-  | (Base & { kind: "figure"; figure: "chat" | "agent" | "agentfil" | "ui" | "connectors" | "page" | "brief" | "gate" | "utkast" | "brain" | "brainstack" | "clipping" | "race"; body: string; close: string })
+  | (Base & { kind: "figure"; figure: "chat" | "agent" | "agentfil" | "ui" | "connectors" | "page" | "brief" | "gate" | "utkast" | "brain" | "brainstack" | "clipping" | "race" | "salgdemo" | "markedutkast" | "prflow"; body: string; close: string })
 
 export const slides: Slide[] = [
   {
@@ -462,32 +462,37 @@ description: Finn leietakere og kjøpere.
     close: "Det som blir knapt, er dømmekraft, domenekunnskap og smak.",
   },
   {
-    kind: "tracks",
-    id: "dagen",
+    kind: "figure",
+    id: "ta-med-salg",
     chapter: "Fremover",
-    eyebrow: "Resten av dagen",
-    title: "Tre ting å ta med herfra.",
-    tracks: [
-      ["Salg", "Ta med en klikkbar demo til neste kundemøte.", "Skriv ned hva kunden sa i møtet før, og la AI bygge en prototype samme dag. Det er den kunden husker, ikke presentasjonen."],
-      ["Marked", "Skriv aldri fra et blankt ark igjen.", "Lag lista over innlegg fra det dere faktisk har gjort denne uka. Skriv svartelista over ordene som avslører AI, og la AI skrive utkastene."],
-      ["Utviklere", "Gjør feilrapporter om til pull requests.", "Hos meg blir en rapport med et skjermbilde til en PR, automatisk. Jeg leser og merger. Det er det som har gjort meg raskest."],
-    ],
-    close: "Velg én. Gjør den før dere går hjem.",
+    eyebrow: "Ta med herfra · 1 av 3",
+    title: "Ta med en klikkbar demo til neste kundemøte.",
+    track: "Salg",
+    figure: "salgdemo",
+    body: "Skriv ned hva kunden sa i møtet. La AI bygge en prototype av det samme dag, og ta den med neste gang. Kunden husker det de kunne trykke på.",
+    close: "Prøv i dag: ta én kundesamtale fra denne uka og lag en demo av den.",
   },
   {
-    kind: "steps",
-    id: "prbot",
+    kind: "figure",
+    id: "ta-med-marked",
     chapter: "Fremover",
-    eyebrow: "Feilrapport til PR",
-    title: "Fra skjermbilde til pull request.",
+    eyebrow: "Ta med herfra · 2 av 3",
+    title: "Skriv aldri fra et blankt ark igjen.",
+    track: "Marked",
+    figure: "markedutkast",
+    body: "Start med det dere faktisk har gjort denne uka: en kunde dere hjalp, en ny funksjon, et spørsmål som kom inn. La AI lage utkastene fra det. Dere velger og retter.",
+    close: "Prøv i dag: skriv ned fem ting som skjedde denne uka, og be om fem utkast.",
+  },
+  {
+    kind: "figure",
+    id: "ta-med-utviklere",
+    chapter: "Fremover",
+    eyebrow: "Ta med herfra · 3 av 3",
+    title: "Gjør feilrapporter om til pull requests.",
     track: "Utviklere",
-    steps: [
-      { n: "1", title: "Noen ser en feil.", text: "Tar et skjermbilde og skriver én setning om hva som er galt." },
-      { n: "2", title: "Rapporten.", text: "Blir en sak, med bildet og setningen. Ingen mal å fylle ut." },
-      { n: "3", title: "Boten.", text: "Leser saken, finner koden det gjelder, og åpner en PR med rettelsen." },
-      { n: "4", title: "Du.", text: "Leser diffen og trykker merge. Eller sier nei, og forklarer hvorfor." },
-    ],
-    close: "Jeg bruker tida på å lese kode, ikke på å lete etter den.",
+    figure: "prflow",
+    body: "Hos meg blir en rapport med et skjermbilde til en PR, automatisk. En bot leser saken, finner koden og foreslår rettelsen. Jeg leser diffen og trykker merge, eller sier nei.",
+    close: "Det er det som har gjort meg raskest. Jeg bruker tida på å lese kode, ikke på å lete etter den.",
   },
   {
     kind: "end",
