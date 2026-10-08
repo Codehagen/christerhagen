@@ -177,6 +177,28 @@ export const slides: Slide[] = [
     close: "Spør hvorfor til svaret er «sånn har vi alltid gjort det». Der ligger jobben.",
   },
   {
+    kind: "code",
+    id: "brain",
+    chapter: "Advanti",
+    eyebrow: "Company brain",
+    title: "Så bygde vi en hjerne.",
+    body: "Alt selskapet vet, samlet ett sted. Hver person, hvert selskap, hver eiendom og hver handel har sin egen side. Menneskene og agentene skriver til den samme hjernen, og leser fra den samme.",
+    code: `hjernen/
+  personer/
+    ole-nordvik.md
+    berg.md
+  selskaper/
+    nordvik-bygg.md
+  eiendommer/
+    sjogata-12.md
+    havneveien-4.md
+  handler/
+    2026-08-sjogata-12.md
+  møter/
+    2026-08-24-ole-nordvik.md`,
+    close: "Uten den er en agent bare en chat som ikke kjenner deg. Alt resten av foredraget bygger på denne mappa.",
+  },
+  {
     kind: "braindump",
     id: "braindump",
     chapter: "Advanti",
