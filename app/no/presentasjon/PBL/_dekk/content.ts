@@ -19,7 +19,7 @@ export type Slide =
   | (Base & { kind: "stats"; body?: string; stats: Array<[string, string]>; close?: string })
   | (Base & { kind: "code"; body: string; code: string; close: string })
   | (Base & { kind: "demo"; body: string; links: Array<{ label: string; href: string; note: string }> })
-  | (Base & { kind: "tracks"; tracks: Array<[Track, string]>; close?: string })
+  | (Base & { kind: "tracks"; tracks: Array<[Track, string, string]>; close?: string })
   | (Base & { kind: "end"; lead: string })
   | (Base & { kind: "principles"; body: string; questions: Array<[string, string]>; close: string })
   | (Base & { kind: "github"; caption: string; who: Array<[Track, string, string]>; companies: Array<[string, string]> })
@@ -466,12 +466,28 @@ description: Finn leietakere og kjøpere.
     id: "dagen",
     chapter: "Fremover",
     eyebrow: "Resten av dagen",
-    title: "Tre ting å prøve før dere går hjem.",
+    title: "Tre ting å ta med herfra.",
     tracks: [
-      ["Utviklere", "Skriv én skill: en jobb dere gjør hver uke, som en mappe med en markdown-fil."],
-      ["Salg", "Ta én kundesamtale fra denne uka og lag en klikkbar demo av den."],
-      ["Marked", "Skriv svartelista, og la AI skrive neste nyhetsbrev."],
+      ["Salg", "Ta med en klikkbar demo til neste kundemøte.", "Skriv ned hva kunden sa i møtet før, og la AI bygge en prototype samme dag. Det er den kunden husker, ikke presentasjonen."],
+      ["Marked", "Skriv aldri fra et blankt ark igjen.", "Lag lista over innlegg fra det dere faktisk har gjort denne uka. Skriv svartelista over ordene som avslører AI, og la AI skrive utkastene."],
+      ["Utviklere", "Gjør feilrapporter om til pull requests.", "Hos meg blir en rapport med et skjermbilde til en PR, automatisk. Jeg leser og merger. Det er det som har gjort meg raskest."],
     ],
+    close: "Velg én. Gjør den før dere går hjem.",
+  },
+  {
+    kind: "steps",
+    id: "prbot",
+    chapter: "Fremover",
+    eyebrow: "Feilrapport til PR",
+    title: "Fra skjermbilde til pull request.",
+    track: "Utviklere",
+    steps: [
+      { n: "1", title: "Noen ser en feil.", text: "Tar et skjermbilde og skriver én setning om hva som er galt." },
+      { n: "2", title: "Rapporten.", text: "Blir en sak, med bildet og setningen. Ingen mal å fylle ut." },
+      { n: "3", title: "Boten.", text: "Leser saken, finner koden det gjelder, og åpner en PR med rettelsen." },
+      { n: "4", title: "Du.", text: "Leser diffen og trykker merge. Eller sier nei, og forklarer hvorfor." },
+    ],
+    close: "Jeg bruker tida på å lese kode, ikke på å lete etter den.",
   },
   {
     kind: "end",

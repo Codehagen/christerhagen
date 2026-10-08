@@ -376,13 +376,15 @@ function Body({ slide }: { slide: Slide }) {
         <div className="flex h-full flex-col justify-center">
           <Title slide={slide} />
           <Columns n={3}>
-            {slide.tracks.map(([t, v]: [Track, string], i) => (
+            {slide.tracks.map(([t, v, detail]: [Track, string, string], i) => (
               <Col key={t} i={i}>
                 <p className={label} style={{ color: c.rust }}>{t}</p>
                 <p className={`${head} mt-[2vh] text-[clamp(1.2rem,1.8vw,2.2rem)] leading-[1.18]`}>{v}</p>
+                <p className={`${text} mt-[1.4vh]`} style={{ color: c.body }}>{detail}</p>
               </Col>
             ))}
           </Columns>
+          <Close>{slide.close}</Close>
         </div>
       )
   }

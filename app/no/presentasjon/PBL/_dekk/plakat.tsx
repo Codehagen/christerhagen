@@ -313,10 +313,11 @@ function Body({ slide, t }: { slide: Slide; t: T }) {
         <div className={layout}>
           <Title slide={slide} t={t} />
           <Band cols={3} t={t}>
-            {slide.tracks.map(([k, v]) => (
+            {slide.tracks.map(([k, v, detail]) => (
               <div key={k}>
                 <Chip track={k} t={t} />
                 <p className="mt-[1.8vh] font-serif text-[clamp(1.1rem,1.6vw,1.95rem)] leading-[1.18] font-semibold text-pretty">{v}</p>
+                <p className={`${small} mt-[1vh]`} style={{ color: t.soft }}>{detail}</p>
               </div>
             ))}
           </Band>

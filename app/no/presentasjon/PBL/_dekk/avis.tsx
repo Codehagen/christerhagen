@@ -316,10 +316,11 @@ function Body({ slide }: { slide: Slide }) {
           <Kicker slide={slide} />
           <h2 className={`${head} mt-[2.4vh] text-[clamp(2.2rem,4vw,4.8rem)] leading-[0.98]`}>{slide.title}</h2>
           <div className="mt-[5vh] grid grid-cols-3 border-t" style={{ borderColor: c.ink }}>
-            {slide.tracks.map(([t, v], i) => (
+            {slide.tracks.map(([t, v, detail], i) => (
               <div key={t} className={`pt-[2.4vh] pr-[2vw] ${i ? "border-l pl-[2vw]" : ""}`} style={{ borderColor: c.rule }}>
                 <Chip track={t} />
                 <p className={`${head} mt-[2vh] text-[clamp(1.2rem,1.9vw,2.3rem)] leading-[1.15]`}>{v}</p>
+                <p className={`${text} mt-[1.4vh]`} style={{ color: c.body }}>{detail}</p>
               </div>
             ))}
           </div>
