@@ -32,7 +32,7 @@ export type Slide =
     })
   | (Base & { kind: "video"; src: string; poster: string; credit: string; href: string; body: string })
   | (Base & { kind: "braindump"; body: string; note: string; result: Array<[string, string]>; close: string })
-  | (Base & { kind: "figure"; figure: "chat" | "agent" | "agentfil" | "ui" | "connectors" | "page" | "brief" | "gate" | "utkast" | "brain" | "brainstack" | "clipping" | "race" | "salgdemo" | "markedutkast" | "prflow"; body: string; close: string })
+  | (Base & { kind: "figure"; figure: "chat" | "agent" | "agentfil" | "ui" | "connectors" | "page" | "brief" | "gate" | "utkast" | "brain" | "brainstack" | "clipping" | "race" | "salgmatch" | "markedutkast" | "prflow"; body: string; close: string })
 
 export const slides: Slide[] = [
   {
@@ -466,11 +466,11 @@ description: Finn leietakere og kjøpere.
     id: "ta-med-salg",
     chapter: "Fremover",
     eyebrow: "Ta med herfra · 1 av 3",
-    title: "Ta med en klikkbar demo til neste kundemøte.",
+    title: "La AI finne neste kunde.",
     track: "Salg",
-    figure: "salgdemo",
-    body: "Skriv ned hva kunden sa i møtet. La AI bygge en prototype av det samme dag, og ta den med neste gang. Kunden husker det de kunne trykke på.",
-    close: "Prøv i dag: ta én kundesamtale fra denne uka og lag en demo av den.",
+    figure: "salgmatch",
+    body: "Hos oss leter en agent etter treff hver morgen, og legger dem på bordet sortert: ring i dag, send denne uka, følg med. Det samme går an hos dere. En ny barnehage, et eierskifte, et anbud og en ny styrer er signaler som står et sted.",
+    close: "Agenten finner kunden. Det er dere som ringer.",
   },
   {
     kind: "figure",

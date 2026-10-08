@@ -31,7 +31,7 @@ const figures = {
   brainstack: BrainStack,
   clipping: Clipping,
   race: VeridRace,
-  salgdemo: SalgDemo,
+  salgmatch: SalgMatch,
   markedutkast: MarkedUtkast,
   prflow: PrFlow,
 }
@@ -770,39 +770,55 @@ function Caption({ x, y, children, hot = false, anchor = "start", delay }: { x: 
   )
 }
 
-/** Salg: møtenotatet mandag, prototypen samme kveld, kunden som trykker tirsdag. */
-export function SalgDemo({ className }: { className?: string }) {
-  const blocks = [
-    { x: 260, y: 70, w: 140, h: 26 },
-    { x: 260, y: 106, w: 65, h: 58 },
-    { x: 335, y: 106, w: 65, h: 58 },
-    { x: 260, y: 174, w: 140, h: 18 },
+/**
+ * Salg: signalene til venstre, ringelista til høyre. Samme maskin som Advanti
+ * Salg, flyttet til barnehagemarkedet. Signalene er eksempler.
+ */
+export function SalgMatch({ className }: { className?: string }) {
+  const signals = [
+    { name: "Kommunen lyser ut anbud", source: "DOFFIN", to: 0 },
+    { name: "Eierskifte i en kjede", source: "BRØNNØYSUND", to: 0 },
+    { name: "Ny barnehage registrert", source: "BRØNNØYSUND", to: 1 },
+    { name: "Ny styrer hos en kunde", source: "NETTSIDEN", to: 2 },
   ]
+  const groups = [
+    { label: "RING I DAG", y: 40, h: 96, items: ["Anbudet", "Eierskiftet"], hot: true },
+    { label: "SEND DENNE UKA", y: 160, h: 64, items: ["Den nye barnehagen"], hot: false },
+    { label: "FØLG MED", y: 248, h: 64, items: ["Den nye styreren"], hot: false },
+  ]
+  // Hvor i gruppa hver linje treffer: første og andre plass i «ring i dag».
+  const slot = [0, 1, 0, 0]
   return (
     <svg aria-hidden="true" viewBox="0 0 420 330" fill="none" preserveAspectRatio="xMidYMid meet" className={className}>
-      <g {...fadeIn(0)}>
-        <path d={boxPath(0, 40, 160, 190)} stroke={deckInk} strokeOpacity={0.55} strokeWidth={1.2} />
-        <text x={16} y={66} fill={deckRust} fontSize={10} letterSpacing={1.6} style={monoFont}>MØTENOTAT</text>
-        <Lines x={16} y={92} widths={[126, 106, 128, 96, 120, 88, 112]} gap={18} hot={3} />
-      </g>
-      <Edge d="M 160 135 H 240" delay={700} highlight />
-      <Caption x={200} y={124} anchor="middle" hot delay={800}>SAMME DAG</Caption>
-      <g {...fadeIn(1000)}>
-        <path d={boxPath(240, 20, 180, 230)} stroke={deckInk} strokeOpacity={0.55} strokeWidth={1.2} />
-        <text x={260} y={48} fill={deckRust} fontSize={10} letterSpacing={1.6} style={monoFont}>PROTOTYPE</text>
-      </g>
-      {blocks.map((b, i) => (
-        <g key={i} {...fadeIn(1300 + i * 220)}>
-          <path d={boxPath(b.x, b.y, b.w, b.h, 1.5)} stroke={i === 3 ? deckRust : deckInk} strokeOpacity={i === 3 ? 1 : 0.4} strokeWidth={1.1} />
+      <Caption x={0} y={20} delay={0}>SIGNALER</Caption>
+      {signals.map((sig, i) => {
+        const y = 40 + i * 70
+        const g = groups[sig.to]
+        const ty = g.y + 40 + slot[i] * 26
+        return (
+          <g key={sig.name}>
+            <g {...fadeIn(150 + i * 160)}>
+              <path d={boxPath(0, y, 176, 50)} stroke={deckInk} strokeOpacity={0.5} strokeWidth={1.1} />
+              <text x={14} y={y + 21} fill={deckInk} fontSize={12.5} style={serif}>{sig.name}</text>
+              <text x={14} y={y + 38} fill={deckRust} fontSize={9} letterSpacing={1.3} style={monoFont}>{sig.source}</text>
+            </g>
+            <Edge d={`M 176 ${y + 25} H ${196 + i * 10} V ${ty - 4} H 240`} delay={1200 + i * 320} highlight={g.hot} />
+          </g>
+        )
+      })}
+      {groups.map((g, i) => (
+        <g key={g.label} {...fadeIn(800 + i * 120)}>
+          <path d={boxPath(240, g.y, 180, g.h)} stroke={g.hot ? deckRust : deckInk} strokeOpacity={g.hot ? 1 : 0.5} strokeWidth={g.hot ? 1.4 : 1.1} />
+          <text x={254} y={g.y + 20} fill={g.hot ? deckRust : deckInk} fillOpacity={g.hot ? 1 : 0.7} fontSize={10} letterSpacing={1.5} style={monoFont}>
+            {g.label}
+          </text>
+          {g.items.map((item, j) => (
+            <text key={item} x={254} y={g.y + 44 + j * 26} fill={deckInk} fontSize={13} style={serif}>
+              {item}
+            </text>
+          ))}
         </g>
       ))}
-      <g {...fadeIn(2400)}>
-        <path d="M 368 186 l 0 18 l 5 -5 l 4 9 l 3 -1.5 l -4 -9 l 7 0 z" fill={deckInk} />
-        <circle cx={369} cy={186} r={11} stroke={deckRust} strokeWidth={1.2} />
-      </g>
-      <Caption x={80} y={262} anchor="middle" delay={300}>MANDAG · MØTET</Caption>
-      <Caption x={420} y={282} anchor="end" delay={1200}>SAMME KVELD · DEMOEN</Caption>
-      <Caption x={420} y={306} anchor="end" hot delay={2600}>TIRSDAG · KUNDEN TRYKKER</Caption>
     </svg>
   )
 }
