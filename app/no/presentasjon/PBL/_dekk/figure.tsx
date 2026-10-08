@@ -13,6 +13,8 @@ import { DeckPage } from "@/components/deck-page"
 import { StepAgent, StepChat, StepUI } from "@/components/deck-steps"
 import { DeckUtkast } from "@/components/deck-utkast"
 
+import { boxPath, deckInk, deckRust } from "@/lib/deck-draw"
+
 import { contributionWeekStarts, contributionWeeks } from "./github"
 
 const figures = {
@@ -25,6 +27,8 @@ const figures = {
   brief: DeckBrief,
   gate: DeckGate,
   utkast: DeckUtkast,
+  brain: BrainGraph,
+  brainstack: BrainStack,
 }
 
 export function StepFigure({ name, className }: { name: keyof typeof figures; className?: string }) {
@@ -440,3 +444,163 @@ export function Reorder({ colors }: { colors: { ink: string; rust: string; meta:
 }
 
 const pad2 = (n: number) => String(n).padStart(2, "0")
+
+/* ── Hjernen ─────────────────────────────────────────────────────────── */
+
+const serif = { fontFamily: "var(--font-serif)" } as const
+const monoFont = { fontFamily: "var(--font-mono)" } as const
+
+function fadeIn(delay: number) {
+  return {
+    className: "animate-in fade-in-0 duration-500 [animation-fill-mode:backwards] motion-reduce:animate-none",
+    style: { animationDelay: `${delay}ms` },
+  }
+}
+
+function Edge({ d, delay, highlight = false }: { d: string; delay: number; highlight?: boolean }) {
+  return (
+    <path
+      d={d}
+      pathLength={1}
+      stroke={highlight ? deckRust : deckInk}
+      strokeOpacity={highlight ? 1 : 0.4}
+      strokeWidth={1.2}
+      strokeDasharray="1 1"
+      className="motion-reduce:!animate-none"
+      style={{ animation: "deck-stream 520ms var(--ease-out-quart) backwards", animationDelay: `${delay}ms` }}
+    />
+  )
+}
+
+/**
+ * Sidene i hjernen, og lenkene mellom dem. Hver boks er en fil; hver strek er
+ * en lenke én side har til en annen. Havneveien 4 lyser opp til slutt: to
+ * personer vil ha det samme bygget, og det sto ikke i noe enkelt notat.
+ */
+export function BrainGraph({ className }: { className?: string }) {
+  const nodes = [
+    { id: "ole", type: "PERSON", name: "Ole Nordvik", x: 20, y: 20 },
+    { id: "nordvik", type: "SELSKAP", name: "Nordvik Bygg", x: 290, y: 20 },
+    { id: "mote", type: "TELEFON 24.08", name: "«600 kvm før sommeren»", x: 20, y: 180 },
+    { id: "sjogata", type: "EIENDOM", name: "Sjøgata 12", x: 290, y: 180 },
+    { id: "berg", type: "PERSON", name: "Berg", x: 20, y: 340 },
+    { id: "havne", type: "EIENDOM · LEDIG", name: "Havneveien 4", x: 290, y: 340 },
+  ]
+  const edges: Array<{ d: string; label: string; lx: number; ly: number; anchor?: "start" | "end" | "middle"; hi?: boolean }> = [
+    { d: "M 190 48 H 290", label: "daglig leder", lx: 240, ly: 40, anchor: "middle" },
+    { d: "M 375 76 V 180", label: "leier i dag", lx: 382, ly: 132, anchor: "start" },
+    { d: "M 105 76 V 180", label: "ringte", lx: 112, ly: 132, anchor: "start" },
+    { d: "M 190 222 H 240 V 356 H 290", label: "trenger plass", lx: 234, ly: 300, anchor: "end", hi: true },
+    { d: "M 190 384 H 290", label: "har spurt om", lx: 240, ly: 376, anchor: "middle", hi: true },
+  ]
+  const edgeStart = nodes.length * 220 + 200
+
+  return (
+    <svg aria-hidden="true" viewBox="0 0 480 420" fill="none" preserveAspectRatio="xMidYMid meet" className={className}>
+      {nodes.map((n, i) => {
+        const hot = n.id === "havne"
+        return (
+          <g key={n.id} {...fadeIn(i * 220)}>
+            <path d={boxPath(n.x, n.y, 170, 56)} stroke={deckInk} strokeOpacity={0.55} strokeWidth={1.2} />
+            <text x={n.x + 14} y={n.y + 20} fill={deckRust} fontSize={9.5} letterSpacing={1.4} style={monoFont}>{n.type}</text>
+            <text x={n.x + 14} y={n.y + 42} fill={deckInk} fontSize={n.name.length > 16 ? 13 : 16} style={serif}>{n.name}</text>
+            {hot ? (
+              <path
+                d={boxPath(n.x, n.y, 170, 56)}
+                stroke={deckRust}
+                strokeWidth={1.6}
+                {...fadeIn(edgeStart + edges.length * 320 + 300)}
+              />
+            ) : null}
+          </g>
+        )
+      })}
+      {edges.map((e, i) => (
+        <g key={e.label}>
+          <Edge d={e.d} delay={edgeStart + i * 320} highlight={e.hi} />
+          <g {...fadeIn(edgeStart + i * 320 + 200)}>
+            <text
+              x={e.lx}
+              y={e.ly}
+              textAnchor={e.anchor}
+              fill={e.hi ? deckRust : deckInk}
+              fillOpacity={e.hi ? 1 : 0.6}
+              fontSize={10}
+              style={monoFont}
+            >
+              {e.label}
+            </text>
+          </g>
+        </g>
+      ))}
+    </svg>
+  )
+}
+
+/**
+ * Hjernen for utviklerne: kildene inn, GBrain i midten, agentene over MCP, og
+ * en port med en megler foran CRM-et.
+ */
+export function BrainStack({ className }: { className?: string }) {
+  const sources = ["Møter", "E-post", "Kalender", "Braindump"]
+  return (
+    <svg aria-hidden="true" viewBox="0 0 520 470" fill="none" preserveAspectRatio="xMidYMid meet" className={className}>
+      {sources.map((name, i) => {
+        const x = i * 135
+        return (
+          <g key={name} {...fadeIn(i * 120)}>
+            <path d={boxPath(x, 0, 110, 34)} stroke={deckInk} strokeOpacity={0.45} strokeWidth={1.1} />
+            <text x={x + 55} y={22} textAnchor="middle" fill={deckInk} fontSize={11} style={monoFont}>{name}</text>
+            <Edge d={`M ${x + 55} 34 V 96`} delay={700 + i * 120} />
+          </g>
+        )
+      })}
+      <g {...fadeIn(1000)}>
+        <rect x={118} y={58} width={284} height={18} fill="var(--deck-ground, #f5f2ea)" />
+        <text x={260} y={70} textAnchor="middle" fill={deckRust} fontSize={10} letterSpacing={0.6} style={monoFont}>
+          Wintermute · GBrain Sync · Embed Stale · Dream
+        </text>
+      </g>
+
+      <g {...fadeIn(1300)}>
+        <path d={boxPath(0, 96, 520, 128)} stroke={deckInk} strokeOpacity={0.6} strokeWidth={1.3} />
+        <text x={16} y={118} fill={deckRust} fontSize={10} letterSpacing={1.6} style={monoFont}>GBRAIN · FELLES HJERNE</text>
+        <path d={boxPath(16, 132, 236, 76)} stroke={deckInk} strokeOpacity={0.35} strokeWidth={1} />
+        <text x={30} y={156} fill={deckInk} fontSize={14} style={serif}>Markdown-sider</text>
+        <text x={30} y={176} fill={deckInk} fillOpacity={0.7} fontSize={10} style={monoFont}>én per person, selskap,</text>
+        <text x={30} y={192} fill={deckInk} fillOpacity={0.7} fontSize={10} style={monoFont}>eiendom og handel</text>
+        <path d={boxPath(268, 132, 236, 76)} stroke={deckInk} strokeOpacity={0.35} strokeWidth={1} />
+        <text x={282} y={156} fill={deckInk} fontSize={14} style={serif}>Postgres + pgvector</text>
+        <text x={282} y={176} fill={deckInk} fillOpacity={0.7} fontSize={10} style={monoFont}>OpenAI-embeddings,</text>
+        <text x={282} y={192} fill={deckInk} fillOpacity={0.7} fontSize={10} style={monoFont}>søk på mening, ikke ord</text>
+      </g>
+
+      <Edge d="M 260 224 V 282" delay={1700} />
+      <g {...fadeIn(1800)}>
+        <text x={270} y={258} fill={deckRust} fontSize={10} letterSpacing={1.6} style={monoFont}>MCP · LESER OG SKRIVER</text>
+      </g>
+
+      <g {...fadeIn(1900)}>
+        <path d={boxPath(110, 282, 300, 50)} stroke={deckInk} strokeOpacity={0.6} strokeWidth={1.2} />
+        <text x={260} y={313} textAnchor="middle" fill={deckInk} fontSize={14} style={serif}>11 agenter</text>
+      </g>
+
+      <path
+        d="M 260 332 V 410"
+        stroke={deckRust}
+        strokeWidth={1.2}
+        strokeDasharray="4 5"
+        {...fadeIn(2300)}
+      />
+      <g {...fadeIn(2400)}>
+        <rect x={252} y={362} width={16} height={11} stroke={deckRust} strokeWidth={1.3} fill="var(--deck-ground, #f5f2ea)" />
+        <text x={278} y={371} fill={deckRust} fontSize={10} letterSpacing={0.6} style={monoFont}>en megler godkjenner</text>
+      </g>
+
+      <g {...fadeIn(2700)}>
+        <path d={boxPath(110, 410, 300, 50)} stroke={deckRust} strokeWidth={1.4} />
+        <text x={260} y={441} textAnchor="middle" fill={deckInk} fontSize={14} style={serif}>Supabase-CRM · det vi handler på</text>
+      </g>
+    </svg>
+  )
+}

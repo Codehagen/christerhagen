@@ -32,7 +32,7 @@ export type Slide =
     })
   | (Base & { kind: "video"; src: string; poster: string; credit: string; href: string; body: string })
   | (Base & { kind: "braindump"; body: string; note: string; result: Array<[string, string]>; close: string })
-  | (Base & { kind: "figure"; figure: "chat" | "agent" | "agentfil" | "ui" | "connectors" | "page" | "brief" | "gate" | "utkast"; body: string; close: string })
+  | (Base & { kind: "figure"; figure: "chat" | "agent" | "agentfil" | "ui" | "connectors" | "page" | "brief" | "gate" | "utkast" | "brain" | "brainstack"; body: string; close: string })
 
 export const slides: Slide[] = [
   {
@@ -177,26 +177,25 @@ export const slides: Slide[] = [
     close: "Spør hvorfor til svaret er «sånn har vi alltid gjort det». Der ligger jobben.",
   },
   {
-    kind: "code",
+    kind: "figure",
     id: "brain",
     chapter: "Advanti",
     eyebrow: "Company brain",
     title: "Så bygde vi en hjerne.",
-    body: "Alt selskapet vet, samlet ett sted. Hver person, hvert selskap, hver eiendom og hver handel har sin egen side. Menneskene og agentene skriver til den samme hjernen, og leser fra den samme.",
-    code: `hjernen/
-  personer/
-    ole-nordvik.md
-    berg.md
-  selskaper/
-    nordvik-bygg.md
-  eiendommer/
-    sjogata-12.md
-    havneveien-4.md
-  handler/
-    2026-08-sjogata-12.md
-  møter/
-    2026-08-24-ole-nordvik.md`,
-    close: "Uten den er en agent bare en chat som ikke kjenner deg. Alt resten av foredraget bygger på denne mappa.",
+    figure: "brain",
+    body: "Alt selskapet vet, samlet ett sted. Hver person, hvert selskap og hver eiendom har sin egen side, og sidene lenker til hverandre. Menneskene og agentene skriver til den samme hjernen, og leser fra den samme.",
+    close: "Ole trenger plass. Berg har spurt om det samme bygget. Ingen av oss hadde holdt de to i hodet samtidig. Hjernen gjør det.",
+  },
+  {
+    kind: "figure",
+    id: "brain-tech",
+    chapter: "Advanti",
+    eyebrow: "Company brain, teknisk",
+    title: "Slik er hjernen bygget.",
+    track: "Utviklere",
+    figure: "brainstack",
+    body: "Sidene er markdown. De ligger i Postgres med pgvector, så agentene kan søke på mening og ikke bare ord. Agentene snakker med hjernen over MCP. Om natta synker Wintermute inn nye kilder og lager nye embeddings for sider som er endret.",
+    close: "Hjernen kan ta feil. CRM-et kan ikke det. Ingenting flyttes fra hjernen til CRM-et før en megler har godkjent det.",
   },
   {
     kind: "braindump",
