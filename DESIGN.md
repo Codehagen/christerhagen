@@ -411,6 +411,34 @@ is `inert` while it is open. `aria-expanded` and `aria-controls`.
 ### PenToggle
 See §3. 13px, ink, hovering to `--pen`. 21px above it in the rail.
 
+### Long posts: figures and the facts margin (round 5)
+
+A long post keeps the post page above (rail, column, pen, read next). What makes it ours rather than
+benji's is the figures: benji's figures are grey stages of live UI; ours come from the subject (deals,
+documents, numbers, the north). Kept in round 5: 69, 70, 71, 72, 77. Source of truth for exact values is
+the lab file named in each entry (`app/prototypes/lab/round-5/…`); sizes convert with the rule in §2.
+
+- **Figure: document** (`o/69`). A real document (e.g. the sales prospectus) drawn as paper lying on the
+  ground, `--surface` with a hairline, no grey stage and no app window. The pen rings the one line that
+  matters. Caption left-aligned under the sheet in the column, `--ink-muted`, never centred.
+- **Figure: number** (`o/70`). One large tabular figure in the column between two hairlines
+  (≈91px, weight 560, tracking −0.045em, `tabular-nums`), its unit beside it at ≈17px/520. The caption
+  starts with the source in ink, then the context in `--ink-muted`. The pen rings the unit and notes the
+  caveat the site itself states (e.g. "at its peak, not every month").
+- **Figure: clipping** (`o/71`). A real press item from `lib/content.ts` set as a cut newspaper clipping on
+  the ground: outlet, headline verbatim, body as grey newsprint lines (the article text is not ours to
+  reproduce). Caption links to the article (`TextLink`, external ↗). One pen ring on the fact it reports.
+  Evidence, not illustration. Needs a year in the press data before it can show one.
+- **Figure: distance** (`o/72`). A place fact drawn by hand: one pen line with a loop at each end, north up,
+  the figure (e.g. 1,200 km) in ink beside it. No map, no tiles.
+- **Facts margin** (`p/77`). Instead of margin commentary only, the right margin can carry a running ledger
+  (Year · Company · Stage) that fills as each part of the post is read: the current part in ink, earlier
+  rows step back to `--ink-faint`, one pen ring on the fact that matters, hidden once the footer is in
+  view. Desktop only (`margin:` breakpoint); phones get no facts margin.
+
+Rules: at most one figure kind per section; every figure carries exactly one pen mark; figure text is the
+site's own facts only; a long post still has one pen colour (blue).
+
 ## 5. Pages
 
 Every page: Header → content in the column → Footer, on `--ground` under the `--top-fade`.
@@ -460,6 +488,9 @@ Every page: Header → content in the column → Footer, on `--ground` under the
   setting, the 404).
 - Anywhere: gradients, glass, shadows on text, coloured links, a second accent, icons beside nav items, pills or badges.
 - **A clickable thing in a decorative grey.** Grey is decoration; anything clickable is ≥ `--ink-interactive` (§2).
+
+- **Long-post devices not kept in round 5:** the deal sheet as a figure (73), years as the rail (74),
+  source tags instead of footnotes (75), the pen's summary with minutes left (76), bilingual glosses (78).
 
 ## 7. Open questions and inconsistencies
 

@@ -50,3 +50,6 @@ The method:
 - Round 4 (2026-11-15): kept after round 3 → 41, 42, 44, 45, 49, 51, 53, 55.
   No photo page was kept; Christer asked to update or move the photo. Round 4
   is home + about only, one photo decision per piece.
+- Round 5 result (2026-11-15): kept 69, 70, 71, 72, 77 (document, number,
+  clipping and distance as figures; the facts margin). Written into
+  DESIGN.md §4 "Long posts".
