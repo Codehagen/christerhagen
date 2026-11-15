@@ -373,6 +373,8 @@ export interface PressItem {
   outlet: string
   title: string
   url: string
+  /** Publication date as ISO "YYYY-MM", read from the article page. */
+  date: string
 }
 
 export interface AboutContent {
@@ -396,46 +398,55 @@ const pressItems: PressItem[] = [
     outlet: "Avisa Nordland",
     title: "Solgt til gigantselskap: – Det største jeg har vært med på",
     url: "https://www.an.no/solgt-til-gigantselskap-det-storste-jeg-har-vart-med-pa/s/5-4-2368685",
+    date: "2026-05",
   },
   {
     outlet: "Bodø Nu",
     title: "Bodø-gründer om det «spektakulære» AI-salget: Fra søndagshobby til suksess",
     url: "https://www.bodonu.no/bodo-gr-nder-om-det-spektakulare-ai-salget-fra-sondagshobby-til-suksess/s/80-159-2583",
+    date: "2026-05",
   },
   {
     outlet: "Bodø Nu",
     title: "Briljerte i AI-mesterskap",
     url: "https://www.bodonu.no/briljerte-i-ai-mesterskap/s/5-159-249201",
+    date: "2026-03",
   },
   {
     outlet: "kode24",
     title: "Setter av 3 timer til familien: – Du har alltid tid til sideprosjekter",
     url: "https://www.kode24.no/artikkel/setter-av-3-timer-til-familien-du-har-alltid-tid-til-sideprosjekter/186039",
+    date: "2023-10",
   },
   {
     outlet: "Bodø Nu",
     title: "Farten øker for gründeren: Christer (35) utvider i nord",
     url: "https://www.bodonu.no/farten-oker-for-gr-nderen-christer-35-utvider-i-nord/f/5-159-242846",
+    date: "2026-02",
   },
   {
     outlet: "Avisa Nordland",
     title: "Mathias Nilssen og Christer Hagen satser sammen",
     url: "https://www.an.no/mathias-nilssen-og-christer-hagen-satser-sammen/s/5-4-2379116",
+    date: "2026-05",
   },
   {
     outlet: "Avisa Nordland",
     title: "Konkurrentene slår seg sammen: – Vi gleder oss stort",
     url: "https://www.an.no/konkurrentene-slar-seg-sammen-vi-gleder-oss-stort/s/5-4-2138382",
+    date: "2025-03",
   },
   {
     outlet: "Avisa Nordland",
     title: "Blir Christer Bodøs neste supermegler?",
     url: "https://www.an.no/nyheter/okonomi-og-naringsliv/eiendomsmegler/blir-christer-bodos-neste-supermegler/s/5-4-381016",
+    date: "2016-09",
   },
   {
     outlet: "Avisa Nordland",
     title: "Christer (25) tar opp kampen med klesgigantene",
     url: "https://www.an.no/trening-og-kosthold/fauske/jobb/christer-25-tar-opp-kampen-med-klesgigantene/s/5-4-242172",
+    date: "2016-01",
   },
 ]
 

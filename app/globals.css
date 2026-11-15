@@ -337,8 +337,9 @@
     -webkit-tap-highlight-color: transparent;
     /* Keep whatever the browser scrolls to (hash jumps, Tab / Shift+Tab to
        an off-screen element) clear of the 128px top fade, so a focused
-       element never sits dissolved under it. */
-    scroll-padding-top: var(--top-fade-h);
+       element never sits dissolved under it. The solid header row comes
+       first, then the fade. */
+    scroll-padding-top: calc(var(--header-row) + var(--top-fade-h));
   }
   body {
     margin: 0;
@@ -349,14 +350,18 @@
     font-weight: var(--weight-body);
     letter-spacing: var(--tracking-body);
   }
-  /* benji's top fade: fixed, eased, 128px, no edge line. Content scrolls up
-     and dissolves under it; the header row and the rail sit over it. */
+  /* benji's top fade: fixed, eased, 128px, no edge line. benji has no menu
+     at the top; we do, so the header row (48px) is solid white and benji's
+     fade runs unchanged below it. Scrolled text never shows behind the
+     menu, and the fade still dissolves content the same way. */
   body::before {
     content: "";
     position: fixed;
     inset: 0 0 auto;
-    height: var(--top-fade-h);
-    background: var(--top-fade);
+    height: calc(var(--header-row) + var(--top-fade-h));
+    background:
+      linear-gradient(rgb(255 255 255), rgb(255 255 255)) top / 100% var(--header-row) no-repeat,
+      var(--top-fade) 0 var(--header-row) / 100% var(--top-fade-h) no-repeat;
     pointer-events: none;
     z-index: var(--z-fade);
   }

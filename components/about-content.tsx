@@ -106,8 +106,8 @@ export function AboutContent({ lang }: { lang: Lang }) {
               <TextLink href={p.url} lang="nb" className="min-w-0 text-pretty">
                 {p.title}
               </TextLink>
-              <span className="shrink-0 text-small text-ink-faint">
-                {p.outlet}
+              <span className="shrink-0 text-small text-ink-faint tabular-nums">
+                {p.outlet} · <time dateTime={p.date}>{p.date.slice(0, 4)}</time>
               </span>
             </li>
           ))}

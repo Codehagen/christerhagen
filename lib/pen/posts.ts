@@ -147,6 +147,21 @@ export const WRITING_PEN: Record<Lang, { note: string }> = {
 }
 
 /**
+ * Which of a post's notes its Open Graph card carries in the margin: the one
+ * that still reads beside the title alone, without the paragraph it marks.
+ */
+export const POST_OG_NOTE: Record<PostSlug, "bracket" | "ring" | "hl"> = {
+  "docdir-visma": "hl",
+  "building-in-bodo": "ring",
+  "apparel-to-software": "hl",
+}
+
+/** The margin note on a post's Open Graph card (see POST_OG_NOTE). */
+export function postOgNote(lang: Lang, slug: PostSlug): string {
+  return POST_PEN[lang][slug][POST_OG_NOTE[slug]].note
+}
+
+/**
  * Splits `text` around the first `phrase`: [before, phrase, after]. Throws
  * when the phrase is missing, so a copy edit that breaks a mark fails loudly
  * (in the test, and at build) instead of silently dropping it.

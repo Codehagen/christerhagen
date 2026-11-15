@@ -33,6 +33,9 @@ Measured on benji.org/stageshow (2026-11-15): html background `rgb(253,253,252)`
 The lighter strip at the top is **not a band**. It is a `position: fixed` pseudo-element, 128px tall, full width, `z-index: 9`,
 `pointer-events: none`, painted with an *eased* white-to-transparent gradient (`--top-fade` below). Content scrolls up and
 dissolves under it. There is no edge line.
+**Our one change:** benji has no menu at the top; we do. So the 48px header row (`--header-row`) is solid
+white and benji's fade runs unchanged *below* it (`body::before` is `--header-row + --top-fade-h` tall), so
+scrolled text never shows behind the menu. `scroll-padding-top` is the same sum.
 **`--ground` is the only ground on the site; `--top-fade` is the only thing painted over it.** Cards and the product sheet are
 white *surfaces* that sit on the ground. They are not grounds.
 
