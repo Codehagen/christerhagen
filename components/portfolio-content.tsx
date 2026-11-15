@@ -15,7 +15,7 @@ import { Ring } from "@/components/site/pen"
 
 /**
  * The portfolio (DESIGN.md §5; lab round-3/k/51 + 55, as §7.6 resolves
- * them): the kicker, the intro as the h1, then all twelve companies as 51's
+ * them): the kicker, the intro as the h1, then every company as 51's
  * year ledger, newest first, the year printed once per group. The red pen
  * rings Docdir's outcome and writes its note in the margin; pointing at or
  * focusing any row opens 55's margin card in place of the note, and the ring

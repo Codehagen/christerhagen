@@ -32,6 +32,7 @@ const NOTE: Record<CompanySlug, string> = {
   bedrifty: "sailsdock's problem, rebuilt around ai",
   sailsdock: "wound down. the ideas went to bedrifty",
   "advanti-estate": "partner. software for an analogue trade",
+  miniskatten: "with maria, who runs it",
   refenze: "the first one. cash, inventory, wound down",
   codenord: "pre-seed, through not another vc",
   propdock: "an early not another vc bet",

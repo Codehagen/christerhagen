@@ -66,6 +66,7 @@ export const PEN: Record<CompanySlug, { fact: FactKey; en: string; no: string }>
   bedrifty: { fact: "stage", en: "sailsdock's problem, rebuilt around ai", no: "sailsdocks problem, bygget på nytt rundt ai" },
   sailsdock: { fact: "stage", en: "wound down. the ideas went to bedrifty", no: "avviklet. ideene gikk til bedrifty" },
   "advanti-estate": { fact: "role", en: "software for an analogue trade", no: "programvare til en analog bransje" },
+  miniskatten: { fact: "role", en: "with maria, who runs it", no: "med maria, som driver den" },
   refenze: { fact: "year", en: "the first one. cash, inventory, shipping", no: "det første. kapital, lager, frakt" },
   codenord: { fact: "stage", en: "pre-seed, through not another vc", no: "pre-seed, gjennom not another vc" },
   propdock: { fact: "year", en: "an early not another vc bet", no: "en tidlig not another vc-investering" },

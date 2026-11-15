@@ -33,6 +33,7 @@ export const companyOrder = [
   "bedrifty",
   "sailsdock",
   "advanti-estate",
+  "miniskatten",
   "refenze",
   "codenord",
   "propdock",
@@ -134,6 +135,20 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
       body: [
         "Advanti Estate advises on buying, selling and renting commercial property in Northern Norway. It runs on local knowledge the national chains don’t have.",
         "I came in as a partner to bring software and a sharper go-to-market to a traditionally analogue industry.",
+      ],
+    },
+    miniskatten: {
+      name: "Miniskatten",
+      tagline: "Second-hand children’s clothing, sorted by size.",
+      role: "Co-founder · Chair",
+      stage: "Building",
+      year: "2026",
+      sector: "E-commerce",
+      status: "Active",
+      site: "https://www.miniskatten.no",
+      body: [
+        "Miniskatten sells second-hand children’s clothing online, sorted by size from 50 to 152. Parents can send in what their children have outgrown, and we check, photograph, price and sell it.",
+        "I’m in Miniskatten together with my partner Maria. She runs it day to day. I chair the board and built the software.",
       ],
     },
     refenze: {
@@ -304,6 +319,20 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
       body: [
         "Advanti Estate gir råd om kjøp, salg og utleie av næringseiendom i Nord-Norge. Selskapet bygger på lokalkunnskap de nasjonale kjedene ikke har.",
         "Jeg kom inn som partner for å ta med programvare og en skarpere markedsstrategi inn i en bransje som tradisjonelt har vært analog.",
+      ],
+    },
+    miniskatten: {
+      name: "Miniskatten",
+      tagline: "Brukte barneklær, sortert etter størrelse.",
+      role: "Medgründer · styreleder",
+      stage: "Bygger",
+      year: "2026",
+      sector: "E-handel",
+      status: "Aktiv",
+      site: "https://www.miniskatten.no",
+      body: [
+        "Miniskatten selger brukte barneklær på nett, sortert etter størrelse fra 50 til 152. Foreldre kan sende inn det barna har vokst ut av, så sjekker, fotograferer, priser og selger vi det.",
+        "Jeg er i Miniskatten sammen med samboeren min, Maria. Hun driver den til daglig. Jeg er styreleder og har bygget programvaren.",
       ],
     },
     refenze: {

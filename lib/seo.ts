@@ -345,7 +345,8 @@ export function organizationLd(slug: CompanySlug, lang: Lang = "en"): object {
   const company = companies[lang][slug]
   // Founder vs funder is a structural fact, not language-dependent — derive it
   // from the canonical EN role ("Grunnlegger" wouldn't match on NO data).
-  const isFounder = companies.en[slug].role.includes("Founder")
+  // Case-insensitive so "Co-founder" (Miniskatten) counts as founded.
+  const isFounder = /founder/i.test(companies.en[slug].role)
 
   const ld: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -361,9 +362,13 @@ export function organizationLd(slug: CompanySlug, lang: Lang = "en"): object {
   // factual error, and no check is worth that.
   if (isFounder) {
     ld.founder = { "@id": SITE_URL + "/#christer" }
-    ld.email = "mailto:" + CONTACT_EMAIL
-    ld.contactPoint = businessContactPoint(company.name)
     ld.address = BUSINESS_ADDRESS
+    // Miniskatten is run day to day by Maria Johansen and answers its own
+    // enquiries, so Christer's address is not its contact point.
+    if (slug !== "miniskatten") {
+      ld.email = "mailto:" + CONTACT_EMAIL
+      ld.contactPoint = businessContactPoint(company.name)
+    }
   } else {
     ld.funder = { "@id": SITE_URL + "/#christer" }
   }

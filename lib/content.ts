@@ -104,6 +104,7 @@ export const homeContent: Record<Lang, HomeContent> = {
     now: [
       "Building Bedrifty, an AI-native CRM with built-in Norwegian company data.",
       "Building Advanti Estate, a commercial real-estate brokerage in Northern Norway.",
+      "Chairing Miniskatten, an online shop for second-hand children’s clothing that Maria runs.",
       "Investing pre-seed as an angel through Not Another VC.",
       "Trying out a few two-week sprint projects.",
     ],
@@ -131,6 +132,12 @@ export const homeContent: Record<Lang, HomeContent> = {
         role: "Partner · Commercial real estate",
         period: "Since 2024",
         url: "https://advantiestate.no",
+      },
+      {
+        name: "Miniskatten",
+        role: "Co-founder · Second-hand children’s clothing",
+        period: "Since 2026",
+        url: "https://www.miniskatten.no",
       },
       {
         name: "Sailsdock",
@@ -241,6 +248,7 @@ export const homeContent: Record<Lang, HomeContent> = {
     now: [
       "Bygger Bedrifty, et AI-native CRM med innebygd norsk bedriftsdata.",
       "Bygger Advanti Estate, en næringsmegler i Nord-Norge.",
+      "Leder styret i Miniskatten, en nettbutikk for brukte barneklær som Maria driver.",
       "Investerer pre-seed som engleinvestor gjennom Not Another VC.",
       "Prøver ut noen sprintprosjekter på to uker.",
     ],
@@ -268,6 +276,12 @@ export const homeContent: Record<Lang, HomeContent> = {
         role: "Partner · Næringseiendom",
         period: "Siden 2024",
         url: "https://advantiestate.no",
+      },
+      {
+        name: "Miniskatten",
+        role: "Medgründer · Brukte barneklær",
+        period: "Siden 2026",
+        url: "https://www.miniskatten.no",
       },
       {
         name: "Sailsdock",
@@ -458,7 +472,7 @@ export const aboutContent: Record<Lang, AboutContent> = {
     bio: [
       "I’m from Bodø, in the north of Norway. I grew up in Fauske, swam competitively, and studied entrepreneurship at Nord University before starting my first company.",
       "That company, Refenze, sold fitness apparel across Europe and the US. It taught me how unforgiving real businesses are, and I have been building them ever since.",
-      "Through Codebase I build and back software companies. I sold Docdir to Visma in 2026 and have since wound down Sailsdock, an earlier CRM. Today I’m building Bedrifty, an AI-native CRM with built-in Norwegian company data. I’m also a partner at Advanti Estate and invest pre-seed through Not Another VC.",
+      "Through Codebase I build and back software companies. I sold Docdir to Visma in 2026 and have since wound down Sailsdock, an earlier CRM. Today I’m building Bedrifty, an AI-native CRM with built-in Norwegian company data. I’m also a partner at Advanti Estate, chair the board of Miniskatten, and invest pre-seed through Not Another VC.",
       "I build in the open on GitHub and placed in the top 4% of the Norwegian AI Championship. I still think the best companies can be built far from the capital.",
     ],
     timeline: [
@@ -471,6 +485,7 @@ export const aboutContent: Record<Lang, AboutContent> = {
       },
       { year: "2024", event: "Became a partner at Advanti Estate." },
       { year: "2026", event: "Sold Docdir to Visma." },
+      { year: "2026", event: "Started Miniskatten with Maria." },
     ],
     lblPress: "In the press",
     press: pressItems,
@@ -485,7 +500,7 @@ export const aboutContent: Record<Lang, AboutContent> = {
     bio: [
       "Jeg er fra Bodø, i Nord-Norge. Jeg vokste opp i Fauske, svømte på konkurransenivå, og studerte entreprenørskap ved Nord universitet før jeg startet mitt første selskap.",
       "Det selskapet, Refenze, solgte treningsklær i Europa og USA. Det lærte meg hvor nådeløs ekte forretning er, og jeg har bygget selskaper siden da.",
-      "Gjennom Codebase bygger og investerer jeg i programvareselskaper. Jeg solgte Docdir til Visma i 2026 og har siden avviklet Sailsdock, et tidligere CRM. I dag bygger jeg Bedrifty, et AI-native CRM med innebygd norsk bedriftsdata. Jeg er også partner i Advanti Estate og investerer pre-seed gjennom Not Another VC.",
+      "Gjennom Codebase bygger og investerer jeg i programvareselskaper. Jeg solgte Docdir til Visma i 2026 og har siden avviklet Sailsdock, et tidligere CRM. I dag bygger jeg Bedrifty, et AI-native CRM med innebygd norsk bedriftsdata. Jeg er også partner i Advanti Estate, styreleder i Miniskatten, og investerer pre-seed gjennom Not Another VC.",
       "Jeg bygger i åpen kildekode på GitHub og kom blant de 4 % beste i NM i AI. Jeg tror fortsatt de beste selskapene kan bygges langt fra hovedstaden.",
     ],
     timeline: [
@@ -498,6 +513,7 @@ export const aboutContent: Record<Lang, AboutContent> = {
       },
       { year: "2024", event: "Ble partner i Advanti Estate." },
       { year: "2026", event: "Solgte Docdir til Visma." },
+      { year: "2026", event: "Startet Miniskatten med Maria." },
     ],
     lblPress: "I media",
     press: pressItems,
@@ -563,6 +579,12 @@ export const portfolioContent: Record<Lang, PortfolioContent> = {
         name: "Advanti Estate",
         desc: "Commercial real estate brokerage across Northern Norway.",
         meta: "Partner · 2024",
+      },
+      {
+        slug: "miniskatten",
+        name: "Miniskatten",
+        desc: "Second-hand children’s clothing, sorted by size.",
+        meta: "Co-founder · 2026",
       },
     ],
     invest: [
@@ -652,6 +674,12 @@ export const portfolioContent: Record<Lang, PortfolioContent> = {
         name: "Advanti Estate",
         desc: "Næringsmegling i Nord-Norge.",
         meta: "Partner · 2024",
+      },
+      {
+        slug: "miniskatten",
+        name: "Miniskatten",
+        desc: "Brukte barneklær, sortert etter størrelse.",
+        meta: "Medgründer · 2026",
       },
     ],
     invest: [

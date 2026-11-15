@@ -176,6 +176,13 @@ describe("organizationLd()", () => {
     const ld = organizationLd("codebase") as Record<string, unknown>
     expect(ld.founder).toEqual({ "@id": SITE_URL + "/#christer" })
   })
+
+  it("a co-founder company is founded, without Christer's contact point", () => {
+    const ld = organizationLd("miniskatten") as Record<string, unknown>
+    expect(ld.founder).toEqual({ "@id": SITE_URL + "/#christer" })
+    expect(ld.funder).toBeUndefined()
+    expect(ld.contactPoint).toBeUndefined()
+  })
 })
 
 describe("blogPostingLd()", () => {

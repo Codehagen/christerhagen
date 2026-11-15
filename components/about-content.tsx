@@ -26,6 +26,7 @@ const NAMES: [string, PreviewKey][] = [
   ["Sailsdock", "sailsdock"],
   ["Bedrifty", "bedrifty"],
   ["Advanti Estate", "advanti-estate"],
+  ["Miniskatten", "miniskatten"],
   ["Not Another VC", "nav"],
 ]
 const LINKS: [string, PreviewKey][][] = [
@@ -87,7 +88,7 @@ export function AboutContent({ lang }: { lang: Lang }) {
           yearWidth="2.4em"
           columns="1fr"
           rows={a.timeline.map((e) => ({
-            id: e.year,
+            id: `${e.year}-${e.event}`,
             year: e.year,
             cells: [<span key="e">{e.event}</span>],
           }))}

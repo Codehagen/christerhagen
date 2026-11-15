@@ -34,6 +34,11 @@ export const companyPen: Record<
     en: "software for an analogue trade",
     no: "programvare til en analog bransje",
   },
+  miniskatten: {
+    fact: "role",
+    en: "with maria, who runs it",
+    no: "med maria, som driver den",
+  },
   refenze: {
     fact: "year",
     en: "the first one. cash, inventory, shipping",
