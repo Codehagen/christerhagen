@@ -104,7 +104,7 @@ export const homeContent: Record<Lang, HomeContent> = {
     now: [
       "Building Bedrifty, an AI-native CRM with built-in Norwegian company data.",
       "Building Advanti Estate, a commercial real-estate brokerage in Northern Norway.",
-      "Chairing Miniskatten, an online shop for second-hand children’s clothing that Maria runs.",
+      "Chairing Miniskatten, the second-hand children’s clothing shop Maria runs.",
       "Investing pre-seed as an angel through Not Another VC.",
       "Trying out a few two-week sprint projects.",
     ],
@@ -248,7 +248,7 @@ export const homeContent: Record<Lang, HomeContent> = {
     now: [
       "Bygger Bedrifty, et AI-native CRM med innebygd norsk bedriftsdata.",
       "Bygger Advanti Estate, en næringsmegler i Nord-Norge.",
-      "Leder styret i Miniskatten, en nettbutikk for brukte barneklær som Maria driver.",
+      "Leder styret i Miniskatten, nettbutikken for brukte barneklær som Maria driver.",
       "Investerer pre-seed som engleinvestor gjennom Not Another VC.",
       "Prøver ut noen sprintprosjekter på to uker.",
     ],
