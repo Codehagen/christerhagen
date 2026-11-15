@@ -1,20 +1,15 @@
 import { ImageResponse } from "next/og"
 
-import { OG_PEN_COLOR } from "@/lib/og-card"
-import { OG_SANS, OG_STRONG, ogFonts } from "@/lib/og-fonts"
-
 export const size = { width: 180, height: 180 }
 export const contentType = "image/png"
 
-/** The pen loop (components/site/pen.tsx LOOP_D), redrawn for a square. */
-const RING =
-  "M 98 37 C 138 34, 160 58, 158 92 C 156 128, 128 148, 88 147 C 50 146, 22 124, 23 89 C 24 56, 50 33, 92 34 C 108 34.5, 120 38, 127 44"
+/** The favicon's pen loop (app/icon.svg), in its 64-unit box. */
+const LOOP =
+  "M 18 18 C 26 9.5, 44 8.5, 53 17 C 61.5 25, 59.5 41, 49 48.5 C 38.5 56, 20 55, 11.5 45.5 C 4 37, 6 22.5, 17.5 14.5 C 22 11.5, 27 10, 31 9.5"
 
-// The favicon's mark (app/icon.svg: CH in Inter 560, ink) on the ground,
-// since iOS fills a transparent icon with black. Here there is room for the
-// pen: one blue loop round the letters, too fine to survive at 16px.
-export default async function AppleIcon() {
-  const fonts = await ogFonts()
+// The same mark as the favicon: the tilted pen loop in near-white on ink.
+// Full-bleed ink, since iOS rounds the corners itself.
+export default function AppleIcon() {
   return new ImageResponse(
     (
       <div
@@ -22,34 +17,23 @@ export default async function AppleIcon() {
           width: "100%",
           height: "100%",
           display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          position: "relative",
-          background: "#FDFDFC",
-          color: "#111111",
-          fontFamily: OG_SANS,
-          fontWeight: OG_STRONG,
-          fontSize: 68,
-          letterSpacing: "-0.025em",
+          background: "#111111",
         }}
       >
-        <svg
-          width="180"
-          height="180"
-          viewBox="0 0 180 180"
-          style={{ position: "absolute", left: 0, top: 0 }}
-        >
+        <svg width="180" height="180" viewBox="0 0 64 64">
+          <g transform="translate(32 32) scale(.78) rotate(-12) translate(-32 -32)">
           <path
-            d={RING}
+            d={LOOP}
             fill="none"
-            stroke={OG_PEN_COLOR.blue}
-            strokeWidth="2.8"
+            stroke="#FDFDFC"
+            strokeWidth="5.2"
             strokeLinecap="round"
+            strokeLinejoin="round"
           />
+          </g>
         </svg>
-        <div style={{ display: "flex", marginTop: -4 }}>CH</div>
       </div>
     ),
-    { ...size, fonts }
+    { ...size }
   )
 }
