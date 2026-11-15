@@ -13,6 +13,8 @@ import { pieces as k } from "./round-3/k"
 import { pieces as l } from "./round-3/l"
 import { pieces as m } from "./round-4/m"
 import { pieces as n } from "./round-4/n"
+import { pieces as o } from "./round-5/o"
+import { pieces as p } from "./round-5/p"
 
 /**
  * Newest round first. Earlier rounds stay on the page: the lab is the record of
@@ -20,6 +22,12 @@ import { pieces as n } from "./round-4/n"
  * is written from both.
  */
 export const ROUNDS: Round[] = [
+  {
+    id: "round-5",
+    title: "Round 5 — long articles, ours not benji's",
+    note: "Round 4 settled home (64) and about (67). Christer asked how long articles should work without becoming benji's. benji's /stageshow (5,800 words) uses: a rail TOC under the post title, 14px/560 headings with a hairline, 61 grey stages of live UI demos with centred 12px grey captions, numbered code blocks, serif italics for coined terms, a yellow highlighter with black handwriting and brackets, superscript footnotes, one table, rules between parts. We already took his rail, hairline heading, highlighter and bracket. So this round keeps the site's settled frame (DESIGN.md) and tries long-form parts that come from Christer's subject (companies, deals, documents, numbers, the north), each piece replacing one benji device with one of ours. The long text is assembled only from sentences already on the site (posts, about, company stories, press) as a stand-in until a real long post exists.",
+    pieces: [...o, ...p].sort((x, y) => x.n - y.n),
+  },
   {
     id: "round-4",
     title: "Round 4 — the photo, home and about",

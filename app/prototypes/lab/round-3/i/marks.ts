@@ -79,7 +79,7 @@ export const MARKS: Record<Lang, Record<PostSlug, Marks>> = {
       ring: { p: 0, phrase: "25 % vekst i måneden", note: "på det meste, ikke hver måned" },
       hl: {
         p: 1,
-        phrase: "penger er ekte, lager er et veddemål, og en refusjon er en samtale — ikke en knapp.",
+        phrase: "penger er ekte, lager er et veddemål, og en refusjon er en samtale og ikke en knapp.",
         note: "tre ting programvare hopper over",
       },
       bracket: { p: 2, note: "som om du fortsatt sendte esken" },
