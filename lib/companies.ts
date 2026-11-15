@@ -90,7 +90,7 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
       status: "Active",
       site: "https://github.com/Codehagen",
       body: [
-        "Codebase is the studio and holding company behind most of what I do. It builds software products, incubates new companies, and makes early angel investments.",
+        "Codebase is the studio and holding company behind most of what I do. It builds software products, starts new companies and makes early angel investments.",
         "It started as a way to ship my own ideas without asking permission, and grew into the structure everything else now runs through.",
       ],
     },
@@ -104,8 +104,8 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
       status: "Active",
       site: "https://bedrifty.com",
       body: [
-        "Bedrifty is an AI-native CRM with company data from Brønnøysundregistrene built in — search over two million Norwegian companies, see their financials, and let AI do the research before the sales call.",
-        "I’m building it through Codebase as the successor to Sailsdock: the same problem, rebuilt around AI and official Norwegian business data.",
+        "Bedrifty is an AI-native CRM with company data from Brønnøysundregistrene built in. You can search over two million Norwegian companies, see their financials and let AI do the research before the sales call.",
+        "I’m building it through Codebase as the successor to Sailsdock. Same problem, rebuilt around AI and official Norwegian business data.",
       ],
     },
     sailsdock: {
@@ -119,7 +119,7 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
       site: "https://www.sailsdock.no",
       body: [
         "Sailsdock was a CRM built for how Norwegian sales teams actually work. It ranked opportunities by signal instead of gut feeling and automated the busywork around them.",
-        "I founded it through Codebase and ran it for a few years before winding it down — its ideas live on in Bedrifty.",
+        "I founded it through Codebase and ran it for a few years before winding it down. Its ideas live on in Bedrifty.",
       ],
     },
     "advanti-estate": {
@@ -132,7 +132,7 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
       status: "Active",
       site: "https://notanother.vc/en/portefolje/advanti-estate",
       body: [
-        "Advanti Estate advises on the purchase, sale and rental of commercial property in Northern Norway, built on local knowledge the national chains do not have.",
+        "Advanti Estate advises on buying, selling and renting commercial property in Northern Norway. It runs on local knowledge the national chains don’t have.",
         "I came in as a partner to bring software and a sharper go-to-market to a traditionally analogue industry.",
       ],
     },
@@ -174,7 +174,7 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
       status: "Active",
       site: "https://notanother.vc/en/portefolje/propdock",
       body: [
-        "Propdock gives property owners real-time insight into their portfolios so they can make faster, better-informed decisions.",
+        "Propdock gives property owners real-time insight into their portfolios, so they can decide faster and with better numbers.",
         "An early Not Another VC investment, close to the real-estate work I do elsewhere.",
       ],
     },
@@ -188,7 +188,7 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
       status: "Active",
       site: "https://notanother.vc/en/portefolje/vendo",
       body: [
-        "Vendo lets agents share marketing campaigns that landlords approve and pay for in seconds, removing days of back-and-forth from every listing.",
+        "Vendo lets agents share marketing campaigns that landlords approve and pay for in seconds. That takes days of back-and-forth out of every listing.",
         "Pre-seed, through Not Another VC.",
       ],
     },
@@ -202,13 +202,13 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
       status: "Active",
       site: "https://notanother.vc/en/portefolje/fotovibe",
       body: [
-        "Fotovibe produces the visual content that sells homes and makes the agent look good doing it, delivered at the speed a listing needs.",
+        "Fotovibe produces the visual content that sells homes and makes the agent look good doing it. It delivers at the speed a listing needs.",
         "Pre-seed, through Not Another VC.",
       ],
     },
     somevibe: {
       name: "Somevibe",
-      tagline: "Measurable social-media growth for growing companies.",
+      tagline: "Measurable social-media growth for companies on the way up.",
       role: "Angel investor",
       stage: "Pre-seed",
       year: "2024",
@@ -216,7 +216,7 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
       status: "Active",
       site: "https://notanother.vc/en/portefolje/somevibe",
       body: [
-        "Somevibe scales companies on social media with measurable growth and continuous optimisation, treating reach as a system rather than luck.",
+        "Somevibe grows companies on social media, measures the results and keeps tuning. It treats reach as a system, not luck.",
         "Pre-seed, through Not Another VC.",
       ],
     },
@@ -230,8 +230,8 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
       status: "Acquired by Visma",
       site: "https://notanother.vc/en/portefolje/docdir",
       body: [
-        "Docdir automated and quality-checked the sales prospectus that every Norwegian property transaction depends on, trained on Norwegian documents in Norwegian.",
-        "It was acquired by Broker AS, part of the Visma group, in 2026. The second Bodø company Visma has bought.",
+        "Docdir automated and quality-checked the sales prospectus that every Norwegian property transaction depends on. We trained it on Norwegian documents, in Norwegian.",
+        "Broker AS, part of the Visma group, acquired it in 2026. It is the second Bodø company Visma has bought.",
       ],
     },
     utleieoversikten: {
@@ -245,7 +245,7 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
       site: "https://notanother.vc/en/portefolje/utleieoversikten",
       body: [
         "Utleieoversikten gave property investors a portfolio calculator that put them in full control of their numbers.",
-        "The company reached an exit, returning the early investment.",
+        "The company reached an exit and returned the early investment.",
       ],
     },
   },
@@ -274,8 +274,8 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
       status: "Aktiv",
       site: "https://bedrifty.com",
       body: [
-        "Bedrifty er et AI-native CRM med bedriftsdata fra Brønnøysundregistrene innebygd — søk blant over to millioner norske selskaper, se regnskapstall, og la AI gjøre research før salgsmøtet.",
-        "Jeg bygger det gjennom Codebase som etterfølgeren til Sailsdock: samme problem, bygget på nytt rundt AI og offisiell norsk bedriftsdata.",
+        "Bedrifty er et AI-native CRM med bedriftsdata fra Brønnøysundregistrene innebygd. Du kan søke blant over to millioner norske selskaper, se regnskapstallene og la AI gjøre researchen før salgsmøtet.",
+        "Jeg bygger det gjennom Codebase som etterfølgeren til Sailsdock. Samme problem, bygget på nytt rundt AI og offentlige norske bedriftsdata.",
       ],
     },
     sailsdock: {
@@ -288,8 +288,8 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
       status: "Sunset",
       site: "https://www.sailsdock.no",
       body: [
-        "Sailsdock var en CRM bygget for hvordan norske salgsteam faktisk jobber. Den rangerte muligheter etter signal i stedet for magefølelse og automatiserte arbeidet rundt dem.",
-        "Jeg grunnla det gjennom Codebase og drev det i noen år før jeg avviklet det — ideene lever videre i Bedrifty.",
+        "Sailsdock var et CRM bygget for hvordan norske salgsteam faktisk jobber. Det rangerte muligheter etter signal i stedet for magefølelse og automatiserte arbeidet rundt dem.",
+        "Jeg grunnla det gjennom Codebase og drev det i noen år før jeg avviklet det. Ideene lever videre i Bedrifty.",
       ],
     },
     "advanti-estate": {
@@ -302,8 +302,8 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
       status: "Aktiv",
       site: "https://notanother.vc/no/portefolje/advanti-estate",
       body: [
-        "Advanti Estate rådgir om kjøp, salg og utleie av næringseiendom i Nord-Norge, bygget på lokal kunnskap de nasjonale kjedene ikke har.",
-        "Jeg kom inn som partner for å tilføre programvare og en skarpere markedsstrategi til en tradisjonelt analog bransje.",
+        "Advanti Estate gir råd om kjøp, salg og utleie av næringseiendom i Nord-Norge. Selskapet bygger på lokalkunnskap de nasjonale kjedene ikke har.",
+        "Jeg kom inn som partner for å ta med programvare og en skarpere markedsstrategi inn i en bransje som tradisjonelt har vært analog.",
       ],
     },
     refenze: {
@@ -344,7 +344,7 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
       status: "Aktiv",
       site: "https://notanother.vc/no/portefolje/propdock",
       body: [
-        "Propdock gir eiendomseiere sanntidsinnsikt i porteføljene sine slik at de kan ta raskere og bedre informerte beslutninger.",
+        "Propdock gir eiendomseiere sanntidsinnsikt i porteføljene sine, så de kan bestemme seg raskere og med bedre tall.",
         "En tidlig Not Another VC-investering, nær eiendomsarbeidet jeg gjør ellers.",
       ],
     },
@@ -358,13 +358,13 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
       status: "Aktiv",
       site: "https://notanother.vc/no/portefolje/vendo",
       body: [
-        "Vendo lar meglere dele markedskampanjer utleiere kan godkjenne og betale på sekunder, og fjerner dager med frem og tilbake fra hver annonse.",
+        "Vendo lar meglere dele markedskampanjer som utleiere godkjenner og betaler på sekunder. Det tar bort dager med fram og tilbake fra hver annonse.",
         "Pre-seed, gjennom Not Another VC.",
       ],
     },
     fotovibe: {
       name: "Fotovibe",
-      tagline: "Visuelt innhold som løfter boligsalg.",
+      tagline: "Visuelt innhold som hjelper å selge boliger.",
       role: "Engleinvestor",
       stage: "Pre-seed",
       year: "2024",
@@ -372,13 +372,13 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
       status: "Aktiv",
       site: "https://notanother.vc/no/portefolje/fotovibe",
       body: [
-        "Fotovibe produserer det visuelle innholdet som selger boliger og får megleren til å se bra ut, levert i tempoet en annonse krever.",
+        "Fotovibe lager det visuelle innholdet som selger boliger og får megleren til å se bra ut. Det leveres i tempoet en annonse krever.",
         "Pre-seed, gjennom Not Another VC.",
       ],
     },
     somevibe: {
       name: "Somevibe",
-      tagline: "Målbar vekst i sosiale medier for selskaper i vekst.",
+      tagline: "Målbar vekst i sosiale medier for selskaper på vei opp.",
       role: "Engleinvestor",
       stage: "Pre-seed",
       year: "2024",
@@ -386,7 +386,7 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
       status: "Aktiv",
       site: "https://notanother.vc/no/portefolje/somevibe",
       body: [
-        "Somevibe skalerer selskaper i sosiale medier med målbar vekst og kontinuerlig optimalisering, og behandler rekkevidde som et system snarere enn flaks.",
+        "Somevibe hjelper selskaper å vokse i sosiale medier, måler resultatene og justerer underveis. De behandler rekkevidde som et system, ikke flaks.",
         "Pre-seed, gjennom Not Another VC.",
       ],
     },
@@ -400,8 +400,8 @@ export const companies: Record<Lang, Record<CompanySlug, Company>> = {
       status: "Kjøpt av Visma",
       site: "https://notanother.vc/no/portefolje/docdir",
       body: [
-        "Docdir automatiserte og kvalitetssikret salgsoppgaven som hver norske eiendomshandel er avhengig av, trent på norske dokumenter på norsk.",
-        "Det ble kjøpt opp av Broker AS, en del av Visma-konsernet, i 2026. Det andre Bodø-selskapet Visma har kjøpt.",
+        "Docdir automatiserte og kvalitetssikret salgsoppgaven som hver norsk eiendomshandel er avhengig av. Vi trente det på norske dokumenter, på norsk.",
+        "Broker AS, en del av Visma-konsernet, kjøpte det i 2026. Det er det andre Bodø-selskapet Visma har kjøpt.",
       ],
     },
     utleieoversikten: {

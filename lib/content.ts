@@ -105,7 +105,7 @@ export const homeContent: Record<Lang, HomeContent> = {
       "Building Bedrifty, an AI-native CRM with built-in Norwegian company data.",
       "Building Advanti Estate, a commercial real-estate brokerage in Northern Norway.",
       "Investing pre-seed as an angel through Not Another VC.",
-      "Exploring a few two-week sprint projects.",
+      "Trying out a few two-week sprint projects.",
     ],
     work: [
       {
@@ -153,7 +153,7 @@ export const homeContent: Record<Lang, HomeContent> = {
       },
       {
         name: "Propdock",
-        desc: "Real-time insight into property portfolios for smarter decisions.",
+        desc: "Real-time insight into property portfolios.",
         url: inv("en", "propdock"),
       },
       {
@@ -168,7 +168,7 @@ export const homeContent: Record<Lang, HomeContent> = {
       },
       {
         name: "Somevibe",
-        desc: "Measurable, optimised social-media growth for growing companies.",
+        desc: "Social-media growth you can measure, for companies on the way up.",
         url: inv("en", "somevibe"),
       },
       {
@@ -186,7 +186,7 @@ export const homeContent: Record<Lang, HomeContent> = {
       },
       {
         name: "Utleieoversikten",
-        desc: "Portfolio calculator that gave investors full control and enabled exit.",
+        desc: "Portfolio calculator that gave property investors control of their numbers. Ended in an exit.",
         stage: "Exit",
         url: inv("en", "utleieoversikten"),
       },
@@ -242,7 +242,7 @@ export const homeContent: Record<Lang, HomeContent> = {
       "Bygger Bedrifty, et AI-native CRM med innebygd norsk bedriftsdata.",
       "Bygger Advanti Estate, en næringsmegler i Nord-Norge.",
       "Investerer pre-seed som engleinvestor gjennom Not Another VC.",
-      "Utforsker noen to-ukers sprint-prosjekter.",
+      "Prøver ut noen sprintprosjekter på to uker.",
     ],
     work: [
       {
@@ -290,7 +290,7 @@ export const homeContent: Record<Lang, HomeContent> = {
       },
       {
         name: "Propdock",
-        desc: "Sanntidsinnsikt i eiendomsporteføljer for smartere beslutninger.",
+        desc: "Sanntidsinnsikt i eiendomsporteføljer.",
         url: inv("no", "propdock"),
       },
       {
@@ -300,12 +300,12 @@ export const homeContent: Record<Lang, HomeContent> = {
       },
       {
         name: "Fotovibe",
-        desc: "Visuelt innhold som løfter boligsalg og megleropplevelsen.",
+        desc: "Visuelt innhold som hjelper å selge boliger og får megleren til å se bra ut.",
         url: inv("no", "fotovibe"),
       },
       {
         name: "Somevibe",
-        desc: "Målbar, optimalisert vekst i sosiale medier for selskaper i vekst.",
+        desc: "Vekst i sosiale medier som kan måles, for selskaper på vei opp.",
         url: inv("no", "somevibe"),
       },
       {
@@ -323,7 +323,7 @@ export const homeContent: Record<Lang, HomeContent> = {
       },
       {
         name: "Utleieoversikten",
-        desc: "Porteføljekalkulator som ga investorer full kontroll og muliggjorde exit.",
+        desc: "Porteføljekalkulator som ga eiendomsinvestorer kontroll på tallene. Endte i en exit.",
         stage: "Exit",
         url: inv("no", "utleieoversikten"),
       },
@@ -390,7 +390,7 @@ export interface AboutContent {
 
 // Independent press coverage in named Norwegian outlets. Same list in both
 // locales (the article titles are Norwegian); only the section label localizes.
-// Followed outbound links — these are entity-association signals for search.
+// Followed outbound links. These are entity-association signals for search.
 const pressItems: PressItem[] = [
   {
     outlet: "Avisa Nordland",
@@ -447,8 +447,8 @@ export const aboutContent: Record<Lang, AboutContent> = {
     bio: [
       "I’m from Bodø, in the north of Norway. I grew up in Fauske, swam competitively, and studied entrepreneurship at Nord University before starting my first company.",
       "That company, Refenze, sold fitness apparel across Europe and the US. It taught me how unforgiving real businesses are, and I have been building them ever since.",
-      "Through Codebase I build and back software companies. I sold Docdir to Visma in 2026 and have since wound down Sailsdock, an earlier CRM. Today I’m building Bedrifty, an AI-native CRM with built-in Norwegian company data, while partnering at Advanti Estate and investing pre-seed through Not Another VC.",
-      "I build in the open on GitHub, placed in the top 4% of the Norwegian AI Championship, and I still believe the best companies can be built far from the capital.",
+      "Through Codebase I build and back software companies. I sold Docdir to Visma in 2026 and have since wound down Sailsdock, an earlier CRM. Today I’m building Bedrifty, an AI-native CRM with built-in Norwegian company data. I’m also a partner at Advanti Estate and invest pre-seed through Not Another VC.",
+      "I build in the open on GitHub and placed in the top 4% of the Norwegian AI Championship. I still think the best companies can be built far from the capital.",
     ],
     timeline: [
       { year: "2016", event: "Founded Refenze, a fitness apparel brand." },
@@ -461,7 +461,7 @@ export const aboutContent: Record<Lang, AboutContent> = {
       { year: "2024", event: "Became a partner at Advanti Estate." },
       { year: "2026", event: "Sold Docdir to Visma." },
     ],
-    lblPress: "Featured in",
+    lblPress: "In the press",
     press: pressItems,
     ctaLine: "See what I have built and backed, or how I work with founders.",
     ctaPortfolio: "View portfolio",
@@ -473,9 +473,9 @@ export const aboutContent: Record<Lang, AboutContent> = {
     lblBackground: "Bakgrunn",
     bio: [
       "Jeg er fra Bodø, i Nord-Norge. Jeg vokste opp i Fauske, svømte på konkurransenivå, og studerte entreprenørskap ved Nord universitet før jeg startet mitt første selskap.",
-      "Det selskapet, Refenze, solgte treningsklær i Europa og USA. Det lærte meg hvor nådeløs ekte forretning er, og jeg har bygget selskaper siden.",
-      "Gjennom Codebase bygger og investerer jeg i programvareselskaper. Jeg solgte Docdir til Visma i 2026 og har siden avviklet Sailsdock, en tidligere CRM. I dag bygger jeg Bedrifty, et AI-native CRM med innebygd norsk bedriftsdata, samtidig som jeg er partner i Advanti Estate og investerer pre-seed gjennom Not Another VC.",
-      "Jeg bygger i åpen kildekode på GitHub, kom blant de 4 % beste i NM i AI, og tror fortsatt de beste selskapene kan bygges langt fra hovedstaden.",
+      "Det selskapet, Refenze, solgte treningsklær i Europa og USA. Det lærte meg hvor nådeløs ekte forretning er, og jeg har bygget selskaper siden da.",
+      "Gjennom Codebase bygger og investerer jeg i programvareselskaper. Jeg solgte Docdir til Visma i 2026 og har siden avviklet Sailsdock, et tidligere CRM. I dag bygger jeg Bedrifty, et AI-native CRM med innebygd norsk bedriftsdata. Jeg er også partner i Advanti Estate og investerer pre-seed gjennom Not Another VC.",
+      "Jeg bygger i åpen kildekode på GitHub og kom blant de 4 % beste i NM i AI. Jeg tror fortsatt de beste selskapene kan bygges langt fra hovedstaden.",
     ],
     timeline: [
       { year: "2016", event: "Grunnla Refenze, et treningsklærmerke." },
@@ -564,7 +564,7 @@ export const portfolioContent: Record<Lang, PortfolioContent> = {
       {
         slug: "propdock",
         name: "Propdock",
-        desc: "Real-time insight into property portfolios for smarter decisions.",
+        desc: "Real-time insight into property portfolios.",
         meta: "Pre-seed",
       },
       {
@@ -582,7 +582,7 @@ export const portfolioContent: Record<Lang, PortfolioContent> = {
       {
         slug: "somevibe",
         name: "Somevibe",
-        desc: "Measurable, optimised social-media growth for growing companies.",
+        desc: "Social-media growth you can measure, for companies on the way up.",
         meta: "Pre-seed",
       },
     ],
@@ -596,7 +596,7 @@ export const portfolioContent: Record<Lang, PortfolioContent> = {
       {
         slug: "utleieoversikten",
         name: "Utleieoversikten",
-        desc: "Portfolio calculator that gave investors full control and enabled exit.",
+        desc: "Portfolio calculator that gave property investors control of their numbers. Ended in an exit.",
         stage: "Exit",
       },
     ],
@@ -653,7 +653,7 @@ export const portfolioContent: Record<Lang, PortfolioContent> = {
       {
         slug: "propdock",
         name: "Propdock",
-        desc: "Sanntidsinnsikt i eiendomsporteføljer for smartere beslutninger.",
+        desc: "Sanntidsinnsikt i eiendomsporteføljer.",
         meta: "Pre-seed",
       },
       {
@@ -665,13 +665,13 @@ export const portfolioContent: Record<Lang, PortfolioContent> = {
       {
         slug: "fotovibe",
         name: "Fotovibe",
-        desc: "Visuelt innhold som løfter boligsalg og megleropplevelsen.",
+        desc: "Visuelt innhold som hjelper å selge boliger og får megleren til å se bra ut.",
         meta: "Pre-seed",
       },
       {
         slug: "somevibe",
         name: "Somevibe",
-        desc: "Målbar, optimalisert vekst i sosiale medier for selskaper i vekst.",
+        desc: "Vekst i sosiale medier som kan måles, for selskaper på vei opp.",
         meta: "Pre-seed",
       },
     ],
@@ -685,7 +685,7 @@ export const portfolioContent: Record<Lang, PortfolioContent> = {
       {
         slug: "utleieoversikten",
         name: "Utleieoversikten",
-        desc: "Porteføljekalkulator som ga investorer full kontroll og muliggjorde exit.",
+        desc: "Porteføljekalkulator som ga eiendomsinvestorer kontroll på tallene. Endte i en exit.",
         stage: "Exit",
       },
     ],
@@ -730,22 +730,22 @@ export const processContent: Record<Lang, ProcessContent> = {
     kicker: "How I work",
     head: "I invest early and stay close.",
     intro:
-      "A cheque is the start of the relationship, not the whole of it. I work with founders the way I wish investors had worked with me.",
+      "The cheque is where the work starts. I work with founders the way I wish investors had worked with me.",
     steps: [
       {
         no: "01",
         title: "Back early",
-        body: "I write pre-seed cheques on conviction, not process. If I believe in the founder and the problem, I move fast and decide myself.",
+        body: "I write pre-seed cheques on conviction. If I believe in the founder and the problem, I decide myself, and I decide fast.",
       },
       {
         no: "02",
         title: "Build with you",
-        body: "I am a builder first. I help with product, go-to-market, hiring and the unglamorous operational work, as part of the team rather than from a board seat.",
+        body: "I’m a builder first. I help with product, go-to-market, hiring and the dull operational work. From inside the team, not from a board seat.",
       },
       {
         no: "03",
         title: "Stay close",
-        body: "I invest for the long run and stay involved through the hard parts, not just the announcements. Fewer companies, more attention each.",
+        body: "I invest for the long run, and I’m still there when it gets hard. Fewer companies, more attention for each.",
       },
     ],
     lblLook: "What I look for",
@@ -758,22 +758,22 @@ export const processContent: Record<Lang, ProcessContent> = {
     kicker: "Slik jobber jeg",
     head: "Jeg investerer tidlig og holder meg nær.",
     intro:
-      "En investering er starten på forholdet, ikke hele det. Jeg jobber med gründere slik jeg skulle ønsket investorer jobbet med meg.",
+      "Sjekken er der jobben starter. Jeg jobber med gründere slik jeg skulle ønske investorer hadde jobbet med meg.",
     steps: [
       {
         no: "01",
         title: "Investerer tidlig",
-        body: "Jeg skriver pre-seed-sjekker på overbevisning, ikke prosess. Tror jeg på gründeren og problemet, beveger jeg meg raskt og bestemmer selv.",
+        body: "Jeg investerer pre-seed på overbevisning. Tror jeg på gründeren og problemet, bestemmer jeg selv, og jeg bestemmer meg fort.",
       },
       {
         no: "02",
         title: "Bygger med deg",
-        body: "Jeg er bygger først. Jeg hjelper med produkt, markedsstrategi, ansettelser og det lite glamorøse driftsarbeidet, som del av teamet snarere enn fra en styreplass.",
+        body: "Jeg er bygger først. Jeg hjelper med produkt, markedsstrategi, ansettelser og det kjedelige driftsarbeidet. Fra innsiden av teamet, ikke fra en styreplass.",
       },
       {
         no: "03",
         title: "Holder meg nær",
-        body: "Jeg investerer for det lange løp og er involvert gjennom de vanskelige delene, ikke bare kunngjøringene. Færre selskaper, mer oppmerksomhet på hvert.",
+        body: "Jeg investerer langsiktig, og jeg er der fortsatt når det blir tungt. Færre selskaper, mer oppmerksomhet til hvert.",
       },
     ],
     lblLook: "Hva jeg ser etter",
@@ -798,21 +798,21 @@ export interface ContactContent {
 export const contactContent: Record<Lang, ContactContent> = {
   en: {
     kicker: "Contact",
-    head: "Ready to take the next step?",
-    body: "I’d love to hear what you’re building. Tell me about your project — a few lines is enough.",
+    head: "Tell me what you’re building.",
+    body: "A few lines about the project is enough.",
     availability: "Based in Bodø, Norway · usually replies within a day",
     lookHead: "What I look for",
     lookBody:
-      "I back early-stage technical founders, mostly in Norway and the Nordics — pre-seed and seed. If that sounds like you, get in touch.",
+      "I back technical founders at pre-seed and seed, mostly in Norway and the Nordics. If that’s you, get in touch.",
   },
   no: {
     kicker: "Kontakt",
-    head: "Klar for neste steg?",
-    body: "Jeg vil gjerne høre hva du bygger. Fortell meg om prosjektet ditt — noen linjer holder.",
+    head: "Fortell meg hva du bygger.",
+    body: "Noen linjer om prosjektet holder.",
     availability: "Basert i Bodø, Norge · svarer som regel innen en dag",
     lookHead: "Hva jeg ser etter",
     lookBody:
-      "Jeg investerer i tekniske gründere i tidlig fase, for det meste i Norge og Norden — pre-seed og seed. Høres det ut som deg, så ta kontakt.",
+      "Jeg investerer i tekniske gründere på pre-seed og seed, mest i Norge og Norden. Er det deg, så ta kontakt.",
   },
 }
 
@@ -834,7 +834,7 @@ export interface PrivacyContent {
 /**
  * Deliberately short and specific: this site sets no cookies, runs no
  * analytics and has no forms. Every claim below is checkable against the
- * source — keep it that way if the stack ever changes.
+ * source. Keep it that way if the stack ever changes.
  */
 export const privacyContent: Record<Lang, PrivacyContent> = {
   en: {
@@ -847,15 +847,15 @@ export const privacyContent: Record<Lang, PrivacyContent> = {
       {
         head: "No analytics, no cookies",
         body: [
-          "There is no analytics script on this site — no Google Analytics, no Plausible, no Vercel Analytics, no pixel of any kind. Nothing measures which pages you read or how long you stay.",
+          "There is no analytics script on this site. No Google Analytics, no Plausible, no Vercel Analytics, no pixel of any kind. Nothing measures which pages you read or how long you stay.",
           "The site sets no cookies and writes nothing to local storage. There is no consent banner because there is nothing to consent to.",
         ],
       },
       {
         head: "Hosting and server logs",
         body: [
-          "The site is hosted on Vercel, which serves it from servers around the world. Like any web host, Vercel records standard request logs — IP address, timestamp, requested URL, user agent — for delivery, security and abuse prevention. Those logs are Vercel's, kept on their retention schedule, and are not used to build a profile of you.",
-          "Fonts are self-hosted: they are downloaded at build time and served from this domain, so loading a page makes no request to Google Fonts or any other third party.",
+          "The site is hosted on Vercel, which serves it from servers around the world. Like any web host, Vercel keeps standard request logs for delivery, security and abuse prevention. A log line holds your IP address, the time, the URL you asked for and your user agent. Those logs are Vercel's, kept on Vercel's retention schedule, and are not used to build a profile of you.",
+          "Fonts are self-hosted. They are downloaded at build time and served from this domain, so loading a page sends no request to Google Fonts or any other third party.",
         ],
       },
       {
@@ -868,7 +868,7 @@ export const privacyContent: Record<Lang, PrivacyContent> = {
       {
         head: "Links off this site",
         body: [
-          "Pages here link out to LinkedIn, GitHub, X, Instagram, Wikidata, Crunchbase and to portfolio companies' own sites. Once you follow one of those links you are on someone else's site under someone else's privacy policy — this one stops at the domain boundary.",
+          "Pages here link out to LinkedIn, GitHub, X, Instagram, Wikidata, Crunchbase and to portfolio companies' own sites. Once you follow one of those links you are on someone else's site under someone else's privacy policy. This one stops at this domain.",
         ],
       },
       {
@@ -884,21 +884,21 @@ export const privacyContent: Record<Lang, PrivacyContent> = {
     kicker: "Personvern",
     head: "Hva denne siden gjør med dataene dine.",
     intro:
-      "Nesten ingenting. Dette er en personlig side uten brukerkontoer, uten skjemaer og uten annonser, så det er svært lite å samle inn — og ingen grunn til å samle det inn.",
+      "Nesten ingenting. Dette er en personlig side uten brukerkontoer, uten skjemaer og uten annonser, så det er lite å samle inn og ingen grunn til å gjøre det.",
     updated: "Sist oppdatert 23. august 2026",
     sections: [
       {
         head: "Ingen analyse, ingen informasjonskapsler",
         body: [
-          "Det finnes ingen analyseskript på denne siden — ingen Google Analytics, ingen Plausible, ingen Vercel Analytics, ingen sporingspiksel. Ingenting måler hvilke sider du leser eller hvor lenge du blir.",
+          "Det finnes ingen analyseskript på denne siden. Ingen Google Analytics, ingen Plausible, ingen Vercel Analytics, ingen sporingspiksel. Ingenting måler hvilke sider du leser eller hvor lenge du blir.",
           "Siden setter ingen informasjonskapsler og lagrer ingenting lokalt i nettleseren din. Det er ingen samtykkebanner her, fordi det ikke er noe å samtykke til.",
         ],
       },
       {
         head: "Hosting og serverlogger",
         body: [
-          "Siden driftes hos Vercel, som leverer den fra servere rundt om i verden. Som enhver webvert fører Vercel vanlige forespørselslogger — IP-adresse, tidspunkt, hvilken URL som ble hentet, nettleserstreng — for levering, sikkerhet og misbruksforebygging. Disse loggene er Vercels, oppbevares etter deres regler, og brukes ikke til å bygge en profil av deg.",
-          "Skriftene er selvhostet: de lastes ned ved bygging og serveres fra dette domenet, så et sidevisning sender ingen forespørsel til Google Fonts eller andre tredjeparter.",
+          "Siden driftes hos Vercel, som leverer den fra servere rundt om i verden. Som alle webverter fører Vercel vanlige forespørselslogger for levering, sikkerhet og for å stoppe misbruk. En logglinje inneholder IP-adressen din, tidspunktet, hvilken URL du hentet og nettleserstrengen. Loggene er Vercels, oppbevares etter Vercels regler og brukes ikke til å bygge en profil av deg.",
+          "Skriftene er selvhostet. De lastes ned ved bygging og serveres fra dette domenet, så en sidevisning sender ingen forespørsel til Google Fonts eller andre tredjeparter.",
         ],
       },
       {
@@ -911,7 +911,7 @@ export const privacyContent: Record<Lang, PrivacyContent> = {
       {
         head: "Lenker ut av siden",
         body: [
-          "Sidene her lenker ut til LinkedIn, GitHub, X, Instagram, Wikidata, Crunchbase og til porteføljeselskapenes egne nettsteder. Følger du en slik lenke, er du på noen andres side under noen andres personvernerklæring — denne stopper ved domenegrensen.",
+          "Sidene her lenker ut til LinkedIn, GitHub, X, Instagram, Wikidata, Crunchbase og til porteføljeselskapenes egne nettsteder. Følger du en slik lenke, er du på noen andres side under noen andres personvernerklæring. Denne gjelder bare dette domenet.",
         ],
       },
       {
@@ -928,7 +928,7 @@ export const privacyContent: Record<Lang, PrivacyContent> = {
 /**
  * Accessible-name suffixes for the home page section headings.
  *
- * The visible labels are deliberately one word ("Work", "Exits") — that is the
+ * The visible labels are deliberately one word ("Work", "Exits"), and that is the
  * design. Read out of context, though, an outline of one-word labels says
  * nothing about what the document contains, to a screen reader user or to a
  * machine building a summary. These render sr-only as a

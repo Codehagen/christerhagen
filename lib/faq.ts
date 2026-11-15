@@ -8,11 +8,11 @@ export const faqItems: Record<Lang, { q: string; a: string }[]> = {
     },
     {
       q: "What did he sell to Visma?",
-      a: "I sold Docdir, a tool that automated and quality-checked the sales documents behind Norwegian property transactions. It was acquired by Broker AS, part of the Visma group, in 2026, the second Bodø company Visma has bought.",
+      a: "I sold Docdir, a tool that automated and quality-checked the sales documents behind Norwegian property transactions. Broker AS, part of the Visma group, bought it in 2026. It is the second Bodø company Visma has bought.",
     },
     {
       q: "What has he founded?",
-      a: "I founded Codebase, my technology studio, along with Sailsdock, a CRM for Norwegian sales teams, and Docdir, later acquired by Visma. My first company was Refenze, a fitness apparel brand I built in my twenties.",
+      a: "I founded Codebase, my technology studio. I also founded Sailsdock, a CRM for Norwegian sales teams, and Docdir, later acquired by Visma. My first company was Refenze, a fitness apparel brand I built in my twenties.",
     },
     {
       q: "Where is he based?",
@@ -30,11 +30,11 @@ export const faqItems: Record<Lang, { q: string; a: string }[]> = {
     },
     {
       q: "Hva solgte han til Visma?",
-      a: "Jeg solgte Docdir, et verktøy som automatiserte og kvalitetssikret salgsoppgavene bak norske eiendomshandler. Det ble kjøpt opp av Broker AS, en del av Visma-konsernet, i 2026, det andre Bodø-selskapet Visma har kjøpt.",
+      a: "Jeg solgte Docdir, et verktøy som automatiserte og kvalitetssikret salgsoppgavene bak norske eiendomshandler. Broker AS, en del av Visma-konsernet, kjøpte det i 2026. Det er det andre Bodø-selskapet Visma har kjøpt.",
     },
     {
       q: "Hva har han grunnlagt?",
-      a: "Jeg grunnla Codebase, teknologistudioet mitt, sammen med Sailsdock, en CRM for norske salgsteam, og Docdir, som senere ble kjøpt av Visma. Mitt første selskap var Refenze, et treningsklesmerke jeg bygget i tjueårene.",
+      a: "Jeg grunnla Codebase, teknologistudioet mitt. Jeg grunnla også Sailsdock, et CRM for norske salgsteam, og Docdir, som senere ble kjøpt av Visma. Mitt første selskap var Refenze, et treningsklesmerke jeg bygget i tjueårene.",
     },
     {
       q: "Hvor holder han til?",
