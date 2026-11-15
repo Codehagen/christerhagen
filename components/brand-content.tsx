@@ -4,6 +4,23 @@ import { type Lang } from "@/lib/companies"
 import { Ledger } from "@/components/site/ledger"
 import { Rule } from "@/components/site/rule"
 
+/** Signature lockups in public/brand (built from the pen font as outlines). */
+const SIGNATURES = [
+  { slug: "christer-hagen", name: "Christer Hagen", width: 332 },
+  { slug: "codebase", name: "Codebase", width: 234 },
+]
+
+const FILES = [
+  "loop-mark-light.svg",
+  "loop-mark-dark.svg",
+  "christer-hagen-signature-light.svg",
+  "christer-hagen-signature-dark.svg",
+  "codebase-signature-light.svg",
+  "codebase-signature-dark.svg",
+  "christer-hagen-signature-light.png",
+  "codebase-signature-light.png",
+]
+
 /** A swatch ledger: the colour, its name, what it is for, and its value. */
 function Swatches({ rows, label }: { rows: BrandSwatch[]; label: string }) {
   return (
@@ -67,17 +84,45 @@ export function BrandContent({ lang }: { lang: Lang }) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/favicon.svg"
-            alt="CH monogram"
+            alt="The loop mark"
             width={48}
             height={48}
-            className="size-12 rounded-[5px]"
+            className="size-12"
           />
           <span className="font-[var(--weight-strong)] tracking-[-0.008em]">
             Christer Hagen
           </span>
         </div>
+        <div className="flex flex-col items-start gap-[18px] border-t border-hairline py-[18px]">
+          {SIGNATURES.map((s) => (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img
+              key={s.slug}
+              src={`/brand/${s.slug}-signature-light.svg`}
+              alt={`${s.name}, signature`}
+              width={s.width}
+              height={64}
+              className="h-12 w-auto"
+            />
+          ))}
+        </div>
         <p className="mt-[10px] max-w-[var(--column)] text-small text-ink-muted">
           {c.logoNote}
+        </p>
+        <p className="mt-[10px] max-w-[var(--column)] text-small text-ink-muted">
+          {c.lblFiles}:{" "}
+          {FILES.map((f, i) => (
+            <span key={f}>
+              {i > 0 && ", "}
+              <a
+                href={`/brand/${f}`}
+                download
+                className="text-ink-interactive underline decoration-hairline underline-offset-[3px] transition-colors hover:text-ink"
+              >
+                {f}
+              </a>
+            </span>
+          ))}
         </p>
       </section>
 

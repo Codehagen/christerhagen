@@ -33,6 +33,7 @@ export interface BrandContent {
   lblType: string
   lblVoice: string
   logoNote: string
+  lblFiles: string
   colours: BrandSwatch[]
   penNote: string
   pens: BrandSwatch[]
@@ -76,7 +77,8 @@ export const brandContent: Record<Lang, BrandContent> = {
     lblType: "Type",
     lblVoice: "Voice",
     logoNote:
-      "The wordmark is the name in Inter at weight 560, the same size as the text around it. The CH monogram is the favicon.",
+      "The mark is the pen's loop, the ring that circles what matters on every page, reversed out of an ink tile. On the site the name sits beside it in Inter at weight 560. As a signature, the name is written in the pen. Codebase, my holding company, uses the same mark.",
+    lblFiles: "Files (SVG, PNG)",
     colours: swatches(ground, [
       ["Ground", "The only ground. Every page sits on it."],
       ["Ink", "Text"],
@@ -126,7 +128,8 @@ export const brandContent: Record<Lang, BrandContent> = {
     lblType: "Type",
     lblVoice: "Stemme",
     logoNote:
-      "Ordmerket er navnet i Inter med vekt 560, i samme størrelse som teksten rundt. CH-monogrammet er favikonet.",
+      "Merket er pennens løkke, ringen som sirkler inn det viktigste på hver side, i lyst på en blekkflis. På nettstedet står navnet ved siden av i Inter med vekt 560. Som signatur er navnet skrevet med pennen. Codebase, holdingselskapet mitt, bruker det samme merket.",
+    lblFiles: "Filer (SVG, PNG)",
     colours: swatches(ground, [
       ["Bakgrunn", "Den eneste bakgrunnen. Alle sider ligger på den."],
       ["Blekk", "Tekst"],
