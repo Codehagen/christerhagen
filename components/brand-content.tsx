@@ -1,181 +1,145 @@
+import { brandContent, type BrandSwatch } from "@/lib/brand"
 import { type Lang } from "@/lib/companies"
-import { Badge } from "@/components/ui/badge"
-import { buttonVariants } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
-import { brandContent } from "@/lib/brand"
 
-import { eyebrow as label } from "@/lib/typography"
+import { Ledger } from "@/components/site/ledger"
+import { Rule } from "@/components/site/rule"
 
-function LogoCard({ tone }: { tone: "ink" | "paper" }) {
-  const dark = tone === "ink"
+/** A swatch ledger: the colour, its name, what it is for, and its value. */
+function Swatches({ rows, label }: { rows: BrandSwatch[]; label: string }) {
   return (
-    <div
-      className={cn(
-        "flex min-w-[240px] flex-1 flex-col justify-between gap-[22px] rounded-lg p-[34px]",
-        dark ? "bg-foreground" : "border border-border bg-background"
-      )}
-    >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/favicon.svg"
-        alt="CH monogram"
-        width={52}
-        height={52}
-        className="rounded-[12px]"
-      />
-      <div
-        className={cn(
-          "text-[1.5rem] leading-none font-medium",
-          dark ? "text-background" : "text-(--ink-strong)"
-        )}
-      >
-        Christer Hagen
-      </div>
-    </div>
+    <Ledger
+      label={label}
+      columns="1fr auto"
+      rows={rows.map((s) => ({
+        id: s.name,
+        align: { 1: "right" },
+        cells: [
+          <span key="n" className="flex min-w-0 items-baseline gap-[10px]">
+            <span
+              aria-hidden
+              className="block size-[12px] shrink-0 translate-y-[1px] rounded-[3px]"
+              style={{
+                background: s.css,
+                boxShadow: "inset 0 0 0 1px var(--hairline)",
+              }}
+            />
+            <span className="min-w-0">
+              <span className="font-[var(--weight-row)]">{s.name}</span>{" "}
+              <span className="text-ink-muted">{s.use}</span>
+            </span>
+          </span>,
+          <span
+            key="v"
+            className="text-small whitespace-nowrap text-ink-faint tabular-nums"
+          >
+            {s.value}
+          </span>,
+        ],
+      }))}
+    />
   )
 }
 
+/**
+ * The brand page documents the system the site is built in (DESIGN.md §2–§3):
+ * the wordmark, the ground and the greys, the pen's colours and where each one
+ * is used, the two faces, and the voice. Wide column, no rail.
+ */
 export function BrandContent({ lang }: { lang: Lang }) {
   const c = brandContent[lang]
 
   return (
     <main
       id="main"
-      className="mx-auto w-full max-w-[740px] flex-1 px-5 sm:px-7"
+      className="px-[var(--page-pad-x)] pt-4 lg:ml-[var(--column-wide-left)] lg:w-[var(--column-wide)] lg:px-0 lg:pt-[46px]"
     >
-      {/* Hero */}
-      <section className="pt-[84px] pb-[56px]">
-        <div className={`${label} mb-6`}>{c.kicker}</div>
-        <h1 className="m-0 max-w-[20ch] text-[clamp(1.6875rem,8vw,2.125rem)] leading-[1.28] font-normal tracking-[-0.015em] text-(--ink-strong)">
-          {c.head}
-        </h1>
-        <p className="mt-5 max-w-[46ch] text-[1.125rem] leading-[1.6] font-normal text-(--ink-muted)">
-          {c.intro}
-        </p>
-      </section>
+      <p className="text-ink-muted">{c.kicker}</p>
+      <h1 className="mt-[6px] text-title leading-[var(--leading-title)] font-[var(--weight-strong)] tracking-[var(--tracking-title)]">
+        {c.head}
+      </h1>
+      <p className="mt-[10px] max-w-[var(--column)] text-ink-muted">
+        {c.intro}
+      </p>
 
-      {/* Logo */}
-      <section className="mb-16">
-        <h2 className={`${label} mb-[22px]`}>{c.lblLogo}</h2>
-        <div className="flex flex-wrap gap-[18px]">
-          <LogoCard tone="ink" />
-          <LogoCard tone="paper" />
+      <section aria-labelledby="brand-logo">
+        <Rule id="brand-logo">{c.lblLogo}</Rule>
+        <div className="flex items-center gap-[14px] py-[var(--row-pad-y)]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/favicon.svg"
+            alt="CH monogram"
+            width={48}
+            height={48}
+            className="size-12 rounded-[5px]"
+          />
+          <span className="font-[var(--weight-strong)] tracking-[-0.008em]">
+            Christer Hagen
+          </span>
         </div>
-        <p className="mt-4 max-w-[54ch] text-[0.875rem] leading-[1.55] font-normal text-(--ink-soft)">
+        <p className="mt-[10px] max-w-[var(--column)] text-small text-ink-muted">
           {c.logoNote}
         </p>
       </section>
 
-      {/* Colour */}
-      <section className="mb-16">
-        <h2 className={`${label} mb-[22px]`}>{c.lblColour}</h2>
-        <div className="grid grid-cols-3 gap-4">
-          {c.colours.map((col) => (
-            <div key={col.name}>
-              <div
-                className="h-[92px] rounded-md border border-[color-mix(in_oklch,var(--ink),transparent_92%)]"
-                style={{ background: col.css }}
-              />
-              <div className="mt-2.5 text-[0.8125rem] leading-[1.2] font-medium text-(--ink-strong)">
-                {col.name}
-              </div>
-              <div className="mt-[3px] font-mono text-[0.6875rem] leading-[1.3] font-normal text-(--ink-faint)">
-                {col.hex}
-              </div>
-              <div className="mt-1 text-[0.71875rem] leading-[1.4] font-normal text-(--ink-soft)">
-                {col.use}
-              </div>
-            </div>
-          ))}
-        </div>
+      <section aria-labelledby="brand-colour">
+        <Rule id="brand-colour">{c.lblColour}</Rule>
+        <Swatches rows={c.colours} label={c.lblColour} />
       </section>
 
-      {/* Type */}
-      <section className="mb-16">
-        <h2 className={`${label} mb-[22px]`}>{c.lblType}</h2>
-        <div className="border-t border-border py-6">
-          <div className="mb-4 flex flex-wrap items-baseline justify-between gap-4">
-            <span className="text-[1.375rem] leading-none font-normal text-(--ink-strong)">
-              Newsreader
-            </span>
-            <span className="font-mono text-[0.6875rem] leading-none font-normal text-(--ink-fainter)">
-              {c.typeSerifUse}
-            </span>
-          </div>
-          <div className="text-[clamp(1.625rem,7vw,2.125rem)] leading-[1.2] font-normal text-(--ink-strong)">
-            Building things worth seeing.
-          </div>
-          <div className="mt-2 text-[1.25rem] leading-[1.4] font-normal text-(--ink-soft) italic">
-            Serif italic for emphasis and quiet detail.
-          </div>
-        </div>
-        <div className="border-t border-border pt-6">
-          <div className="mb-4 flex flex-wrap items-baseline justify-between gap-4">
-            <span className="font-mono text-[1.125rem] leading-none font-medium text-(--ink-strong)">
-              JetBrains Mono
-            </span>
-            <span className="font-mono text-[0.6875rem] leading-none font-normal text-(--ink-fainter)">
-              {c.typeMonoUse}
-            </span>
-          </div>
-          <div className="font-mono text-[0.75rem] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
-            Section label
-          </div>
-          <div className="mt-3 font-mono text-[0.875rem] leading-none font-normal text-(--ink-muted)">
-            Founder · 2017 · Pre-seed · ★ 2.7k
-          </div>
-        </div>
+      <section aria-labelledby="brand-pen">
+        <Rule id="brand-pen">{c.lblPen}</Rule>
+        <p className="mb-[14px] max-w-[var(--column)]">{c.penNote}</p>
+        <Swatches rows={c.pens} label={c.lblPen} />
       </section>
 
-      {/* Voice */}
-      <section className="mb-16">
-        <h2 className={`${label} mb-1.5`}>{c.lblVoice}</h2>
-        {c.voice.map((v, i) => (
-          <div
-            key={i}
-            className="flex items-baseline gap-[14px] border-b border-border py-[14px]"
-          >
-            <span
-              aria-hidden
-              className="flex-shrink-0 font-mono text-[0.8125rem] text-(--rust-bright)"
+      <section aria-labelledby="brand-type">
+        <Rule id="brand-type">{c.lblType}</Rule>
+        <ul>
+          {c.type.map((f, i) => (
+            <li
+              key={f.name}
+              className="border-t py-[14px]"
+              style={{ borderTopColor: i ? "var(--hairline)" : "var(--rule)" }}
             >
-              →
-            </span>
-            <span className="text-[1.0625rem] leading-[1.45] font-normal text-(--ink-body)">
-              {v}
-            </span>
-          </div>
-        ))}
+              <p className="flex flex-wrap items-baseline justify-between gap-x-4">
+                <span className="font-[var(--weight-row)]">{f.name}</span>
+                <span className="text-small text-ink-faint tabular-nums">
+                  {f.spec}
+                </span>
+              </p>
+              {f.name === "Caveat" ? (
+                <p
+                  className="mt-[10px] font-pen text-pen-lg leading-[0.95]"
+                  style={{ color: "var(--pen)" }}
+                >
+                  {f.sample}
+                </p>
+              ) : (
+                <p className="mt-[10px] text-title leading-[var(--leading-title)] font-[var(--weight-strong)] tracking-[var(--tracking-title)]">
+                  {f.sample}
+                </p>
+              )}
+              <p className="mt-[6px] max-w-[var(--column)] text-small text-ink-muted">
+                {f.use}
+              </p>
+            </li>
+          ))}
+        </ul>
       </section>
 
-      {/* Elements */}
-      <section className="mb-20">
-        <h2 className={`${label} mb-[22px]`}>{c.lblElements}</h2>
-        <div className="flex flex-wrap items-center gap-3">
-          <span
-            className={cn(
-              buttonVariants({ variant: "pill", size: "pill" }),
-              "pointer-events-none py-[14px]"
-            )}
-          >
-            Get in touch
-          </span>
-          <span
-            className={cn(
-              buttonVariants({ variant: "pill-outline", size: "pill" }),
-              "pointer-events-none px-5 py-[13px] text-[0.78125rem]"
-            )}
-          >
-            Secondary
-          </span>
-          <Badge variant="status">Pre-seed</Badge>
-          <span className="flex items-baseline gap-[7px] rounded-full border border-(--pill-border) px-[14px] py-[9px] font-mono text-[0.78125rem] leading-none font-normal text-(--ink-muted)">
-            <span className="text-[0.59375rem] tracking-[0.06em] text-(--ink-fainter) uppercase">
-              X
-            </span>
-            <span>@CodeHagen</span>
-          </span>
-        </div>
+      <section aria-labelledby="brand-voice">
+        <Rule id="brand-voice">{c.lblVoice}</Rule>
+        <ul>
+          {c.voice.map((v, i) => (
+            <li
+              key={v}
+              className="border-t py-[var(--row-pad-y)]"
+              style={{ borderTopColor: i ? "var(--hairline)" : "var(--rule)" }}
+            >
+              {v}
+            </li>
+          ))}
+        </ul>
       </section>
     </main>
   )

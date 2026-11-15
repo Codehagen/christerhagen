@@ -1,102 +1,158 @@
-import { Link } from "next-view-transitions"
-
-import { type Lang } from "@/lib/companies"
-import { localizedPath } from "@/lib/seo"
+import {
+  companies,
+  companyOrder,
+  type CompanySlug,
+  type Lang,
+} from "@/lib/companies"
 import { portfolioContent } from "@/lib/content"
+import { companyPen } from "@/lib/pen/companies"
+import { localizedPath } from "@/lib/seo"
+import { cn } from "@/lib/utils"
 
-import { eyebrow as label } from "@/lib/typography"
-const rowLink =
-  "flex items-baseline justify-between gap-6 border-b border-border text-(--ink-strong) transition-colors hover:text-(--rust-strong)"
-const stagePill =
-  "flex-shrink-0 rounded-full border border-primary/35 px-[9px] py-[6px] font-mono text-[0.59375rem] leading-none font-medium tracking-[0.07em] whitespace-nowrap text-primary uppercase"
+import { CardBody } from "@/components/site/link"
+import { Ledger, LedgerCard, type LedgerRow } from "@/components/site/ledger"
+import { Ring } from "@/components/site/pen"
+
+/**
+ * The portfolio (DESIGN.md §5; lab round-3/k/51 + 55, as §7.6 resolves
+ * them): the kicker, the intro as the h1, then all twelve companies as 51's
+ * year ledger, newest first, the year printed once per group. The red pen
+ * rings Docdir's outcome and writes its note in the margin; pointing at or
+ * focusing any row opens 55's margin card in place of the note, and the ring
+ * stays on Docdir. Each row is a link to its company.
+ */
+
+/** The wide column (no rail): 16% / 648px from `lg`, page padding below. */
+export const WIDE_COLUMN =
+  "px-[var(--page-pad-x)] lg:ml-[var(--column-wide-left)] lg:w-[var(--column-wide)] lg:px-0"
+
+/** The one fact the ring rests on. */
+const PINNED: CompanySlug = "docdir"
+
+/** End years the site states (lib/content work periods, lib/companies body). */
+const ENDED: Partial<Record<CompanySlug, string>> = {
+  refenze: "2018",
+  sailsdock: "2026",
+  docdir: "2026",
+}
+
+const HEAD: Record<Lang, [string, string, string, string]> = {
+  en: ["Year", "Company", "Role", "Outcome"],
+  no: ["År", "Selskap", "Rolle", "Utfall"],
+}
+
+/** Live companies say their status; ended ones say how, and when. */
+function outcome(slug: CompanySlug, lang: Lang) {
+  const c = companies[lang][slug]
+  if (c.status === companies[lang].codebase.status) {
+    return { text: c.status, live: true }
+  }
+  const end = ENDED[slug]
+  return { text: end ? `${c.stage}, ${end}` : c.stage, live: false }
+}
+
+/*
+ * Columns 6cqw · 15.5cqw · 15.5cqw · 1fr (72 / 186 / 186px at 648). On a
+ * phone the Role column folds under the name and the outcome stays right.
+ */
+const GRID =
+  "[--pf-year:2.6em] [--pf-cols:minmax(0,1fr)_auto] md:[--pf-year:72px] md:[--pf-cols:186px_186px_1fr]"
 
 export function PortfolioContent({ lang }: { lang: Lang }) {
-  const c = portfolioContent[lang]
+  const p = portfolioContent[lang]
+  const head = HEAD[lang]
+  const note = companyPen[PINNED][lang]
+
+  const sorted = [...companyOrder].sort((a, b) => {
+    const x = companies[lang][a]
+    const y = companies[lang][b]
+    return y.year.localeCompare(x.year) || x.name.localeCompare(y.name)
+  })
+
+  const rows: LedgerRow[] = sorted.map((slug) => {
+    const c = companies[lang][slug]
+    const o = outcome(slug, lang)
+    const ringed = slug === PINNED
+    return {
+      id: slug,
+      year: c.year,
+      href: localizedPath(`/portfolio/${slug}`, lang),
+      align: { 2: "right" },
+      cells: [
+        <span key="name" className="block">
+          <span
+            className={cn(
+              "font-[var(--weight-row)] transition-[color] duration-[160ms]",
+              ringed
+                ? "text-ink"
+                : "text-ink-ledger-dim [.ledger-row:focus-visible_&]:text-ink [.ledger-row:hover_&]:text-ink"
+            )}
+          >
+            {c.name}
+          </span>
+          <span className="block text-small leading-[var(--leading-meta)] text-ink-muted md:hidden">
+            {c.role}
+          </span>
+        </span>,
+        <span key="role" className="text-ink-muted">
+          {c.role}
+        </span>,
+        <span key="outcome" className="inline-block pr-1">
+          {ringed ? (
+            <Ring note={note} srNote={note} className="text-ink">
+              {o.text}
+            </Ring>
+          ) : (
+            <span className={o.live ? "text-ink-faint" : "text-ink-muted"}>
+              {o.text}
+            </span>
+          )}
+        </span>,
+      ],
+      preview: (
+        <LedgerCard>
+          <CardBody
+            dot
+            card={{
+              name: c.name,
+              status: c.status,
+              line: c.tagline,
+              meta: `${c.role} · ${c.year} · ${c.sector}`,
+            }}
+          />
+        </LedgerCard>
+      ),
+    }
+  })
 
   return (
-    <main id="main" className="mx-auto w-full max-w-[740px] flex-1 px-5 sm:px-7">
-      <section className="pt-[84px] pb-[56px]">
-        <h1 className={`${label} mb-[22px]`}>{c.kicker}</h1>
-        <p className="m-0 max-w-[24ch] text-[clamp(1.375rem,6.5vw,1.6875rem)] leading-[1.35] font-normal text-(--ink-strong)">
-          {c.intro}
-        </p>
-      </section>
+    <main id="main" className="flex-1">
+      <div className={cn(WIDE_COLUMN, "pt-[58px]")} data-pen-column>
+        <p className="mb-[9px] text-small text-ink-muted">{p.kicker}</p>
+        <h1 className="max-w-[33rem] text-[21.5px] leading-[1.2] font-[var(--weight-strong)] tracking-[-0.014em] text-balance">
+          {p.intro}
+        </h1>
 
-      {/* Building */}
-      <section className="mb-16">
-        <h2 className={`${label} mb-1.5`}>{c.gBuilt}</h2>
-        {c.built.map((b) => (
-          <Link key={b.slug} href={localizedPath(`/portfolio/${b.slug}`, lang)} className={`${rowLink} py-[18px]`}>
-            <div className="flex flex-col gap-[5px]">
-              <h3 className="m-0 text-[1.3125rem] leading-[1.15] font-medium">
-                {b.name}
-              </h3>
-              <span className="max-w-[50ch] text-[0.875rem] leading-[1.5] font-normal text-(--ink-soft)">
-                {b.desc}
-              </span>
-            </div>
-            <span className="flex-shrink-0 font-mono text-[0.71875rem] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
-              {b.meta}
-            </span>
-          </Link>
-        ))}
-      </section>
-
-      {/* Angel investments */}
-      <section className="mb-16">
-        <h2 className={`${label} mb-1.5`}>{c.gInvest}</h2>
-        {c.invest.map((i) => (
-          <Link key={i.slug} href={localizedPath(`/portfolio/${i.slug}`, lang)} className={`${rowLink} py-4`}>
-            <div className="flex flex-col gap-1">
-              <h3 className="m-0 text-[1.125rem] leading-[1.2] font-medium">
-                {i.name}
-              </h3>
-              <span className="max-w-[50ch] text-[0.84375rem] leading-[1.45] font-normal text-(--ink-soft)">
-                {i.desc}
-              </span>
-            </div>
-            <span className="flex-shrink-0 font-mono text-[0.6875rem] leading-none font-normal tracking-[0.03em] whitespace-nowrap text-(--ink-meta)">
-              {i.meta}
-            </span>
-          </Link>
-        ))}
-      </section>
-
-      {/* Exits */}
-      <section className="mb-16">
-        <h2 className={`${label} mb-1.5`}>{c.gExits}</h2>
-        {c.exits.map((x) => (
-          <Link key={x.slug} href={localizedPath(`/portfolio/${x.slug}`, lang)} className={`${rowLink} py-4`}>
-            <div className="flex flex-col gap-1">
-              <h3 className="m-0 text-[1.125rem] leading-[1.2] font-medium">
-                {x.name}
-              </h3>
-              <span className="max-w-[50ch] text-[0.84375rem] leading-[1.45] font-normal text-(--ink-soft)">
-                {x.desc}
-              </span>
-            </div>
-            <span className={stagePill}>{x.stage}</span>
-          </Link>
-        ))}
-      </section>
-
-      {/* Sunset — wound-down ventures */}
-      <section className="mb-20">
-        <h2 className={`${label} mb-1.5`}>{c.gSunset}</h2>
-        {c.sunset.map((s) => (
-          <Link key={s.slug} href={localizedPath(`/portfolio/${s.slug}`, lang)} className={`${rowLink} py-4`}>
-            <div className="flex flex-col gap-1">
-              <h3 className="m-0 text-[1.125rem] leading-[1.2] font-medium">
-                {s.name}
-              </h3>
-              <span className="max-w-[50ch] text-[0.84375rem] leading-[1.45] font-normal text-(--ink-soft)">
-                {s.desc}
-              </span>
-            </div>
-            <span className={stagePill}>{s.stage}</span>
-          </Link>
-        ))}
-      </section>
+        <div className={cn(GRID, "mt-[45px] text-ui leading-[1.2]")}>
+          <div
+            aria-hidden
+            className="grid items-end gap-x-2 pb-[7px] text-ink-faint tabular-nums"
+            style={{ gridTemplateColumns: "var(--pf-year) var(--pf-cols)" }}
+          >
+            <span>{head[0]}</span>
+            <span>{head[1]}</span>
+            <span className="hidden md:block">{head[2]}</span>
+            <span className="text-right">{head[3]}</span>
+          </div>
+          <Ledger
+            label={p.kicker}
+            yearWidth="var(--pf-year)"
+            columns="var(--pf-cols)"
+            rows={rows}
+            className="[&_.ledger-row]:items-center max-md:[&_.ledger-row>span:nth-child(3)]:hidden"
+          />
+        </div>
+      </div>
     </main>
   )
 }

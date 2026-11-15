@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 
 import { SiteHeader } from "@/components/site-header"
+import { PenProvider } from "@/components/site/pen"
 import { SiteFooter } from "@/components/site-footer"
 import { HomeContent } from "@/components/home-content"
 import { personGraph, pageMetadata } from "@/lib/seo"
@@ -16,11 +17,13 @@ export const metadata: Metadata = pageMetadata({
 
 export default function HomePageNo() {
   return (
-    <div lang="no" className="min-h-svh bg-background text-foreground">
+    <div lang="no" className="min-h-svh">
       <JsonLd data={personGraph()} />
-      <SiteHeader lang="no" />
-      <HomeContent lang="no" />
-      <SiteFooter lang="no" />
+      <PenProvider color="rose">
+        <SiteHeader lang="no" />
+        <HomeContent lang="no" />
+        <SiteFooter lang="no" />
+      </PenProvider>
     </div>
   )
 }

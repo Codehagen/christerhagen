@@ -7,6 +7,7 @@ import { JsonLd } from "@/components/json-ld"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { PostContent } from "@/components/post-content"
+import { PenProvider } from "@/components/site/pen"
 
 export function generateStaticParams() {
   return postOrder.map((slug) => ({ slug }))
@@ -46,7 +47,7 @@ export default async function PostPageNo({
   return (
     <div
       lang="no"
-      className="flex min-h-svh flex-col bg-background text-foreground"
+      className="flex min-h-svh flex-col bg-ground text-ink"
     >
       <JsonLd data={blogPostingLd(slug, "no")} />
       <JsonLd
@@ -58,9 +59,12 @@ export default async function PostPageNo({
           },
         ])}
       />
-      <SiteHeader active="writing" lang="no" />
-      <PostContent slug={slug} lang="no" />
-      <SiteFooter lang="no" />
+      {/* The post's one pen (DESIGN.md §3): blue, header ring included. */}
+      <PenProvider color="blue">
+        <SiteHeader active="writing" lang="no" penToggle />
+        <PostContent slug={slug} lang="no" />
+        <SiteFooter lang="no" />
+      </PenProvider>
     </div>
   )
 }

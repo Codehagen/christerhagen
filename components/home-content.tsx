@@ -1,278 +1,169 @@
-import { Link } from "next-view-transitions"
-import Image from "next/image"
-
 import { type Lang } from "@/lib/companies"
+import { homeContent, homeSectionNames } from "@/lib/content"
+import { HOME_PEN } from "@/lib/pen/pages"
+import { postOrder, posts, writingCopy } from "@/lib/posts"
+import type { PreviewKey } from "@/lib/previews"
 import { localizedPath } from "@/lib/seo"
-import { buttonVariants } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { homeContent, homeSectionNames, socialLinks, EMAIL } from "@/lib/content"
 
-import { eyebrow as label, headingId } from "@/lib/typography"
-const rowLink =
-  "flex items-baseline justify-between gap-6 border-b border-border text-(--ink-strong) transition-colors hover:text-(--rust-strong)"
+import { LinkedText } from "@/components/linked-text"
+import { Ledger, LedgerTitle } from "@/components/site/ledger"
+import { TextLink } from "@/components/site/link"
+import { NowBefore } from "@/components/site/now-before"
+import { Highlight } from "@/components/site/pen"
+import { TonedPortrait } from "@/components/site/portrait"
+import { Rail } from "@/components/site/rail"
+import { Rule } from "@/components/site/rule"
+
+/**
+ * The home page (64, DESIGN.md §5): the name at body size with the role under
+ * it, the toned portrait in the right margin, one paragraph with preview
+ * links, the writing ledger with the newest under the rose wash and its note,
+ * and the work as now / before. The rail reads About · Writing · Work.
+ */
+
+/** The paragraph's named things, each once (46/64). */
+const LINKS: Record<Lang, [string, PreviewKey][]> = {
+  en: [
+    ["Codebase", "codebase"],
+    ["Not Another VC", "nav"],
+    ["Advanti Estate", "advanti-estate"],
+    ["writes software in the open", "github"],
+    ["Docdir", "docdir"],
+  ],
+  no: [
+    ["Codebase", "codebase"],
+    ["Not Another VC", "nav"],
+    ["Advanti Estate", "advanti-estate"],
+    ["skriver programvare i åpen kildekode", "github"],
+    ["Docdir", "docdir"],
+  ],
+}
+
+const UI: Record<Lang, { rail: string; before: string }> = {
+  en: { rail: "On this page", before: "Before" },
+  no: { rail: "På denne siden", before: "Før" },
+}
+
+/** "2026-02-15" → "15/02". */
+function ddmm(iso: string) {
+  const [, m, d] = iso.split("-")
+  return `${d}/${m}`
+}
 
 export function HomeContent({ lang }: { lang: Lang }) {
   const c = homeContent[lang]
-  const sectionName = homeSectionNames[lang]
-  const social = socialLinks(lang)
-  const location = lang === "no" ? "Bodø, Norge" : "Bodø, Norway"
+  const names = homeSectionNames[lang]
+  const t = UI[lang]
+
+  const rows = [...postOrder]
+    .map((slug) => ({ slug, ...posts[lang][slug] }))
+    .sort((a, b) => b.dateISO.localeCompare(a.dateISO))
+
+  const work = c.work.map((w) => ({
+    name: w.name,
+    what: w.role.split(" · ")[1],
+    period: w.period,
+  }))
+  const now = work
+    .filter((w) => !w.period.startsWith("Sunset"))
+    .map((w) => ({
+      ...w,
+      period: w.period.replace(/^(Since|Siden) /, (m) => m.toLowerCase()),
+    }))
+  const before = work
+    .filter((w) => w.period.startsWith("Sunset"))
+    .map((w) => ({ ...w, period: w.period.replace(/^Sunset · /, "") }))
 
   return (
-    <main id="main" className="mx-auto w-full max-w-[740px] px-5 sm:px-7 pb-10">
-      {/* Hero — identity above the fold: tagline + portrait, side by side. */}
-      <section className="flex flex-col gap-9 pt-[72px] pb-[64px] sm:flex-row sm:items-start sm:gap-[44px]">
-        <div className="min-w-0 flex-1">
-          <h1 className="enter m-0 max-w-[20ch] text-[clamp(1.625rem,7vw,2.0625rem)] leading-[1.3] font-normal tracking-[-0.015em] text-(--ink-strong)">
-            {/* The visible hero is the tagline; the name belongs in the h1 all
-                the same, so the document's top heading names its subject the
-                way the title, og:site_name and the markdown twin already do. */}
-            <span className="sr-only">Christer Hagen — </span>
-            {c.heroHead}
-          </h1>
-          <p className="enter enter-delay mt-5 max-w-[46ch] text-[1.125rem] leading-[1.62] font-normal text-(--ink-muted)">
-            {c.heroSub}
-          </p>
-          <p className="enter enter-delay mt-6 font-mono text-[0.78125rem] leading-none tracking-[0.02em] text-(--ink-faint)">
-            {location}
-          </p>
-        </div>
-        <div className="relative aspect-[236/300] w-full max-w-[236px] flex-shrink-0 overflow-hidden rounded-[3px] bg-(--paper-placeholder) sm:w-[236px]">
-          <Image
-            src="/images/christer-hagen-portrait.jpg"
-            alt="Christer Hagen"
-            fill
-            priority
-            sizes="236px"
-            className="object-cover [object-position:center_22%]"
-          />
-        </div>
-      </section>
-
-      {/* About */}
-      <section className="mb-[72px]">
-        <h2 id={headingId(c.lblAbout)} className={`${label} mb-6`}>
-          <span>{c.lblAbout}</span>
-          <span className="sr-only">{sectionName.about}</span>
-        </h2>
-        <p className="max-w-[62ch] text-[1.03125rem] leading-[1.64] font-normal text-(--ink-body-2)">
-          {c.aboutBody}
-        </p>
-      </section>
-
-      {/* Now */}
-      <section className="mb-[72px]">
-        <h2 id={headingId(c.lblNow)} className={`${label} mb-[22px]`}>
-          <span>{c.lblNow}</span>
-          <span className="sr-only">{sectionName.now}</span>
-        </h2>
-        <ul className="m-0 flex list-none flex-col gap-[13px] p-0">
-          {c.now.map((item, i) => (
-            <li
-              key={i}
-              className="flex gap-[14px] text-[1.0625rem] leading-[1.5] font-normal text-(--ink-body-2)"
-            >
-              <span aria-hidden className="flex-shrink-0 font-mono text-[0.875rem] leading-[1.6] text-(--rust-bright)">
-                →
-              </span>
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* Work */}
-      <section className="mb-[72px]">
-        <h2 id={headingId(c.lblWork)} className={`${label} mb-1.5`}>
-          <span>{c.lblWork}</span>
-          <span className="sr-only">{sectionName.work}</span>
-        </h2>
-        {c.work.map((w) => {
-          const content = (
-            <>
-              <div className="flex flex-col gap-1">
-                <h3 id={`work-${headingId(w.name)}`} className="m-0 text-[1.25rem] leading-[1.15] font-medium">
-                  {w.name}
-                </h3>
-                <span className="font-mono text-[0.75rem] leading-[1.4] font-normal text-(--ink-faint)">
-                  {w.role}
-                </span>
-              </div>
-              <span className="flex-shrink-0 font-mono text-[0.71875rem] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
-                {w.period}
-              </span>
-            </>
-          )
-          // Closed companies have no live site: render a non-interactive row, not
-          // a dead href="#" that opens a blank tab and exposes a no-op to AT.
-          return w.url === "#" ? (
-            <div
-              key={w.name}
-              className="flex items-baseline justify-between gap-6 border-b border-border py-4 text-(--ink-strong)"
-            >
-              {content}
-            </div>
-          ) : (
-            <a
-              key={w.name}
-              href={w.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${rowLink} py-4`}
-            >
-              {content}
-            </a>
-          )
-        })}
-      </section>
-
-      {/* Investments */}
-      <section className="mb-[72px]">
-        <h2 id={headingId(c.lblInvest)} className={`${label} mb-1.5`}>
-          <span>{c.lblInvest}</span>
-          <span className="sr-only">{sectionName.invest}</span>
-        </h2>
-        {c.investments.map((i) => (
-          <a
-            key={i.name}
-            href={i.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${rowLink} group gap-[22px] py-[15px]`}
-          >
-            <div className="flex flex-col gap-1">
-              <h3 id={`investment-${headingId(i.name)}`} className="m-0 text-[1.125rem] leading-[1.2] font-medium">
-                {i.name}
-              </h3>
-              <span className="max-w-[48ch] text-[0.84375rem] leading-[1.45] font-normal text-(--ink-soft)">
-                {i.desc}
-              </span>
-            </div>
-            <span
-              aria-hidden
-              className="flex-shrink-0 font-mono text-[0.8125rem] leading-none font-normal text-(--arrow-faint) transition-[transform,color] duration-150 ease-out group-hover:-translate-y-px group-hover:translate-x-px group-hover:text-(--rust-strong)"
-            >
-              ↗
-            </span>
-          </a>
-        ))}
-      </section>
-
-      {/* Exits */}
-      <section className="mb-[72px]">
-        <h2 id={headingId(c.lblExits)} className={`${label} mb-1.5`}>
-          <span>{c.lblExits}</span>
-          <span className="sr-only">{sectionName.exits}</span>
-        </h2>
-        {c.exits.map((x) => (
-          <a
-            key={x.name}
-            href={x.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${rowLink} gap-[22px] py-[15px]`}
-          >
-            <div className="flex flex-col gap-1">
-              <h3 id={`exit-${headingId(x.name)}`} className="m-0 text-[1.125rem] leading-[1.2] font-medium">
-                {x.name}
-              </h3>
-              <span className="max-w-[48ch] text-[0.84375rem] leading-[1.45] font-normal text-(--ink-soft)">
-                {x.desc}
-              </span>
-            </div>
-            <Badge variant="status" className="flex-shrink-0">
-              {x.stage}
-            </Badge>
-          </a>
-        ))}
-      </section>
-
-      {/* Open source */}
-      <section className="mb-[72px]">
-        <h2 id={headingId(c.lblOss)} className={`${label} mb-1.5`}>
-          <span>{c.lblOss}</span>
-          <span className="sr-only">{sectionName.oss}</span>
-        </h2>
-        {c.oss.map((o) => (
-          <a
-            key={o.name}
-            href={o.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${rowLink} py-[15px]`}
-          >
-            <div className="flex flex-col gap-1">
-              <h3 id={`oss-${headingId(o.name)}`} className="m-0 text-[1.125rem] leading-[1.2] font-medium">
-                {o.name}
-              </h3>
-              <span className="font-mono text-[0.8125rem] leading-[1.4] font-normal text-(--ink-faint)">
-                {o.desc}
-              </span>
-            </div>
-            <span className="flex-shrink-0 font-mono text-[0.71875rem] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
-              <span aria-hidden>★</span> {o.stars}
-            </span>
-          </a>
-        ))}
-      </section>
-
-      {/* Writing */}
-      <section className="mb-[72px]">
-        <h2 id={headingId(c.lblWriting)} className={`${label} mb-1.5`}>
-          <span>{c.lblWriting}</span>
-          <span className="sr-only">{sectionName.writing}</span>
-        </h2>
-        {c.writing.map((w) => (
-          <Link
-            key={w.slug}
-            href={localizedPath(`/writing/${w.slug}`, lang)}
-            className="flex items-baseline justify-between gap-6 border-b border-border py-[14px] text-(--ink-body-2) transition-colors hover:text-(--rust-strong)"
-          >
-            <h3 id={`post-${headingId(w.title)}`} className="m-0 text-[1.0625rem] leading-[1.35] font-normal">
-              {w.title}
-            </h3>
-            <span className="flex-shrink-0 font-mono text-[0.71875rem] leading-none font-normal whitespace-nowrap text-(--ink-meta)">
-              {w.date}
-            </span>
-          </Link>
-        ))}
-      </section>
-
-      {/* Contact */}
-      <section className="mb-10 pt-2">
-        <h2 id={headingId(c.lblContact)} className={`${label} mb-[22px]`}>
-          <span>{c.lblContact}</span>
-          <span className="sr-only">{sectionName.contact}</span>
-        </h2>
-        <p className="m-0 max-w-[16ch] text-[1.875rem] leading-[1.25] font-normal text-(--ink-strong)">
-          {c.ctaHead}
-        </p>
-        <p className="mt-4 mb-[26px] max-w-[42ch] text-[1.0625rem] leading-[1.6] font-normal text-(--ink-body-2)">
-          {c.ctaBody}
-        </p>
-        <a
-          href={`mailto:${EMAIL}`}
-          className={buttonVariants({ variant: "pill", size: "pill" })}
+    <main
+      id="main"
+      data-pen-column
+      className="px-[var(--page-pad-x)] lg:ml-[var(--column-left)] lg:w-[var(--column)] lg:px-0 lg:pt-[46px]"
+    >
+      <Rail
+        label={t.rail}
+        items={[
+          { id: "about", label: c.lblAbout },
+          { id: "writing", label: c.lblWriting },
+          { id: "work", label: c.lblWork },
+        ]}
+      />
+      <section
+        id="about"
+        aria-labelledby="home-name"
+        className="relative pt-4 lg:pt-0"
+      >
+        <h1
+          id="home-name"
+          className="font-[var(--weight-strong)] tracking-[-0.008em]"
         >
-          {c.ctaBtn}
-        </a>
-        <div className="mt-[30px] flex flex-wrap gap-[10px]">
-          {social
-            .filter((s) => !s.url.startsWith("mailto:"))
-            .map((s) => (
-              <a
-                key={s.label + s.handle}
-                href={s.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-(--line) bg-(--paper-raised) px-[14px] py-[8px] font-mono text-[0.78125rem] leading-none font-normal text-(--ink-strong) transition-[color,border-color,transform] duration-150 ease-out hover:border-(--line-strong) hover:text-(--rust-strong) active:scale-[0.97]"
-              >
-                <span className="text-[0.625rem] tracking-[0.08em] text-(--ink-faint) uppercase">
-                  {s.label}
-                </span>
-                <span>{s.handle}</span>
-              </a>
-            ))}
-        </div>
+          Christer Hagen
+        </h1>
+        <p className="text-ink-muted">{c.aboutRole}</p>
+        <TonedPortrait lang={lang} />
+        <LinkedText
+          text={c.aboutBody}
+          links={LINKS[lang]}
+          lang={lang}
+          className="mt-[21px]"
+        />
+      </section>
+
+      <section id="writing">
+        <Rule>
+          {c.lblWriting}
+          <span className="sr-only"> {names.writing}</span>
+        </Rule>
+        <Ledger
+          label={c.lblWriting}
+          columns="1fr auto auto"
+          rows={rows.map((p, i) => ({
+            id: p.slug,
+            year: p.dateISO.slice(0, 4),
+            href: localizedPath(`/writing/${p.slug}`, lang),
+            rest: i > 0,
+            align: { 2: "right" },
+            cells: [
+              <LedgerTitle key="t">
+                {i === 0 ? (
+                  <Highlight
+                    variant="title"
+                    stepBack
+                    noteVariant="settle"
+                    note={HOME_PEN[lang].newest}
+                  >
+                    {p.title}
+                  </Highlight>
+                ) : (
+                  p.title
+                )}
+              </LedgerTitle>,
+              <span key="r" className="whitespace-nowrap text-ink-muted">
+                {p.read}
+              </span>,
+              <span key="d" className="text-ink-muted">
+                {ddmm(p.dateISO)}
+              </span>,
+            ],
+          }))}
+        />
+        <p className="mt-[10px] text-small leading-[var(--leading-meta)]">
+          <TextLink
+            href={localizedPath("/writing", lang)}
+            variant="back"
+            className="hit text-ink-muted"
+          >
+            {writingCopy[lang].backLabel} →
+          </TextLink>
+        </p>
+      </section>
+
+      <section id="work">
+        <Rule>
+          {c.lblWork}
+          <span className="sr-only"> {names.work}</span>
+        </Rule>
+        <NowBefore now={now} before={before} beforeLabel={t.before} />
       </section>
     </main>
   )

@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 
 import { SiteHeader } from "@/components/site-header"
+import { PenProvider } from "@/components/site/pen"
 import { SiteFooter } from "@/components/site-footer"
 import { AboutContent } from "@/components/about-content"
 import { JsonLd } from "@/components/json-ld"
@@ -17,12 +18,14 @@ export const metadata: Metadata = pageMetadata({
 
 export default function AboutPage() {
   return (
-    <div lang="en" className="flex min-h-svh flex-col bg-background text-foreground">
+    <div lang="en" className="min-h-svh">
       <JsonLd data={profilePageLd("en")} />
       <JsonLd data={faqLd(faqItems.en)} />
-      <SiteHeader active="about" lang="en" />
-      <AboutContent lang="en" />
-      <SiteFooter lang="en" />
+      <PenProvider color="rust">
+        <SiteHeader active="about" lang="en" />
+        <AboutContent lang="en" />
+        <SiteFooter lang="en" variant="signature" />
+      </PenProvider>
     </div>
   )
 }

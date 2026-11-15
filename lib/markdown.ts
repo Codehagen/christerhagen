@@ -257,10 +257,12 @@ function brandMd(lang: Lang): string {
     `# ${c.head}`,
     c.intro,
     `## ${c.lblColour}`,
-    c.colours.map((col) => `- **${col.name}** — \`${col.hex}\` · ${col.use}`),
+    c.colours.map((col) => `- **${col.name}** — \`${col.value}\` · ${col.use}`),
+    `## ${c.lblPen}`,
+    c.penNote,
+    c.pens.map((col) => `- **${col.name}** — \`${col.value}\` · ${col.use}`),
     `## ${c.lblType}`,
-    `- Newsreader (serif) — ${c.typeSerifUse}`,
-    `- JetBrains Mono — ${c.typeMonoUse}`,
+    c.type.map((f) => `- **${f.name}** — ${f.spec} · ${f.use}`),
     `## ${c.lblVoice}`,
     c.voice.map((v) => `- ${v}`),
     footer(lang)
@@ -481,7 +483,9 @@ export function markdownDocument(pathname: string, body: string): string {
     body
       .split("\n\n")
       .map((block) => block.trim())
-      .find((block) => block && !block.startsWith("#") && !block.startsWith("-"))
+      .find(
+        (block) => block && !block.startsWith("#") && !block.startsWith("-")
+      )
       ?.replace(/\s+/g, " ")
       .slice(0, 200) ?? ""
 

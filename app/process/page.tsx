@@ -15,13 +15,10 @@ export const metadata: Metadata = pageMetadata({
 
 export default function ProcessPage() {
   return (
-    <div
-      lang="en"
-      className="flex min-h-svh flex-col bg-background text-foreground"
-    >
+    <div lang="en" className="min-h-svh">
       <SiteHeader lang="en" />
       <ProcessContent lang="en" />
-      <SiteFooter lang="en" />
+      <SiteFooter lang="en" column="wide" />
     </div>
   )
 }

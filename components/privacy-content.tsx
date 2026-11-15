@@ -1,43 +1,42 @@
 import { type Lang } from "@/lib/companies"
 import { privacyContent } from "@/lib/content"
 
-import { eyebrow as label } from "@/lib/typography"
+import { Rule } from "@/components/site/rule"
 
+/**
+ * Privacy: the wide column (no rail), prose held to the reading measure. The
+ * kicker and h1, the intro, the date line in faint, then each section under
+ * a Rule.
+ */
 export function PrivacyContent({ lang }: { lang: Lang }) {
   const c = privacyContent[lang]
 
   return (
-    <main id="main" className="mx-auto w-full max-w-[740px] flex-1 px-5 sm:px-7">
-      <section className="pt-[88px] pb-[52px]">
-        <div className={`${label} enter mb-6`}>{c.kicker}</div>
-        <h1 className="enter m-0 max-w-[20ch] text-[clamp(1.875rem,9vw,2.5rem)] leading-[1.2] font-normal tracking-[-0.015em] text-(--ink-strong)">
-          {c.head}
-        </h1>
-        <p className="enter enter-delay mt-5 max-w-[46ch] text-[1.125rem] leading-[1.6] font-normal text-(--ink-body-2)">
-          {c.intro}
-        </p>
-        <div className="enter enter-delay mt-[14px] font-mono text-[0.75rem] leading-none font-normal text-(--ink-fainter)">
-          {c.updated}
-        </div>
-      </section>
+    <main
+      id="main"
+      className="px-[var(--page-pad-x)] pt-4 lg:ml-[var(--column-wide-left)] lg:w-[var(--column-wide)] lg:px-0 lg:pt-[46px]"
+    >
+      <p className="text-ink-muted">{c.kicker}</p>
+      <h1 className="mt-[6px] text-title leading-[var(--leading-title)] font-[var(--weight-strong)] tracking-[var(--tracking-title)]">
+        {c.head}
+      </h1>
+      <p className="mt-[10px] max-w-[var(--column)] text-ink-muted">
+        {c.intro}
+      </p>
+      <p className="mt-[10px] text-small text-ink-faint tabular-nums">
+        {c.updated}
+      </p>
 
-      <div className="border-t border-border pt-11 pb-20">
-        {c.sections.map((s) => (
-          <section key={s.head} className="mb-[52px] last:mb-0">
-            <h2 className={`${label} mb-[18px]`}>{s.head}</h2>
-            <div className="flex flex-col gap-[18px]">
-              {s.body.map((para, i) => (
-                <p
-                  key={i}
-                  className="m-0 max-w-[62ch] text-[1.03125rem] leading-[1.64] font-normal text-(--ink-body-2)"
-                >
-                  {para}
-                </p>
-              ))}
-            </div>
-          </section>
-        ))}
-      </div>
+      {c.sections.map((s, n) => (
+        <section key={s.head} aria-labelledby={`privacy-${n}`}>
+          <Rule id={`privacy-${n}`}>{s.head}</Rule>
+          <div className="flex max-w-[var(--column)] flex-col gap-[var(--para-gap)]">
+            {s.body.map((para) => (
+              <p key={para.slice(0, 24)}>{para}</p>
+            ))}
+          </div>
+        </section>
+      ))}
     </main>
   )
 }

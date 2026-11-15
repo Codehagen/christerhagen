@@ -22,25 +22,25 @@ export default function GlobalError({
   return (
     <html lang="en">
       <body className="antialiased">
-        <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-background px-6 text-center text-foreground">
-          <div className="font-mono text-[0.75rem] font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
-            Error
-          </div>
-          <h1 className="max-w-[20ch] text-[clamp(1.5rem,6vw,1.875rem)] leading-[1.3] font-normal tracking-[-0.015em] text-(--ink-strong)">
+        <main className="px-[var(--page-pad-x)] pt-[94px] lg:ml-[var(--column-wide-left)] lg:w-[var(--column-wide)] lg:px-0">
+          <p className="text-ink-muted">Error</p>
+          <h1 className="mt-[6px] text-title leading-[var(--leading-title)] font-[var(--weight-strong)] tracking-[var(--tracking-title)]">
             Something went wrong.
           </h1>
-          <p className="max-w-[42ch] text-[1rem] leading-[1.6] text-(--ink-muted)">
+          <p className="mt-[10px] max-w-[var(--column)] text-ink-muted">
             The site ran into an unexpected problem. Please try again in a
             moment.
           </p>
-          <button
-            type="button"
-            onClick={reset}
-            className="mt-2 rounded-full bg-foreground px-[22px] py-[14px] text-[0.8125rem] text-background transition-[background-color,transform] duration-150 hover:bg-(--rust-deep) active:scale-[0.97]"
-          >
-            Try again
-          </button>
-        </div>
+          <p className="mt-[26px] flex min-h-11 items-center">
+            <button
+              type="button"
+              onClick={reset}
+              className="ink-link hit press"
+            >
+              Try again
+            </button>
+          </p>
+        </main>
       </body>
     </html>
   )

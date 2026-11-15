@@ -1,16 +1,17 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import {
-  companies,
-  companyOrder,
-  isCompanySlug,
-  uiCopy,
-} from "@/lib/companies"
+import { companies, companyOrder, isCompanySlug, uiCopy } from "@/lib/companies"
 import { CompanyContent } from "@/components/company-content"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
-import { organizationLd, breadcrumbLd, pageMetadata, localizedPath } from "@/lib/seo"
+import { PenProvider } from "@/components/site/pen"
+import {
+  organizationLd,
+  breadcrumbLd,
+  pageMetadata,
+  localizedPath,
+} from "@/lib/seo"
 import { JsonLd } from "@/components/json-ld"
 
 export function generateStaticParams() {
@@ -46,22 +47,25 @@ export default async function CompanyPage({
   }
 
   return (
-    <div lang="en" className="flex min-h-svh flex-col bg-background text-foreground">
-      <JsonLd data={organizationLd(slug, "en")} />
-      <JsonLd
-        data={breadcrumbLd([
-          { name: uiCopy.en.navPortfolio, path: localizedPath("/portfolio", "en") },
-          {
-            name: companies.en[slug].name,
-            path: localizedPath("/portfolio/" + slug, "en"),
-          },
-        ])}
-      />
-      <SiteHeader active="portfolio" lang="en" />
-      <main id="main" className="mx-auto w-full max-w-[640px] flex-1 px-[28px]">
-        <CompanyContent slug={slug} lang="en" />
-      </main>
-      <SiteFooter lang="en" />
-    </div>
+    <PenProvider color="green">
+      <div lang="en" className="flex min-h-svh flex-col bg-ground text-ink">
+        <JsonLd data={organizationLd(slug, "en")} />
+        <JsonLd
+          data={breadcrumbLd([
+            {
+              name: uiCopy.en.navPortfolio,
+              path: localizedPath("/portfolio", "en"),
+            },
+            {
+              name: companies.en[slug].name,
+              path: localizedPath("/portfolio/" + slug, "en"),
+            },
+          ])}
+        />
+        <SiteHeader active="portfolio" lang="en" />
+        <CompanyContent key={slug} slug={slug} lang="en" />
+        <SiteFooter lang="en" column="wide" />
+      </div>
+    </PenProvider>
   )
 }

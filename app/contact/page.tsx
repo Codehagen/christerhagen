@@ -15,13 +15,10 @@ export const metadata: Metadata = pageMetadata({
 
 export default function ContactPage() {
   return (
-    <div
-      lang="en"
-      className="flex min-h-svh flex-col bg-background text-foreground"
-    >
+    <div lang="en" className="min-h-svh">
       <SiteHeader active="contact" lang="en" />
       <ContactContent lang="en" />
-      <SiteFooter lang="en" />
+      <SiteFooter lang="en" column="wide" address={false} />
     </div>
   )
 }

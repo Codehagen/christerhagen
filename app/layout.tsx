@@ -1,26 +1,11 @@
 import type { Metadata } from "next"
-import { Newsreader, JetBrains_Mono } from "next/font/google"
 import { ViewTransitions } from "next-view-transitions"
 
 import "./globals.css"
+import { fontCaveat, fontInter, fontMono, fontSerif } from "./fonts"
 import { LanguageProvider, HtmlLang } from "@/components/language-provider"
 import { cn } from "@/lib/utils"
 import { SITE_URL } from "@/lib/seo"
-
-const fontSerif = Newsreader({
-  subsets: ["latin"],
-  variable: "--font-serif",
-  display: "swap",
-  style: ["normal", "italic"],
-  weight: ["400", "500", "600"],
-})
-
-const fontMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  display: "swap",
-  weight: ["400", "500"],
-})
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -60,12 +45,18 @@ export default function RootLayout({
     <ViewTransitions>
       <html
         lang="en"
-        className={cn("antialiased", fontSerif.variable, fontMono.variable)}
+        className={cn(
+          "antialiased",
+          fontInter.variable,
+          fontCaveat.variable,
+          fontSerif.variable,
+          fontMono.variable
+        )}
       >
         <body>
           <a
             href="#main"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-foreground focus:px-4 focus:py-2 focus:font-mono focus:text-[0.8125rem] focus:text-background"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-4 focus:z-50 focus:rounded-[0.3em] focus:bg-ink focus:px-3 focus:py-2 focus:text-ui focus:text-ground"
           >
             Skip to content
           </a>

@@ -3,242 +3,102 @@
 import * as React from "react"
 import { Link } from "next-view-transitions"
 import { usePathname } from "next/navigation"
-import { Menu, X } from "lucide-react"
 
-import { cn } from "@/lib/utils"
-import { uiCopy, type Lang } from "@/lib/companies"
+import type { Lang } from "@/lib/companies"
 import { localizedPath } from "@/lib/seo"
+import { cn } from "@/lib/utils"
 
-type NavKey = "about" | "portfolio" | "writing" | "contact"
+import { LangSwitch, enPathOf } from "@/components/site/lang-switch"
+import {
+  NAV_HREF,
+  NAV_KEYS,
+  currentOf,
+  navKeyOf,
+  navLabel,
+  type NavKey,
+} from "@/components/site/nav"
+import { PhoneMenu } from "@/components/site/phone-menu"
+import { TravelRing, useBox } from "@/components/site/travel-ring"
 
-const navItem =
-  "relative inline-flex items-center font-mono text-[0.78125rem] leading-none font-medium tracking-[0.02em] transition-colors before:absolute before:-inset-x-1 before:-inset-y-4 before:content-[''] hover:text-(--rust-strong)"
-
-function navLinks(t: (typeof uiCopy)["en"]) {
-  return [
-    { key: "about" as const, href: "/about", label: t.navAbout },
-    { key: "portfolio" as const, href: "/portfolio", label: t.navPortfolio },
-    { key: "writing" as const, href: "/writing", label: t.navWriting },
-    { key: "contact" as const, href: "/contact", label: t.navContact },
-  ]
-}
-
-/** Strip a leading "/no" locale segment to get the EN-equivalent path. */
-function enPathOf(pathname: string): string {
-  if (pathname === "/no") return "/"
-  if (pathname.startsWith("/no/")) return pathname.slice(3)
-  return pathname
-}
-
-/** Derive the active nav key from the EN-equivalent pathname. */
-function activeFromPath(enPath: string): NavKey | undefined {
-  if (enPath === "/about") return "about"
-  if (enPath.startsWith("/portfolio")) return "portfolio"
-  if (enPath.startsWith("/writing")) return "writing"
-  if (enPath === "/contact") return "contact"
-  return undefined
-}
-
-const localeLink =
-  "relative px-1 py-3 font-mono text-[0.75rem] leading-none tracking-[0.04em] transition-colors before:absolute before:inset-0 before:-my-2 before:content-['']"
+export type { NavKey }
 
 /**
- * EN / NO switch — two reciprocal <Link>s pointing at the mirrored-locale URL
- * of the current page (computed from the pathname), replacing the old client
- * language store. The active locale is rendered in ink, the other muted.
+ * The header row (DESIGN.md §4 Header): 48px, sitting inside the top fade
+ * with no background and no edge line. The name on the left links home; the
+ * four pages and EN / NO on the right, 13px, 20px apart, at `--ink-idle`.
+ * The current section is ink and the pen's loop rings it (it stays when the
+ * pen is hidden). Home rings nothing; on a company page Portfolio stays
+ * ringed with `aria-current="true"`, on a post Writing does.
+ *
+ * Below `md` the pages move into the PhoneMenu behind a 44px button.
+ *
+ * Props: `active` (defaults to the section of the current URL), `lang`, and
+ * `penToggle` to put the PenToggle in the phone menu (posts).
  */
-function LocaleLinks({
-  lang,
-  enPath,
-  onNavigate,
-}: {
-  lang: Lang
-  enPath: string
-  onNavigate?: () => void
-}) {
-  const enHref = enPath
-  const noHref = enPath === "/" ? "/no" : "/no" + enPath
-  return (
-    <div className="inline-flex items-center gap-[7px]" aria-label="Language">
-      <Link
-        href={enHref}
-        hrefLang="en"
-        aria-label="English"
-        aria-current={lang === "en" ? "page" : undefined}
-        onClick={onNavigate}
-        className={cn(
-          localeLink,
-          lang === "en"
-            ? "text-foreground"
-            : "text-(--ink-fainter) hover:text-foreground"
-        )}
-      >
-        EN
-      </Link>
-      <span
-        aria-hidden
-        className="font-mono text-[0.75rem] leading-none text-(--line-soft)"
-      >
-        /
-      </span>
-      <Link
-        href={noHref}
-        hrefLang="nb-NO"
-        aria-label="Norsk"
-        aria-current={lang === "no" ? "page" : undefined}
-        onClick={onNavigate}
-        className={cn(
-          localeLink,
-          lang === "no"
-            ? "text-foreground"
-            : "text-(--ink-fainter) hover:text-foreground"
-        )}
-      >
-        NO
-      </Link>
-    </div>
-  )
-}
-
 export function SiteHeader({
   active,
   lang,
+  penToggle = false,
+  className,
 }: {
   active?: NavKey
   lang: Lang
+  penToggle?: boolean
+  className?: string
 }) {
-  const t = uiCopy[lang]
   const pathname = usePathname()
   const enPath = enPathOf(pathname ?? "/")
-  const activeKey = active ?? activeFromPath(enPath)
-  const [open, setOpen] = React.useState(false)
-  // Keep the panel mounted through its exit transition; `open` drives the
-  // enter/exit state, `rendered` keeps it in the tree until transitionend.
-  const [rendered, setRendered] = React.useState(false)
-  const triggerRef = React.useRef<HTMLButtonElement>(null)
-  const links = navLinks(t)
+  const current = active ?? navKeyOf(enPath)
 
-  function toggleMenu() {
-    // Mount on the way open; the closed exit transition unmounts via onTransitionEnd.
-    if (!open) setRendered(true)
-    setOpen((o) => !o)
-  }
-
-  // Esc closes the mobile menu and returns focus to its trigger.
-  React.useEffect(() => {
-    if (!open) return
-    function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        setOpen(false)
-        triggerRef.current?.focus()
-      }
-    }
-    document.addEventListener("keydown", onKeyDown)
-    return () => document.removeEventListener("keydown", onKeyDown)
-  }, [open])
+  const navRef = React.useRef<HTMLDivElement>(null)
+  const here = React.useRef<HTMLSpanElement>(null)
+  const box = useBox(navRef, here, `${current}-${lang}`)
 
   return (
-    <header className="sticky top-0 z-20 border-b border-border bg-background">
-      <div className="mx-auto flex max-w-[740px] items-center justify-between px-5 py-4 sm:px-7">
-        <Link
-          href={localizedPath("/", lang)}
-          className="text-[1rem] leading-none font-medium tracking-[0.005em] text-foreground"
-        >
-          Christer Hagen
-        </Link>
+    <header
+      className={cn(
+        "sticky top-0 z-10 flex h-[var(--header-row)] items-center justify-between px-[var(--page-pad-x)] text-ui tracking-[var(--tracking-ui)]",
+        className
+      )}
+    >
+      <Link
+        href={localizedPath("/", lang)}
+        aria-current={enPath === "/" ? "page" : undefined}
+        className="hit press font-[560]"
+      >
+        Christer Hagen
+      </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden items-center gap-[18px] md:flex">
-          {links.map((l) => (
-            <Link
-              key={l.key}
-              href={localizedPath(l.href, lang)}
-              aria-current={activeKey === l.key ? "page" : undefined}
-              className={cn(
-                navItem,
-                activeKey === l.key ? "text-foreground" : "text-(--ink-muted)"
-              )}
-            >
-              {l.label}
-            </Link>
-          ))}
-          <LocaleLinks lang={lang} enPath={enPath} />
+      <div ref={navRef} className="relative hidden items-center gap-5 md:flex">
+        <nav aria-label={lang === "en" ? "Main" : "Hovedmeny"}>
+          <ul className="flex items-center gap-5">
+            {NAV_KEYS.map((k) => {
+              const on = current === k
+              return (
+                <li key={k}>
+                  <Link
+                    href={localizedPath(NAV_HREF[k], lang)}
+                    aria-current={on ? currentOf(enPath, k) : undefined}
+                    data-on={on || undefined}
+                    className="nav-item hit press"
+                  >
+                    <span ref={on ? here : undefined}>{navLabel(k, lang)}</span>
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
         </nav>
-
-        {/* Mobile controls */}
-        <div className="flex items-center gap-1 md:hidden">
-          <button
-            ref={triggerRef}
-            type="button"
-            onClick={toggleMenu}
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-            className="relative -mr-2 inline-flex size-11 items-center justify-center rounded-md text-foreground transition-transform duration-150 ease-out active:scale-[0.97] focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
-          >
-            <Menu
-              aria-hidden
-              className={cn(
-                "absolute size-5 transition-opacity duration-100 ease-out",
-                open ? "opacity-0" : "opacity-100"
-              )}
-            />
-            <X
-              aria-hidden
-              className={cn(
-                "absolute size-5 transition-opacity duration-100 ease-out",
-                open ? "opacity-100" : "opacity-0"
-              )}
-            />
-          </button>
-        </div>
+        <LangSwitch lang={lang} enPath={enPath} className="ml-2" />
+        {current ? <TravelRing box={box} k={current} /> : null}
       </div>
 
-      {/* Mobile menu — mounted through its exit so close animates too. CSS
-          transitions (entered via @starting-style) rather than keyframes, so a
-          re-toggle mid-flight retargets from the current position instead of
-          restarting from zero. */}
-      {open || rendered ? (
-        <nav
-          id="mobile-menu"
-          data-state={open ? "open" : "closed"}
-          onTransitionEnd={(e) => {
-            if (!open && e.target === e.currentTarget) setRendered(false)
-          }}
-          inert={!open ? true : undefined}
-          className={cn(
-            "border-t border-border transition-[opacity,translate] ease-out-quart md:hidden",
-            "starting:-translate-y-1 starting:opacity-0",
-            open
-              ? "translate-y-0 opacity-100 duration-200"
-              : "-translate-y-1 opacity-0 duration-150"
-          )}
-        >
-          <div className="mx-auto flex max-w-[740px] flex-col px-5 pt-1 pb-3 sm:px-7">
-            {links.map((l) => (
-              <Link
-                key={l.key}
-                href={localizedPath(l.href, lang)}
-                onClick={() => setOpen(false)}
-                aria-current={activeKey === l.key ? "page" : undefined}
-                className={cn(
-                  "flex min-h-12 items-center font-mono text-[0.875rem] tracking-[0.02em] transition-colors hover:text-(--rust-strong)",
-                  activeKey === l.key ? "text-foreground" : "text-(--ink-muted)"
-                )}
-              >
-                {l.label}
-              </Link>
-            ))}
-            <div className="mt-1 flex min-h-12 items-center border-t border-border pt-2">
-              <LocaleLinks
-                lang={lang}
-                enPath={enPath}
-                onNavigate={() => setOpen(false)}
-              />
-            </div>
-          </div>
-        </nav>
-      ) : null}
+      <PhoneMenu
+        lang={lang}
+        enPath={enPath}
+        active={current}
+        penToggle={penToggle}
+      />
     </header>
   )
 }

@@ -1,132 +1,133 @@
-import { Link } from "next-view-transitions"
-import Image from "next/image"
-
-import { cn } from "@/lib/utils"
 import { type Lang } from "@/lib/companies"
-import { localizedPath } from "@/lib/seo"
-import { buttonVariants } from "@/components/ui/button"
 import { aboutContent } from "@/lib/content"
 import { faqItems } from "@/lib/faq"
+import type { PreviewKey } from "@/lib/previews"
+import { localizedPath } from "@/lib/seo"
 
-import { eyebrow as label } from "@/lib/typography"
+import { LinkedText } from "@/components/linked-text"
+import { Ledger } from "@/components/site/ledger"
+import { TextLink } from "@/components/site/link"
+import { Rail } from "@/components/site/rail"
+import { Rule } from "@/components/site/rule"
+
+/**
+ * The about page (67, DESIGN.md §5): nothing above the words and no photo in
+ * the column. The kicker and h1, four bio paragraphs with each company a
+ * preview link at its first mention, Background as a timeline ledger, In the
+ * press as headline links, and the questions the page answers in its
+ * structured data. The page signs off with the small portrait and the
+ * address (the footer's `signature` variant).
+ */
+
+/** Each company once, at the first place the bio names it (48/67). */
+const NAMES: [string, PreviewKey][] = [
+  ["Codebase", "codebase"],
+  ["Docdir", "docdir"],
+  ["Sailsdock", "sailsdock"],
+  ["Bedrifty", "bedrifty"],
+  ["Advanti Estate", "advanti-estate"],
+  ["Not Another VC", "nav"],
+]
+const LINKS: [string, PreviewKey][][] = [
+  [],
+  [["Refenze", "refenze"]],
+  NAMES,
+  [["GitHub", "github"]],
+]
+
+const UI: Record<Lang, { rail: string; index: string; faq: string }> = {
+  en: { rail: "On this page", index: "Index", faq: "Common questions" },
+  no: { rail: "På denne siden", index: "Forsiden", faq: "Vanlige spørsmål" },
+}
 
 export function AboutContent({ lang }: { lang: Lang }) {
-  const c = aboutContent[lang]
+  const a = aboutContent[lang]
+  const t = UI[lang]
 
   return (
-    <main id="main" className="mx-auto w-full max-w-[740px] flex-1 px-5 sm:px-7">
-      <section className="pt-[84px] pb-[56px]">
-        <div className={`${label} mb-6`}>{c.kicker}</div>
-        <h1 className="m-0 max-w-[22ch] text-[clamp(1.6875rem,8vw,2.125rem)] leading-[1.28] font-normal tracking-[-0.015em] text-(--ink-strong)">
-          {c.head}
-        </h1>
-      </section>
+    <main
+      id="main"
+      data-pen-column
+      className="px-[var(--page-pad-x)] lg:ml-[var(--column-left)] lg:w-[var(--column)] lg:px-0 lg:pt-[46px]"
+    >
+      <Rail
+        label={t.rail}
+        back={{ href: localizedPath("/", lang), label: t.index }}
+        items={[
+          { id: "intro", label: a.kicker },
+          { id: "background", label: a.lblBackground },
+          { id: "press", label: a.lblPress },
+        ]}
+      />
 
-      <section className="mb-16 flex flex-col gap-8 sm:flex-row sm:items-start sm:gap-10">
-        <div className="relative aspect-[280/360] w-full max-w-[280px] flex-shrink-0 overflow-hidden rounded-[3px] bg-(--paper-placeholder) sm:w-[280px]">
-          <Image
-            src="/images/christer-hagen-working.jpg"
-            alt="Christer Hagen"
-            fill
-            sizes="280px"
-            priority
-            className="object-cover [object-position:center_18%]"
-          />
-        </div>
-        <div className="flex min-w-0 flex-1 flex-col gap-5">
-          {c.bio.map((para, i) => (
-            <p
-              key={i}
-              className="m-0 text-[1.0625rem] leading-[1.66] font-normal text-(--ink-body)"
-            >
-              {para}
-            </p>
+      <section id="intro" aria-labelledby="about-head" className="pt-4 lg:pt-0">
+        <p className="text-ink-muted">{a.kicker}</p>
+        <h1
+          id="about-head"
+          className="mt-[6px] text-title leading-[var(--leading-title)] font-[var(--weight-strong)] tracking-[var(--tracking-title)]"
+        >
+          {a.head}
+        </h1>
+        <div className="mt-[26px] flex flex-col gap-[var(--para-gap)]">
+          {a.bio.map((para, i) => (
+            <LinkedText
+              key={para.slice(0, 24)}
+              text={para}
+              links={LINKS[i] ?? []}
+              lang={lang}
+            />
           ))}
         </div>
       </section>
 
-      <section className="mb-16">
-        <h2 className={`${label} mb-1.5`}>{c.lblBackground}</h2>
-        {c.timeline.map((t) => (
-          <div
-            key={t.year}
-            className="flex items-baseline gap-7 border-b border-border py-[14px]"
-          >
-            <span className="w-[54px] flex-shrink-0 font-mono text-[0.8125rem] leading-none font-medium text-primary">
-              {t.year}
-            </span>
-            <span className="text-[1.0625rem] leading-[1.4] font-normal text-(--ink-body)">
-              {t.event}
-            </span>
-          </div>
-        ))}
+      <section id="background">
+        <Rule>{a.lblBackground}</Rule>
+        <Ledger
+          label={a.lblBackground}
+          yearWidth="2.4em"
+          columns="1fr"
+          rows={a.timeline.map((e) => ({
+            id: e.year,
+            year: e.year,
+            cells: [<span key="e">{e.event}</span>],
+          }))}
+        />
       </section>
 
-      <section className="mb-16">
-        <h2 className={`${label} mb-1.5`}>{c.lblPress}</h2>
-        {c.press.map((p) => (
-          <a
-            key={p.url}
-            href={p.url}
-            target="_blank"
-            rel="noopener"
-            className="group flex items-baseline justify-between gap-6 border-b border-border py-[14px]"
-          >
-            <span className="text-[1.0625rem] leading-[1.4] font-normal text-(--ink-body) underline-offset-[3px] transition-colors group-hover:text-(--ink-strong) group-hover:underline">
-              {p.title}
-            </span>
-            <span className="flex-shrink-0 font-mono text-[0.75rem] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
-              {p.outlet}
-            </span>
-          </a>
-        ))}
-      </section>
-
-      <section className="mb-20 border-t border-border pt-[30px]">
-        <p className="mb-[22px] max-w-[34ch] text-[1.25rem] leading-[1.5] font-normal text-(--ink-strong)">
-          {c.ctaLine}
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <Link
-            href={localizedPath("/portfolio", lang)}
-            className={cn(
-              buttonVariants({ variant: "pill", size: "pill" }),
-              "px-5 py-[13px] text-[0.78125rem]"
-            )}
-          >
-            {c.ctaPortfolio}
-          </Link>
-          <Link
-            href={localizedPath("/process", lang)}
-            className={cn(
-              buttonVariants({ variant: "pill-outline", size: "pill" }),
-              "px-5 py-[13px] text-[0.78125rem]"
-            )}
-          >
-            {c.ctaProcess}
-          </Link>
-        </div>
-      </section>
-
-      <section className="mb-24 border-t border-border pt-[30px]">
-        <h2 className={`${label} mb-6`}>
-          {lang === "no" ? "Vanlige spørsmål" : "Common questions"}
-        </h2>
-        <div className="flex flex-col">
-          {faqItems[lang].map((item) => (
-            <div
-              key={item.q}
-              className="flex flex-col gap-2 border-b border-border py-[18px] first:pt-0"
+      <section id="press">
+        <Rule>{a.lblPress}</Rule>
+        <ul aria-label={a.lblPress}>
+          {a.press.map((p, i) => (
+            <li
+              key={p.url}
+              className="flex min-h-11 items-baseline justify-between gap-4 border-t py-[var(--row-pad-y)]"
+              style={{ borderTopColor: i ? "var(--hairline)" : "var(--rule)" }}
             >
-              <h3 className="m-0 text-[1.125rem] leading-[1.4] font-normal text-(--ink-strong)">
-                {item.q}
-              </h3>
-              <p className="m-0 max-w-[58ch] text-[1.0625rem] leading-[1.66] font-normal text-(--ink-body)">
-                {item.a}
-              </p>
+              <TextLink href={p.url} lang="nb" className="min-w-0 text-pretty">
+                {p.title}
+              </TextLink>
+              <span className="shrink-0 text-small text-ink-faint">
+                {p.outlet}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section aria-labelledby="about-faq">
+        <Rule id="about-faq">{t.faq}</Rule>
+        <dl>
+          {faqItems[lang].map((f, i) => (
+            <div
+              key={f.q}
+              className="border-t py-[10px]"
+              style={{ borderTopColor: i ? "var(--hairline)" : "var(--rule)" }}
+            >
+              <dt className="font-[var(--weight-row)]">{f.q}</dt>
+              <dd className="mt-1 text-ink-muted">{f.a}</dd>
             </div>
           ))}
-        </div>
+        </dl>
       </section>
     </main>
   )

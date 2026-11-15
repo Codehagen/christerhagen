@@ -1,56 +1,128 @@
-import { Link } from "next-view-transitions"
-
 import { type Lang } from "@/lib/companies"
-import { localizedPath } from "@/lib/seo"
+import { POST_PEN, cut } from "@/lib/pen/posts"
 import { posts, nextPostSlug, writingCopy, type PostSlug } from "@/lib/posts"
+import { localizedPath } from "@/lib/seo"
 
+import { DocdirStage, LastMark, MarginBracket } from "@/components/post-marks"
+import { Highlight, InlineNote, PenToggle, RingArrow } from "@/components/site/pen"
+import { Rail } from "@/components/site/rail"
+
+const RAIL_LABEL: Record<Lang, string> = {
+  en: "On this page",
+  no: "På denne siden",
+}
+
+/**
+ * The post (41 desktop, 42 phone, 44, 45; DESIGN.md §5 Post).
+ *
+ * The rail: `↩ All writing`, the post's three sections, the PenToggle at its
+ * foot. The column from 28%: date · read, the title, three paragraphs that
+ * are the rail's sections, each carrying one of the pen's marks (bracket,
+ * ring + arrow, highlighter) with its note in the right margin. 44's one
+ * product shot on the wall follows the Docdir post's first paragraph. Read
+ * next, with 45's last mark beside it.
+ *
+ * Phone (42): the rail is a strip under the header row; the notes are
+ * written under their paragraph; no bracket, no arrows.
+ *
+ * Put it inside `<PenProvider color="blue">`, header and footer included.
+ */
 export function PostContent({ slug, lang }: { slug: PostSlug; lang: Lang }) {
   const t = writingCopy[lang]
   const post = posts[lang][slug]
+  const pen = POST_PEN[lang][slug]
 
   const nSlug = nextPostSlug(slug)
   const next = posts[lang][nSlug]
 
+  const paragraph = (text: string, p: number) => {
+    if (pen.ring.p === p) {
+      const [a, b, c] = cut(text, pen.ring.phrase)
+      return (
+        <>
+          <p className="text-pretty">
+            {a}
+            <RingArrow note={pen.ring.note}>{b}</RingArrow>
+            {c}
+          </p>
+          <InlineNote>{pen.ring.note}</InlineNote>
+        </>
+      )
+    }
+    if (pen.hl.p === p) {
+      const [a, b, c] = cut(text, pen.hl.phrase)
+      return (
+        <>
+          <p className="text-pretty">
+            {a}
+            <Highlight note={pen.hl.note}>{b}</Highlight>
+            {c}
+          </p>
+          <InlineNote>{pen.hl.note}</InlineNote>
+        </>
+      )
+    }
+    const plain = <p className="text-pretty">{text}</p>
+    return pen.bracket.p === p ? (
+      <MarginBracket note={pen.bracket.note}>{plain}</MarginBracket>
+    ) : (
+      plain
+    )
+  }
+
   return (
-    <main id="main" className="mx-auto w-full max-w-[620px] flex-1 px-5 sm:px-7">
-      <article className="pt-[72px] pb-6">
-        <Link
-          href={localizedPath("/writing", lang)}
-          className="mb-[38px] inline-flex items-center min-h-11 font-mono text-[0.75rem] leading-none font-medium tracking-[0.02em] text-(--ink-faint) transition-colors hover:text-(--rust-strong)"
-        >
-          <span aria-hidden>←</span> {t.backLabel}
-        </Link>
+    <main
+      id="main"
+      className="flex-1 px-[var(--page-pad-x)] lg:px-0 [&>nav[data-site-rail]]:-mx-[var(--page-pad-x)] [&>nav[data-site-rail]]:px-[var(--page-pad-x)]"
+    >
+      <Rail
+        label={RAIL_LABEL[lang]}
+        back={{ href: localizedPath("/writing", lang), label: t.backLabel }}
+        items={pen.sections.map((s) => ({ id: s.id, label: s.label }))}
+      >
+        <PenToggle lang={lang} />
+      </Rail>
 
-        <div className="mb-4 font-mono text-[0.75rem] leading-none font-normal tracking-[0.04em] text-(--ink-meta)">
-          {post.date} · {post.read}
-        </div>
-        <h1 className="m-0 mb-9 text-[clamp(1.75rem,8.5vw,2.375rem)] leading-[1.18] font-semibold tracking-[-0.015em] text-(--ink-strong)">
-          {post.title}
-        </h1>
+      <article
+        data-pen-column
+        className="pt-[42px] lg:ml-[var(--column-left)] lg:w-[var(--column)]"
+      >
+        <header className="mb-6">
+          <p className="mb-2 text-micro tracking-[var(--tracking-caps)] text-ink-muted tabular-nums">
+            <time dateTime={post.dateISO}>{post.date}</time> · {post.read}
+          </p>
+          <h1 className="text-title leading-[var(--leading-title)] font-[560] tracking-[var(--tracking-title)] text-balance">
+            {post.title}
+          </h1>
+        </header>
 
-        <div className="flex flex-col gap-[22px]">
-          {post.body.map((para, i) => (
-            <p
-              key={i}
-              className="m-0 text-[1.1875rem] leading-[1.66] font-normal text-(--ink-body)"
+        {post.body.map((text, p) => {
+          const s = pen.sections[p]
+          return (
+            <section
+              key={s.id}
+              id={s.id}
+              className="relative scroll-mt-[12vh] [&+&]:mt-[var(--para-gap)]"
             >
-              {para}
-            </p>
-          ))}
-        </div>
-      </article>
+              <h2 className="sr-only">
+                {s.label}
+              </h2>
+              {paragraph(text, p)}
+              {slug === "docdir-visma" && p === 0 ? (
+                <DocdirStage lang={lang} />
+              ) : null}
+            </section>
+          )
+        })}
 
-      <div className="mt-[48px] mb-[72px] border-t border-border pt-[26px]">
-        <h2 className="m-0 mb-3 font-mono text-[0.6875rem] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
-          {t.readNextLabel}
-        </h2>
-        <Link
+        <LastMark
+          note={pen.next}
+          label={t.readNextLabel}
           href={localizedPath(`/writing/${nSlug}`, lang)}
-          className="inline-flex items-center min-h-11 text-[1.5rem] leading-[1.25] font-medium text-(--ink-strong) transition-colors hover:text-(--rust-strong)"
-        >
-          {next.title} <span aria-hidden>→</span>
-        </Link>
-      </div>
+          title={next.title}
+          meta={`${next.date} · ${next.read}`}
+        />
+      </article>
     </main>
   )
 }

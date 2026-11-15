@@ -3,167 +3,1050 @@
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
-/* Note: Tailwind v4's built-in `hover:` already only applies on hover-capable
+/* Tailwind v4's built-in `hover:` already only applies on hover-capable
    devices (@media (hover: hover)), so hover styles do not stick on touch. */
 
-@theme inline {
-    --font-heading: var(--font-serif);
-    --font-serif: var(--font-serif);
-    --font-mono: var(--font-mono);
-    --font-sans: var(--font-serif);
-    --color-sidebar-ring: var(--sidebar-ring);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar: var(--sidebar);
-    --color-chart-5: var(--chart-5);
-    --color-chart-4: var(--chart-4);
-    --color-chart-3: var(--chart-3);
-    --color-chart-2: var(--chart-2);
-    --color-chart-1: var(--chart-1);
-    --color-ring: var(--ring);
-    --color-input: var(--input);
-    --color-border: var(--border);
-    --color-destructive: var(--destructive);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-accent: var(--accent);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-muted: var(--muted);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-secondary: var(--secondary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-primary: var(--primary);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-popover: var(--popover);
-    --color-card-foreground: var(--card-foreground);
-    --color-card: var(--card);
-    --color-foreground: var(--foreground);
-    --color-background: var(--background);
-    --radius-sm: calc(var(--radius) * 0.6);
-    --radius-md: calc(var(--radius) * 0.8);
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) * 1.4);
-    --radius-2xl: calc(var(--radius) * 1.8);
-    --radius-3xl: calc(var(--radius) * 2.2);
-    --radius-4xl: calc(var(--radius) * 2.6);
-
-    /* Motion — one named curve for every transform/enter surface (press, hero
-       entrance, route crossfade). Color hovers stay on the `ease` keyword. */
-    --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
+/* ───────────────────────────── design tokens ─────────────────────────────
+   DESIGN.md §2. benji.org's ground (#FDFDFC, ink #111, no texture) plus the
+   fixed eased top fade. Every grey is the ink at an alpha. One pen colour per
+   page: set `--pen` on the page root (see components/site/pen.tsx). */
 :root {
-    /* Christer Hagen — warm paper palette (from Company.dc.html) */
-    --paper: #f5f2ea;
-    --paper-raised: #fbfaf5;
-    --ink: #26231c;
-    --ink-strong: #211e18;
-    --ink-body: #36322a;
-    --ink-muted: #56514a;
-    --ink-soft: #6e685a;
-    /* Faint ink tiers raised to clear WCAG AA (>=4.5:1) on paper AND the
-       --muted surface; they carry real text (labels, dates, footer, nav). The
-       ramp necessarily compresses near one warm value at the floor — hierarchy
-       comes from size/weight/tracking, not illegible lightness. */
-    --ink-faint: #6a6453;
-    --ink-fainter: #6b6456;
-    --line: #e6e0d3;
-    --line-soft: #ccc5b5;
-    --rust: oklch(0.52 0.12 44);
-    --rust-strong: oklch(0.5 0.13 44);
-    --rust-bright: oklch(0.55 0.12 45);
-    --rust-deep: oklch(0.42 0.1 44);
+  /* primitives */
+  --white: #ffffff;
+  --near-white: #fdfdfc;
+  --black-111: #111111;
+  --ink-rgb: 18 18 18;
 
-    /* Exact-value tokens for the design's stray browns/lines (no pixels change). */
-    --ink-body-2: #403b31;
-    --ink-body-3: #4a4539;
-    --ink-meta: #6d6657; /* raised to AA (~5.1:1 paper / 4.6:1 muted); dates, reading time, stars */
-    --arrow-faint: #8c8676; /* decorative ↗ only (aria-hidden); raised to ~3.2:1 */
-    --line-strong: #d8d2c4;
-    --pill-border: #e0dacc;
-    --paper-placeholder: #e8e2d5;
+  /* the ground, and the only thing painted over it */
+  --ground: var(--near-white);
+  --top-fade-h: 128px;
+  --top-fade: linear-gradient(
+    rgb(255 255 255) 0px,
+    rgb(255 255 255 / 0.737) 19%,
+    rgb(255 255 255 / 0.54) 34%,
+    rgb(255 255 255 / 0.38) 47%,
+    rgb(255 255 255 / 0.28) 56.5%,
+    rgb(255 255 255 / 0.192) 65%,
+    rgb(255 255 255 / 0.125) 73%,
+    rgb(255 255 255 / 0.075) 80.2%,
+    rgb(255 255 255 / 0.043) 86.1%,
+    rgb(255 255 255 / 0.02) 91%,
+    rgb(255 255 255 / 0.008) 95.2%,
+    rgb(255 255 255 / 0.004) 98.2%,
+    rgb(255 255 255 / 0)
+  );
 
-    --background: var(--paper);
-    --foreground: var(--ink);
-    --card: var(--paper-raised);
-    --card-foreground: var(--ink);
-    --popover: var(--paper-raised);
-    --popover-foreground: var(--ink);
-    --primary: var(--rust);
-    --primary-foreground: var(--paper);
-    --secondary: #ece7da;
-    --secondary-foreground: var(--ink-body);
-    --muted: #ece7da;
-    --muted-foreground: var(--ink-faint);
-    --accent: #ece7da;
-    --accent-foreground: var(--ink);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: var(--line);
-    --input: var(--line);
-    --ring: var(--rust-bright);
-    --chart-1: oklch(0.55 0.12 45);
-    --chart-2: oklch(0.6 0.08 70);
-    --chart-3: oklch(0.65 0.05 90);
-    --chart-4: oklch(0.7 0.04 110);
-    --chart-5: oklch(0.5 0.06 50);
-    --radius: 0.625rem;
-    --sidebar: var(--paper-raised);
-    --sidebar-foreground: var(--ink);
-    --sidebar-primary: var(--rust);
-    --sidebar-primary-foreground: var(--paper);
-    --sidebar-accent: #ece7da;
-    --sidebar-accent-foreground: var(--ink);
-    --sidebar-border: var(--line);
-    --sidebar-ring: var(--rust-bright);
+  /* ink */
+  --ink: var(--black-111);
+  --ink-muted: rgb(var(--ink-rgb) / 0.5);
+  --ink-idle: rgb(var(--ink-rgb) / 0.4);
+  --ink-faint: rgb(var(--ink-rgb) / 0.3);
+  --ink-stepped-back: rgb(var(--ink-rgb) / 0.32);
+  --ink-ledger-dim: rgb(var(--ink-rgb) / 0.78);
+
+  /* lines */
+  --hairline: rgb(var(--ink-rgb) / 0.09);
+  --rule: rgb(var(--ink-rgb) / 0.14);
+  --underline: rgb(var(--ink-rgb) / 0.22);
+  --slash: rgb(var(--ink-rgb) / 0.22);
+  --wall-line: rgb(0 0 0 / 0.043);
+
+  /* states + surfaces */
+  --row-hover: rgb(var(--ink-rgb) / 0.022);
+  --control-hover: rgb(var(--ink-rgb) / 0.035);
+  --surface: var(--white);
+  --surface-shadow: 0 0 0 1px rgb(var(--ink-rgb) / 0.07),
+    0 1px 2px rgb(var(--ink-rgb) / 0.04),
+    0 10px 28px -10px rgb(var(--ink-rgb) / 0.12);
+  --card-shadow: 0 0 0 1px rgb(var(--ink-rgb) / 0.07),
+    0 1px 2px rgb(var(--ink-rgb) / 0.04),
+    0 10px 28px -10px rgb(var(--ink-rgb) / 0.14);
+
+  /* the pen */
+  --pen-blue: #2b5cd8;
+  --pen-teal: #0f766e;
+  --pen-green: #178a5a;
+  --pen-rust: #c2410c;
+  --pen-red: oklch(0.56 0.2 27);
+  --pen-rose: #be123c;
+  --pen: var(--pen-blue);
+  --pen-wash: color-mix(in oklch, var(--pen) 16%, transparent);
+  --pen-tint: color-mix(in oklch, var(--pen) 6%, transparent);
+  --pen-ring-30: color-mix(in oklch, var(--pen) 30%, transparent);
+  --pen-stroke: 1.5px;
+  --pen-stroke-fine: 1.3px;
+
+  /* type */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-pen: var(--font-caveat), cursive;
+  --text-micro: 11px;
+  --text-small: 12px;
+  --text-ui: 13px;
+  --text-body: 14px;
+  --text-lead: 16px;
+  --text-title: 20px;
+  --text-title-lg: 24px;
+  --text-pen: 16px;
+  --text-pen-lg: 21px;
+  --leading-body: 1.43;
+  --leading-title: 1.18;
+  --leading-ui: 1.35;
+  --leading-meta: 1.3;
+  --leading-pen: 0.98;
+  --weight-body: 460;
+  --weight-row: 520;
+  --weight-strong: 560;
+  --tracking-body: -0.0065em;
+  --tracking-title: -0.012em;
+  --tracking-ui: -0.006em;
+  --tracking-caps: 0.02em;
+
+  /* layout */
+  --page-max: 1200px;
+  --band-h: 48px;
+  --header-row: 48px;
+  --page-pad-x: clamp(16px, 5vw, 60px);
+  --column: 33rem;
+  --column-left: 28%;
+  --column-wide: 40.5rem;
+  --column-wide-left: 16%;
+  --rail-left: 4.4%;
+  --rail-width: 15rem;
+  --rail-top: calc(var(--band-h) + 46px);
+  --margin-gap: 22px;
+  --margin-note-w: 230px;
+  --target: 44px;
+
+  /* spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 10px;
+  --space-4: 14px;
+  --space-5: 20px;
+  --space-6: 28px;
+  --space-7: 40px;
+  --space-8: 48px;
+  --space-9: 64px;
+  --rule-top: 40px;
+  --rule-bottom: 9px;
+  --rule-gap: 10px;
+  --row-pad-y: 7px;
+  --para-gap: 1.3em;
+
+  /* motion */
+  --ease-pen: cubic-bezier(0.45, 0, 0.25, 1);
+  --ease-loop: cubic-bezier(0.45, 0.05, 0.25, 1);
+  --ease-write: cubic-bezier(0.4, 0, 0.3, 1);
+  --ease-bracket: cubic-bezier(0.55, 0, 0.25, 1);
+  --ease-hl: cubic-bezier(0.4, 0.1, 0.3, 1);
+  --ease-press: cubic-bezier(0.2, 0.8, 0.3, 1);
+  --ease-settle: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-card: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-arrow: cubic-bezier(0.3, 0.8, 0.3, 1);
+  --ease-tick: cubic-bezier(0.55, 0.05, 0.3, 1);
+  --dur-press: 140ms;
+  --dur-color: 180ms;
+  --dur-rail: 220ms;
+  --dur-ring: 640ms;
+  --dur-arrow: 420ms;
+  --dur-head: 160ms;
+  --dur-loop: 520ms;
+  --dur-travel: 420ms;
+  --dur-write: 900ms;
+  --dur-bracket: 560ms;
+  --dur-hl: 380ms;
+  --hl-stagger: 360ms;
+  --dur-copy-hold: 1500ms;
+
+  /* shadcn names, pointed at the tokens above so components/ui/* and the
+     pages not yet rebuilt keep rendering on the new ground. */
+  --background: var(--ground);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--ground);
+  --secondary: var(--control-hover);
+  --secondary-foreground: var(--ink);
+  --muted: var(--control-hover);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--control-hover);
+  --accent-foreground: var(--ink);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: var(--hairline);
+  --input: var(--rule);
+  --ring: var(--ink);
+  --chart-1: var(--ink);
+  --chart-2: rgb(var(--ink-rgb) / 0.7);
+  --chart-3: var(--ink-muted);
+  --chart-4: var(--ink-faint);
+  --chart-5: var(--pen);
+  --radius: 0.5rem;
+  --sidebar: var(--ground);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--ink);
+  --sidebar-primary-foreground: var(--ground);
+  --sidebar-accent: var(--control-hover);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--hairline);
+  --sidebar-ring: var(--ink);
+
+  /* LEGACY ALIASES — the warm-paper names the pages still use. They point at
+     the new tokens so nothing breaks while the pages are rebuilt. Do not use
+     them in new code; delete this block once nothing references them. */
+  --paper: var(--ground);
+  --paper-raised: var(--surface);
+  --paper-placeholder: rgb(var(--ink-rgb) / 0.05);
+  --ink-strong: var(--ink);
+  --ink-body: var(--ink);
+  --ink-body-2: var(--ink);
+  --ink-body-3: var(--ink);
+  --ink-soft: var(--ink-muted);
+  --ink-meta: var(--ink-muted);
+  --ink-fainter: var(--ink-faint);
+  --arrow-faint: var(--ink-faint);
+  --line: var(--hairline);
+  --line-soft: var(--rule);
+  --line-strong: var(--rule);
+  --pill-border: var(--hairline);
+  --rust: var(--pen);
+  --rust-strong: var(--pen);
+  --rust-bright: var(--pen);
+  --rust-deep: var(--pen);
 }
 
-/* Light-only, editorial by design. No .dark block: the site forces light, and the
-   shadcn dark defaults shipped an off-brand gray + AI-purple sidebar accent. If a
-   dark theme is ever wanted, author a warm-paper inverse that keeps rust as accent. */
+@theme inline {
+  /* the redesign (DESIGN.md §2) */
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-idle: var(--ink-idle);
+  --color-ink-faint: var(--ink-faint);
+  --color-ink-stepped-back: var(--ink-stepped-back);
+  --color-ink-ledger-dim: var(--ink-ledger-dim);
+  --color-hairline: var(--hairline);
+  --color-rule: var(--rule);
+  --color-underline: var(--underline);
+  --color-row-hover: var(--row-hover);
+  --color-control-hover: var(--control-hover);
+  --color-pen: var(--pen);
+  --color-pen-wash: var(--pen-wash);
+  --color-pen-tint: var(--pen-tint);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-pen: var(--font-caveat), cursive;
+  --text-micro: 11px;
+  --text-small: 12px;
+  --text-ui: 13px;
+  --text-body: 14px;
+  --text-body--line-height: 20px;
+  --text-lead: 16px;
+  --text-title: 20px;
+  --text-title-lg: 24px;
+  --text-pen: 16px;
+  --text-pen-lg: 21px;
+  --shadow-surface: var(--surface-shadow);
+  --ease-pen: var(--ease-pen);
+  --ease-write: var(--ease-write);
+  --ease-press: var(--ease-press);
+
+  /* legacy: the presentations set Newsreader / JetBrains Mono through these */
+  --font-heading: var(--font-serif);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+
+  /* shadcn */
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* The route crossfade and the licensed `.enter` rise. */
+  --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+@theme {
+  /* `margin:` — wide enough for a right margin the pen can write in
+     (column from 28% + 528px + 22px gap + 230px note). Below it, notes go
+     inline under their paragraph and the bracket and arrows are not drawn. */
+  --breakpoint-margin: 68rem;
+}
+
+/* Light only, by design: benji's ground has no dark twin. */
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    }
-  body {
-    @apply bg-background text-foreground;
-    margin: 0;
-    }
+  }
   html {
-    @apply font-serif;
-    }
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    font-weight: var(--weight-body);
+    letter-spacing: var(--tracking-body);
+  }
+  /* benji's top fade: fixed, eased, 128px, no edge line. Content scrolls up
+     and dissolves under it; the header row sits inside it (z-index 10). */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0 0 auto;
+    height: var(--top-fade-h);
+    background: var(--top-fade);
+    pointer-events: none;
+    z-index: 9;
+  }
   a {
+    color: inherit;
     text-decoration: none;
-    }
+  }
   p {
     text-wrap: pretty;
-    }
-  h1, h2, h3 {
+  }
+  h1,
+  h2,
+  h3 {
     text-wrap: balance;
-    }
+  }
   /* Remove the iOS double-tap-zoom delay on the dense, closely-spaced links. */
   :where(a, button, [role="button"], label, summary, input, select) {
     touch-action: manipulation;
-    }
-  /* Branded keyboard focus for plain links (buttons/toggles carry their own ring;
-     buttonVariants sets outline-none, so the CTA pills are unaffected). */
-  :where(a):focus-visible {
-    outline: 2px solid var(--ring);
-    outline-offset: 2px;
-    border-radius: 3px;
-    }
-  /* Clear the sticky header when jumping to in-page anchors. (The header is
-     deliberately opaque — backdrop-blur was dropped for its per-frame Safari
-     cost; see commit ab0b560.) */
+  }
+  /* One focus ring for the whole site (DESIGN.md §4). */
+  :where(a, button, summary, [tabindex], [role="button"]):focus-visible:not(
+      :where(.deck-legacy *)
+    ) {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+    border-radius: 0.3em;
+  }
+  /* Clear the header row when jumping to in-page anchors. */
   :where([id]) {
-    scroll-margin-top: 5rem;
-    }
+    scroll-margin-top: 4rem;
+  }
   ::selection {
-    background: oklch(0.55 0.12 45 / 0.16);
+    background: rgb(var(--ink-rgb) / 0.1);
+  }
+}
+
+/* ───────────────────────── legacy deck scope ─────────────────────────
+   The Norwegian presentations keep the old warm-paper register exactly:
+   Newsreader at 16px on #f5f2ea, no top fade. Their layouts wrap them in
+   `.deck-legacy` (display: contents, so it adds no box). */
+html:has(.deck-legacy),
+body:has(.deck-legacy) {
+  background: #f5f2ea;
+}
+body:has(.deck-legacy)::before {
+  content: none;
+}
+.deck-legacy {
+  display: contents;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 400;
+  letter-spacing: normal;
+  font-feature-settings: normal;
+  color: #26231c;
+  --background: #f5f2ea;
+  --foreground: #26231c;
+  --border: #e6e0d3;
+  --input: #e6e0d3;
+  --ring: oklch(0.55 0.12 45);
+  --muted-foreground: #6a6453;
+  --primary: oklch(0.52 0.12 44);
+  --paper: #f5f2ea;
+  --ink: #26231c;
+  --rust: oklch(0.52 0.12 44);
+}
+.deck-legacy :where(a):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+.deck-legacy ::selection {
+  background: oklch(0.55 0.12 45 / 0.16);
+}
+
+/* ─────────────────────────── site components ───────────────────────────
+   The shared parts in components/site/*. Hover only under a fine pointer;
+   transitions name their properties; reduced motion is handled at the end. */
+@layer components {
+  /* An invisible 44px-tall target around a small visible word. */
+  .hit {
+    position: relative;
+  }
+  .hit::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: max(100%, var(--hw, 0px));
+    height: max(100%, var(--target));
+    transform: translate(-50%, -50%);
+  }
+  /* The control gives under the finger. */
+  .press {
+    transition-property: transform, color;
+    transition-duration: var(--dur-press), var(--dur-color);
+    transition-timing-function: var(--ease-press), ease;
+  }
+  .press:active {
+    transform: scale(0.97);
+  }
+
+  /* Links with no colour: ink with a fine grey underline that darkens. */
+  .ink-link {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.24em;
+    text-decoration-color: var(--underline);
+    transition-property: text-decoration-color;
+    transition-duration: var(--dur-color);
+    transition-timing-function: ease-out;
+  }
+  .ink-link[data-open] {
+    text-decoration-color: var(--pen);
+  }
+  .ink-link[data-variant="back"] {
+    text-decoration-color: transparent;
+  }
+  .ink-link[data-variant="quiet"] {
+    text-decoration-color: var(--ink-faint);
+    text-underline-offset: 0.22em;
+  }
+  .preview-card {
+    transition-property: left, top, opacity, translate;
+    transition-duration: 220ms, 220ms, 160ms, 160ms;
+    transition-timing-function: var(--ease-card);
+  }
+
+  /* Nav, rail, EN / NO: idle grey, the current one in ink. */
+  .nav-item {
+    color: var(--ink-idle);
+    transition-property: color, transform;
+    transition-duration: var(--dur-color), var(--dur-press);
+    transition-timing-function: ease, var(--ease-press);
+  }
+  .nav-item[data-on] {
+    color: var(--ink);
+  }
+  .rail-item {
+    color: var(--ink-idle);
+    text-align: left;
+    transition-property: color;
+    transition-duration: var(--dur-rail);
+    transition-timing-function: ease-out;
+  }
+  .rail-item[data-on] {
+    color: var(--ink);
+  }
+  .lang-item {
+    color: var(--ink-faint);
+    font-weight: var(--weight-strong);
+    transition-property: color;
+    transition-duration: var(--dur-color);
+  }
+  .lang-item[data-on] {
+    color: var(--ink);
+    cursor: default;
+  }
+
+  /* The pen's loop round the current page (header, phone menu). */
+  .travel-ring {
+    position: absolute;
+    display: block;
+    pointer-events: none;
+    transition-property: left, top, width, height, opacity;
+    transition-duration: var(--dur-travel), var(--dur-travel),
+      var(--dur-travel), var(--dur-travel), 160ms;
+    transition-timing-function: var(--ease-loop);
+    opacity: 0;
+  }
+  .travel-ring[data-on] {
+    opacity: 1;
+  }
+  .travel-ring svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .travel-ring path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  .travel-ring[data-on] path {
+    animation: site-ring-draw 560ms var(--ease-loop) 90ms both;
+  }
+
+  /* Ledger rows. */
+  .ledger-row {
+    transition-property: background-color;
+    transition-duration: var(--dur-press);
+    transition-timing-function: ease-out;
+  }
+  .ledger-row:focus-visible {
+    outline-offset: 0;
+  }
+  .ledger-arrow {
+    display: inline-block;
+    color: var(--ink-faint);
+    transition-property: translate, color;
+    transition-duration: 220ms, var(--dur-color);
+    transition-timing-function: var(--ease-arrow), ease;
+  }
+  .ledger-title {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    text-decoration-color: transparent;
+    transition-property: text-decoration-color;
+    transition-duration: var(--dur-color);
+  }
+  .ledger-row:focus-visible .ledger-arrow {
+    color: var(--pen);
+    translate: 0.25em 0;
+  }
+  /* A row's margin preview: hidden until the row is pointed at or focused;
+     while any preview shows, the ledger's resting pen note steps aside. */
+  .ledger-preview {
+    opacity: 0;
+    translate: 0 4px;
+    visibility: hidden;
+    transition-property: opacity, translate, visibility;
+    transition-duration: 160ms, 220ms, 0ms;
+    transition-delay: 0ms, 0ms, 160ms;
+    transition-timing-function: ease, var(--ease-card);
+  }
+  .ledger-item:focus-within .ledger-preview {
+    opacity: 1;
+    translate: 0 0;
+    visibility: visible;
+    transition-delay: 0ms;
+  }
+  .ledger:has(.ledger-item:focus-within .ledger-preview) .ledger-note {
+    opacity: 0;
+  }
+  .ledger-note {
+    transition-property: opacity;
+    transition-duration: 160ms;
+  }
+
+  /* Read next: only the arrow moves, and only the arrow takes the pen. */
+  .read-next-title {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    text-decoration-color: transparent;
+    transition-property: text-decoration-color;
+    transition-duration: var(--dur-color);
+  }
+  .read-next-arrow {
+    display: inline-block;
+    color: var(--ink-muted);
+    transition-property: translate, color;
+    transition-duration: 220ms, var(--dur-color);
+    transition-timing-function: var(--ease-arrow), ease;
+  }
+  .read-next[data-inked] .read-next-arrow {
+    color: var(--pen);
+    transition-delay: 0ms, 600ms;
+  }
+  .read-next-link:focus-visible .read-next-arrow {
+    color: var(--pen);
+    translate: 0.22em 0;
+  }
+
+  /* Copy address (17 / 38). */
+  .copy-mail {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    text-decoration-color: var(--ink-faint);
+    transition-property: text-decoration-color;
+    transition-duration: var(--dur-color);
+  }
+  .copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    height: 2.2em;
+    padding: 0 0.7em 0 0.6em;
+    border-radius: 0.6em;
+    color: var(--ink-muted);
+    box-shadow: inset 0 0 0 1px var(--hairline);
+    transition-property: transform, color, background-color, box-shadow;
+    transition-duration: var(--dur-press), 160ms, 160ms, 160ms;
+    transition-timing-function: var(--ease-press);
+  }
+  .copy-btn[data-done] {
+    color: var(--pen);
+    box-shadow: inset 0 0 0 1px var(--pen-ring-30);
+    background-color: var(--pen-tint);
+  }
+  .copy-btn:active {
+    transform: scale(0.97);
+  }
+  .copy-icon {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition-property: opacity, transform;
+    transition-duration: 160ms, 220ms;
+    transition-timing-function: ease, var(--ease-press);
+  }
+  .copy-check {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  .copy-check path {
+    stroke-width: 1.8;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition-property: stroke-dashoffset;
+    transition-duration: 260ms;
+    transition-delay: 60ms;
+  }
+  .copy-btn[data-done] .copy-glyph {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  .copy-btn[data-done] .copy-check {
+    opacity: 1;
+    transform: none;
+  }
+  .copy-btn[data-done] .copy-check path {
+    stroke-dashoffset: 0;
+  }
+  .copy-word {
+    grid-area: 1 / 1;
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 140ms;
+  }
+  .copy-word[data-on] {
+    opacity: 1;
+  }
+  .copy-pen {
+    white-space: nowrap;
+    rotate: -4deg;
+    line-height: 1;
+    pointer-events: none;
+    clip-path: inset(-30% 100% -30% -4%);
+    opacity: 0;
+    transition-property: clip-path, opacity;
+    transition-duration: 0ms, 260ms;
+  }
+  .copy-pen[data-on] {
+    clip-path: inset(-30% -4% -30% -4%);
+    opacity: 1;
+    transition-duration: 520ms, 0ms;
+    transition-delay: 120ms, 0ms;
+    transition-timing-function: var(--ease-write);
+  }
+
+  /* Phone menu (40 / 42). */
+  .burger {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: var(--target);
+    height: var(--target);
+  }
+  .burger span {
+    position: absolute;
+    left: 13px;
+    right: 13px;
+    height: 1.5px;
+    border-radius: 1px;
+    background: var(--ink);
+    transition-property: transform;
+    transition-duration: 220ms;
+    transition-timing-function: var(--ease-arrow);
+  }
+  .burger span:first-child {
+    transform: translateY(-4px);
+  }
+  .burger span:last-child {
+    transform: translateY(4px);
+  }
+  .burger[data-open] span:first-child {
+    transform: rotate(45deg);
+  }
+  .burger[data-open] span:last-child {
+    transform: rotate(-45deg);
+  }
+  .phone-menu {
+    opacity: 0;
+    translate: 0 -8px;
+    visibility: hidden;
+    transition-property: opacity, translate, visibility;
+    transition-duration: 150ms, 150ms, 0ms;
+    transition-delay: 0ms, 0ms, 150ms;
+    transition-timing-function: ease-out;
+  }
+  .phone-menu[data-open] {
+    opacity: 1;
+    translate: 0 0;
+    visibility: visible;
+    transition-duration: 200ms, 200ms, 0ms;
+    transition-delay: 0ms;
+  }
+
+  /* PenToggle's dot. */
+  .pen-dot {
+    transition-property: background-color, box-shadow;
+    transition-duration: 200ms;
+  }
+
+  /* Stage: the sheet settles onto the wall's lines once. */
+  .stage-sheet {
+    transition-property: translate;
+    transition-duration: 520ms;
+    transition-timing-function: var(--ease-settle);
+  }
+
+  /* ───── the pen's marks (DESIGN.md §3) ─────
+     Off-state durations are the quick "hide the pen" beat; marks mount off,
+     so nothing animates until they are switched on. */
+  .pen-stroke {
+    stroke-dasharray: 1 1.1;
+    stroke-dashoffset: 1.002;
+    transition-property: stroke-dashoffset;
+    transition-duration: 260ms;
+    transition-timing-function: var(--ease-pen);
+  }
+  .pen-stroke[data-on] {
+    stroke-dashoffset: 0;
+    transition-duration: var(--dur, var(--dur-ring));
+    transition-delay: var(--d, 0ms);
+  }
+  .pen-hl {
+    background-image: linear-gradient(var(--pen-wash), var(--pen-wash));
+    background-repeat: no-repeat;
+    background-position: 0 62%;
+    background-size: 0% 78%;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    transition-property: background-size;
+    transition-duration: 220ms;
+    transition-timing-function: var(--ease-hl);
+  }
+  .pen-hl[data-on] {
+    background-size: 100% 78%;
+    transition-duration: var(--dur-hl);
+    transition-delay: var(--d, 0ms);
+  }
+  .pen-hl[data-variant="title"] {
+    background-size: 0% 80%;
+  }
+  .pen-hl[data-variant="title"][data-on] {
+    background-size: 100% 80%;
+    transition-duration: 520ms;
+  }
+  .pen-write {
+    clip-path: inset(-30% 100% -30% -4%);
+    transition-property: clip-path;
+    transition-duration: 220ms;
+    transition-timing-function: var(--ease-write);
+  }
+  .pen-write[data-on] {
+    clip-path: inset(-30% -4% -30% -4%);
+    transition-duration: var(--dur-write);
+    transition-delay: var(--d, 0ms);
+  }
+  .pen-draw {
+    clip-path: inset(-4px -4px 100% -4px);
+    transition-property: clip-path;
+    transition-duration: 220ms;
+    transition-timing-function: var(--ease-bracket);
+  }
+  .pen-draw[data-on] {
+    clip-path: inset(-4px -4px -4px -4px);
+    transition-duration: var(--dur-bracket);
+    transition-delay: var(--d, 0ms);
+  }
+  .pen-settle {
+    opacity: 0;
+    rotate: -6deg;
+    translate: -4px 3px;
+    transition-property: opacity, rotate, translate;
+    transition-duration: 180ms;
+  }
+  .pen-settle[data-on] {
+    opacity: 1;
+    rotate: -3deg;
+    translate: 0 0;
+    transition-duration: 360ms;
+    transition-delay: var(--d, 900ms);
+    transition-timing-function: var(--ease-settle);
+  }
+  .pen-tick path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition-property: stroke-dashoffset;
+    transition-duration: 180ms;
+    transition-timing-function: var(--ease-tick);
+  }
+  .pen-tick[data-on] path {
+    stroke-dashoffset: 0;
+    transition-duration: 320ms;
+    transition-delay: calc(var(--d, 0ms) + 380ms);
+  }
+  .pen-slide {
+    opacity: 0;
+    translate: -5px 0;
+    transition-property: opacity, translate;
+    transition-duration: 180ms;
+  }
+  .pen-slide[data-on] {
+    opacity: 1;
+    translate: 0 0;
+    transition-duration: 300ms;
+    transition-delay: calc(var(--d, 0ms) + 520ms);
+    transition-timing-function: var(--ease-card);
+  }
+  /* The loop round a fact in a ledger (`g-ring`). */
+  .pen-loop path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    opacity: 0;
+    transition-property: stroke-dashoffset, opacity;
+    transition-duration: 180ms, 0ms;
+    transition-delay: 0ms, 180ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 1, 1), linear;
+  }
+  .pen-loop[data-on] path {
+    stroke-dashoffset: 0;
+    opacity: 1;
+    transition-duration: var(--dur-loop), 0ms;
+    transition-delay: var(--d, 60ms), var(--d, 60ms);
+    transition-timing-function: var(--ease-loop), linear;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .ink-link:not([data-open]):hover,
+    .copy-mail:hover {
+      text-decoration-color: var(--ink);
     }
+    .nav-item:not([data-on]):hover,
+    .rail-item:not([data-on]):hover,
+    .lang-item:not([data-on]):hover {
+      color: var(--ink);
+    }
+    .ledger-row:hover {
+      background-color: var(--row-hover);
+    }
+    .ledger-row:hover .ledger-arrow {
+      color: var(--pen);
+      translate: 0.25em 0;
+    }
+    .ledger-row:hover .ledger-title {
+      text-decoration-color: var(--ink-faint);
+    }
+    .ledger-item:hover .ledger-preview {
+      opacity: 1;
+      translate: 0 0;
+      visibility: visible;
+      transition-delay: 0ms;
+    }
+    .ledger:has(.ledger-item:hover .ledger-preview) .ledger-note {
+      opacity: 0;
+    }
+    .read-next-link:hover .read-next-arrow {
+      color: var(--pen);
+      translate: 0.22em 0;
+    }
+    .read-next-link:hover .read-next-title {
+      text-decoration-color: var(--ink-faint);
+    }
+    .copy-btn:not([data-done]):hover {
+      color: var(--ink);
+      background-color: var(--control-hover);
+    }
+    .pen-toggle:hover {
+      color: var(--pen);
+    }
+  }
+}
+
+/* The rest steps back once the highlighter lands (05). Unlayered so it wins
+   over a text-colour utility on the stepped-back element. */
+.pen-scope .pen-rest {
+  transition-property: color, opacity;
+  transition-duration: 240ms;
+}
+.pen-scope[data-stepped] .pen-rest,
+.pen-scope[data-stepped] .pen-rest * {
+  color: var(--ink-stepped-back);
+  transition-property: color;
+  transition-duration: 480ms;
+  transition-delay: 760ms;
+}
+
+@keyframes site-ring-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Reduced motion (DESIGN.md §3): strokes, sweeps and clips finish at once;
+   fades become opacity only; nothing translates or scales. */
+@media (prefers-reduced-motion: reduce) {
+  .press,
+  .press:active,
+  .copy-btn,
+  .copy-btn:active {
+    transform: none;
+  }
+  .travel-ring {
+    transition-property: opacity;
+    transition-duration: 160ms;
+  }
+  .travel-ring path,
+  .travel-ring[data-on] path {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+  .pen-stroke,
+  .pen-stroke[data-on],
+  .pen-hl,
+  .pen-hl[data-on],
+  .pen-write,
+  .pen-write[data-on],
+  .pen-draw,
+  .pen-draw[data-on],
+  .pen-tick path,
+  .pen-tick[data-on] path,
+  .pen-scope .pen-rest,
+  .pen-scope .pen-rest *,
+  .pen-scope[data-stepped] .pen-rest,
+  .pen-scope[data-stepped] .pen-rest *,
+  .rail-item,
+  .pen-dot,
+  .stage-sheet {
+    transition-duration: 0ms !important;
+    transition-delay: 0ms !important;
+  }
+  .pen-settle,
+  .pen-settle[data-on],
+  .pen-slide,
+  .pen-slide[data-on] {
+    rotate: -3deg;
+    translate: 0 0;
+    transition-property: opacity;
+    transition-duration: 160ms;
+    transition-delay: 0ms;
+  }
+  .pen-slide,
+  .pen-slide[data-on] {
+    rotate: none;
+  }
+  .pen-loop path {
+    stroke-dashoffset: 0;
+    transition-property: opacity;
+    transition-duration: 160ms;
+    transition-delay: 0ms;
+  }
+  .pen-loop[data-on] path {
+    transition-property: opacity;
+    transition-duration: 160ms;
+    transition-delay: 0ms;
+  }
+  .ledger-arrow,
+  .read-next-arrow {
+    transition-property: color;
+  }
+  .ledger-row:hover .ledger-arrow,
+  .ledger-row:focus-visible .ledger-arrow,
+  .read-next-link:hover .read-next-arrow,
+  .read-next-link:focus-visible .read-next-arrow {
+    translate: none;
+  }
+  .ledger-preview,
+  .preview-card {
+    translate: none !important;
+    transition-property: opacity, visibility;
+  }
+  .copy-icon,
+  .copy-check,
+  .copy-btn[data-done] .copy-glyph {
+    transform: none;
+  }
+  .copy-check path {
+    transition: none;
+    stroke-dashoffset: 0;
+  }
+  .copy-pen,
+  .copy-pen[data-on] {
+    clip-path: none;
+    transition-property: opacity;
+    transition-duration: 200ms;
+    transition-delay: 0ms;
+  }
+  .burger span {
+    transition-duration: 0ms;
+  }
+  .phone-menu,
+  .phone-menu[data-open] {
+    translate: 0 0;
+    transition-property: opacity, visibility;
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {

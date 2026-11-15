@@ -1,58 +1,34 @@
 import { type Lang } from "@/lib/companies"
-import { contactContent, socialLinks, EMAIL } from "@/lib/content"
+import { contactContent } from "@/lib/content"
 
-import { eyebrow as label } from "@/lib/typography"
+import { CopyAddress } from "@/components/site/copy-address"
+import { Rule } from "@/components/site/rule"
 
+/**
+ * The contact page: a plain column (no rail, so the wide column from 16%,
+ * DESIGN.md §7.7) that leads with the address and its copy button (17), the
+ * availability line under it, then what he looks for. The footer under it
+ * keeps only its quiet line, so the address is not said twice.
+ */
 export function ContactContent({ lang }: { lang: Lang }) {
   const c = contactContent[lang]
-  const social = socialLinks(lang)
 
   return (
-    <main id="main" className="mx-auto w-full max-w-[740px] flex-1 px-5 sm:px-7">
-      <section className="pt-[88px] pb-[60px]">
-        <div className={`${label} mb-6`}>{c.kicker}</div>
-        <h1 className="m-0 max-w-[16ch] text-[clamp(1.875rem,9vw,2.5rem)] leading-[1.2] font-normal tracking-[-0.015em] text-(--ink-strong)">
-          {c.head}
-        </h1>
-        <p className="mt-5 max-w-[44ch] text-[1.125rem] leading-[1.6] font-normal text-(--ink-body-2)">
-          {c.body}
-        </p>
+    <main
+      id="main"
+      className="px-[var(--page-pad-x)] pt-4 lg:ml-[var(--column-wide-left)] lg:w-[var(--column-wide)] lg:px-0 lg:pt-[46px]"
+    >
+      <p className="text-ink-muted">{c.kicker}</p>
+      <h1 className="mt-[6px] text-title leading-[var(--leading-title)] font-[var(--weight-strong)] tracking-[var(--tracking-title)]">
+        {c.head}
+      </h1>
+      <p className="mt-[10px] max-w-[var(--column)] text-ink-muted">{c.body}</p>
 
-        <a
-          href={`mailto:${EMAIL}`}
-          className="mt-10 mb-2 inline-block max-w-full border-b-2 border-primary/40 text-[clamp(1.3125rem,6vw,1.875rem)] leading-[1.2] break-words font-normal text-(--ink-strong) transition-colors hover:border-(--rust-strong) hover:text-(--rust-strong)"
-        >
-          {EMAIL}
-        </a>
-        <div className="mt-[14px] font-mono text-[0.75rem] leading-none font-normal text-(--ink-fainter)">
-          {c.availability}
-        </div>
+      <CopyAddress lang={lang} note={c.availability} className="mt-[26px]" />
 
-        <div className="mt-[30px] flex flex-wrap gap-[10px]">
-          {social
-            .filter((s) => !s.url.startsWith("mailto:"))
-            .map((s) => (
-              <a
-                key={s.label + s.handle}
-                href={s.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-(--line) bg-(--paper-raised) px-[14px] py-[8px] font-mono text-[0.78125rem] leading-none font-normal text-(--ink-strong) transition-[color,border-color,transform] duration-150 ease-out hover:border-(--line-strong) hover:text-(--rust-strong) active:scale-[0.97]"
-              >
-                <span className="text-[0.625rem] tracking-[0.08em] text-(--ink-faint) uppercase">
-                  {s.label}
-                </span>
-                <span>{s.handle}</span>
-              </a>
-            ))}
-        </div>
-      </section>
-
-      <section className="border-t border-border pt-11 pb-20">
-        <h2 className={`${label} mb-[18px]`}>{c.lookHead}</h2>
-        <p className="m-0 max-w-[40ch] text-[1.25rem] leading-[1.55] font-normal text-(--ink-body)">
-          {c.lookBody}
-        </p>
+      <section aria-labelledby="contact-look">
+        <Rule id="contact-look">{c.lookHead}</Rule>
+        <p className="max-w-[var(--column)]">{c.lookBody}</p>
       </section>
     </main>
   )

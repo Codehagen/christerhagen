@@ -7,103 +7,139 @@ import {
   type CompanySlug,
   type Lang,
 } from "@/lib/companies"
+import { companyPen, type FactKey } from "@/lib/pen/companies"
+import { posts, writingCopy, type PostSlug } from "@/lib/posts"
 import { localizedPath } from "@/lib/seo"
-import { Badge } from "@/components/ui/badge"
+import { cn } from "@/lib/utils"
 
-export function CompanyContent({ slug, lang }: { slug: CompanySlug; lang: Lang }) {
+import { DocdirStage } from "@/components/docdir-stage"
+import { WIDE_COLUMN } from "@/components/portfolio-content"
+import { Facts } from "@/components/site/ledger"
+import { TextLink } from "@/components/site/link"
+import { InlineNote, Ring } from "@/components/site/pen"
+import { ReadNext } from "@/components/site/read-next"
+import { Rule } from "@/components/site/rule"
+
+/**
+ * A company page (DESIGN.md §5; lab round-3/k/53 + _company.tsx): back to
+ * Portfolio, the name, the tagline, the facts as a ledger with one green ring
+ * on the fact that matters and the pen's note in the margin (under the facts
+ * on a phone). A full-bleed Stage only where a real product shot exists
+ * (Docdir's sales prospectus). Then the story, `Visit ↗`, the post about the
+ * company if there is one, read next (the next company), and the footer.
+ */
+
+/** The post the site has written about a company. */
+const RELATED: Partial<Record<CompanySlug, PostSlug>> = {
+  docdir: "docdir-visma",
+  refenze: "apparel-to-software",
+}
+
+export function CompanyContent({
+  slug,
+  lang,
+}: {
+  slug: CompanySlug
+  lang: Lang
+}) {
   const t = uiCopy[lang]
-  const company = companies[lang][slug]
+  const c = companies[lang][slug]
+  const pen = companyPen[slug]
+  const note = pen[lang]
 
-  const nSlug = nextSlug(slug)
-  const next = companies[lang][nSlug]
+  const n = nextSlug(slug)
+  const next = companies[lang][n]
+
+  const postSlug = RELATED[slug]
+  const post = postSlug ? posts[lang][postSlug] : null
+
+  const facts: [FactKey, string, string][] = [
+    ["role", t.mRole, c.role],
+    ["stage", t.mStage, c.stage],
+    ["year", t.mYear, c.year],
+    ["sector", t.mSector, c.sector],
+  ]
 
   return (
-    <>
-      <article className="pt-[72px] pb-6">
-        <Link
+    <main id="main" className="flex-1">
+      <div className={cn(WIDE_COLUMN, "pt-9")} data-pen-column>
+        <TextLink
           href={localizedPath("/portfolio", lang)}
-          className="mb-10 inline-flex items-center min-h-11 font-mono text-[0.75rem] leading-none font-medium tracking-[0.02em] text-(--ink-faint) transition-colors hover:text-(--rust-strong)"
+          variant="back"
+          className="press inline-flex min-h-11 items-center text-small text-ink-muted no-underline"
         >
-          <span aria-hidden>←</span> {t.backLabel}
-        </Link>
-
-        <h1 className="m-0 text-[clamp(1.875rem,9vw,2.5rem)] leading-[1.12] font-semibold tracking-[-0.015em] text-(--ink-strong)">
-          {company.name}
+          <span aria-hidden>↩&nbsp;</span>
+          {t.backLabel}
+        </TextLink>
+        <h1 className="mt-4 text-title-lg leading-[1.15] font-[var(--weight-strong)] tracking-[-0.016em]">
+          {c.name}
         </h1>
-        <p className="mt-[14px] text-[1.1875rem] leading-[1.5] font-normal text-(--ink-soft) italic">
-          {company.tagline}
-        </p>
+        <p className="mt-[5px] text-pretty text-ink-muted">{c.tagline}</p>
 
-        <dl className="mt-[38px] mb-[6px] grid grid-cols-1 gap-y-5 border-y border-border py-[26px] sm:grid-cols-2 sm:gap-x-8">
-          <div>
-            <dt className="font-mono text-[0.625rem] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
-              {t.mRole}
-            </dt>
-            <dd className="mt-[9px] text-[1rem] leading-[1.3] font-normal text-(--ink-body)">
-              {company.role}
-            </dd>
-          </div>
-          <div>
-            <dt className="font-mono text-[0.625rem] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
-              {t.mStage}
-            </dt>
-            <dd className="mt-[9px] text-[1rem] leading-[1.3] font-normal text-(--ink-body)">
-              {company.stage}
-            </dd>
-          </div>
-          <div>
-            <dt className="font-mono text-[0.625rem] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
-              {t.mYear}
-            </dt>
-            <dd className="mt-[9px] text-[1rem] leading-[1.3] font-normal text-(--ink-body)">
-              {company.year}
-            </dd>
-          </div>
-          <div>
-            <dt className="font-mono text-[0.625rem] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
-              {t.mSector}
-            </dt>
-            <dd className="mt-[9px] text-[1rem] leading-[1.3] font-normal text-(--ink-body)">
-              {company.sector}
-            </dd>
-          </div>
-        </dl>
+        <Facts
+          className="mt-[29px]"
+          rows={facts.map(([key, label, value]) => ({
+            key,
+            label,
+            value:
+              key === pen.fact ? (
+                <Ring note={note} srNote={note} delay={260}>
+                  <span className="font-[var(--weight-strong)]">{value}</span>
+                </Ring>
+              ) : (
+                value
+              ),
+          }))}
+        />
+        <InlineNote>{note}</InlineNote>
+      </div>
 
-        <div className="mt-[34px] flex flex-col gap-5">
-          {company.body.map((para, i) => (
-            <p
-              key={i}
-              className="m-0 text-[1.125rem] leading-[1.66] font-normal text-(--ink-body)"
-            >
+      {slug === "docdir" ? (
+        <DocdirStage lang={lang} captionClassName={WIDE_COLUMN} />
+      ) : null}
+
+      <div className={WIDE_COLUMN}>
+        <div className={slug === "docdir" ? "" : "mt-10"}>
+          {c.body.map((para, i) => (
+            <p key={i} className={cn("text-pretty", i > 0 && "mt-2.5")}>
               {para}
             </p>
           ))}
+          {c.site !== "#" ? (
+            <p className="mt-2.5">
+              <TextLink
+                href={c.site}
+                className="inline-flex min-h-11 items-center"
+              >
+                {t.visitLabel}
+              </TextLink>
+            </p>
+          ) : null}
         </div>
 
-        <div className="mt-[34px] flex flex-wrap items-center gap-[14px]">
-          <Badge variant="status">{company.status}</Badge>
-          <a
-            href={company.site}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="border-b border-primary/40 pb-[2px] py-2 -my-2 font-mono text-[0.78125rem] leading-none font-medium tracking-[0.02em] text-foreground transition-colors hover:text-(--rust-strong)"
-          >
-            {t.visitLabel} <span aria-hidden>↗</span>
-          </a>
-        </div>
-      </article>
+        {post && postSlug ? (
+          <>
+            <Rule top={32}>{writingCopy[lang].kicker}</Rule>
+            <Link
+              href={localizedPath(`/writing/${postSlug}`, lang)}
+              className="flex min-h-11 items-center justify-between gap-3"
+            >
+              <span className="ink-link">{post.title}</span>
+              <span className="shrink-0 text-ink-faint tabular-nums">
+                {post.date}
+              </span>
+            </Link>
+          </>
+        ) : null}
 
-      <div className="mt-[48px] mb-[72px] border-t border-border pt-[26px]">
-        <h2 className="m-0 mb-3 font-mono text-[0.6875rem] leading-none font-medium tracking-[0.08em] text-(--ink-fainter) uppercase">
-          {t.nextLabel}
-        </h2>
-        <Link
-          href={localizedPath(`/portfolio/${nSlug}`, lang)}
-          className="inline-flex items-center min-h-11 text-[1.5rem] leading-[1.25] font-medium text-(--ink-strong) transition-colors hover:text-(--rust-strong)"
-        >
-          {next.name} <span aria-hidden>→</span>
-        </Link>
+        <ReadNext
+          label={t.nextLabel}
+          href={localizedPath(`/portfolio/${n}`, lang)}
+          title={next.name}
+          meta={next.tagline}
+          className="mt-[52px]"
+        />
       </div>
-    </>
+    </main>
   )
 }

@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
+import { PenProvider } from "@/components/site/pen"
 import { PortfolioContent } from "@/components/portfolio-content"
 import { pageMetadata } from "@/lib/seo"
 
@@ -15,10 +16,12 @@ export const metadata: Metadata = pageMetadata({
 
 export default function PortfolioPageNo() {
   return (
-    <div lang="no" className="flex min-h-svh flex-col bg-background text-foreground">
-      <SiteHeader active="portfolio" lang="no" />
-      <PortfolioContent lang="no" />
-      <SiteFooter lang="no" />
-    </div>
+    <PenProvider color="red">
+      <div lang="no" className="flex min-h-svh flex-col bg-ground text-ink">
+        <SiteHeader active="portfolio" lang="no" />
+        <PortfolioContent lang="no" />
+        <SiteFooter lang="no" column="wide" />
+      </div>
+    </PenProvider>
   )
 }
