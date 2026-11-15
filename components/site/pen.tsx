@@ -38,6 +38,13 @@ export const PAGE_PEN = {
   post: "blue",
   portfolio: "red",
   company: "green",
+  // Not in the lab's map (DESIGN.md §3). Contact sits with About, whose
+  // sign-off carries the same address; the secondary pages and the dead ends
+  // take the site's default warm pen, which About and Writing already use.
+  // Blue stays the posts' colour. Server pages pass the literal: a value
+  // imported from this client module is only a reference on the server.
+  contact: "rust",
+  page: "rust",
 } as const satisfies Record<string, PenColor>
 
 const STORAGE_KEY = "christerhagen:pen"
@@ -310,34 +317,54 @@ function useMargin(ref: React.RefObject<HTMLElement | null>) {
   return m
 }
 
-/** A loop that starts top-left, goes round once and overshoots its start (03). */
+/**
+ * The prose ring's radii. Horizontally it sits only 0.55u (≈3.6px at 14px)
+ * off the word, so it stays inside the word space and never strikes the
+ * punctuation next to it ("bought; PowerOffice"); vertically it keeps 0.8u.
+ */
+function ringRadii(p: Rect, u: number) {
+  return { rx: p.w / 2 + u * 0.55, ry: p.h / 2 + u * 0.8 }
+}
+
+/**
+ * A loop that starts top-left, goes round once and overshoots its start (03).
+ * Its left and right sides run vertical at exactly ±rx (no control point
+ * past them), so the overshoot never reaches further sideways than the ring.
+ */
 function ringPath(p: Rect, u: number) {
   const cx = p.x + p.w / 2
   const cy = p.y + p.h / 2
-  const rx = p.w / 2 + u * 1.5
-  const ry = p.h / 2 + u * 0.8
+  const { rx, ry } = ringRadii(p, u)
   return [
-    `M ${cx - rx * 0.88} ${cy - ry * 0.78}`,
-    `C ${cx - rx * 0.3} ${cy - ry * 1.18}, ${cx + rx * 1.04} ${cy - ry * 1.12}, ${cx + rx} ${cy + ry * 0.04}`,
-    `C ${cx + rx * 0.97} ${cy + ry * 1.14}, ${cx - rx * 0.62} ${cy + ry * 1.22}, ${cx - rx * 1.02} ${cy + ry * 0.18}`,
-    `C ${cx - rx * 1.1} ${cy - ry * 0.52}, ${cx - rx * 0.46} ${cy - ry * 1.08}, ${cx + rx * 0.22} ${cy - ry * 1.04}`,
+    `M ${cx - rx * 0.86} ${cy - ry * 0.8}`,
+    `C ${cx - rx * 0.3} ${cy - ry * 1.18}, ${cx + rx} ${cy - ry * 1.12}, ${cx + rx} ${cy + ry * 0.04}`,
+    `C ${cx + rx} ${cy + ry * 1.0}, ${cx - rx * 0.62} ${cy + ry * 1.22}, ${cx - rx} ${cy + ry * 0.18}`,
+    `C ${cx - rx} ${cy - ry * 0.52}, ${cx - rx * 0.46} ${cy - ry * 1.08}, ${cx + rx * 0.22} ${cy - ry * 1.04}`,
   ].join(" ")
 }
 
-/** From the top of a ring out to the left edge of its note, with a head. */
-function arrowPath(p: Rect, n: Rect, u: number, lift = 0.8) {
+/**
+ * From the ring's right side out to the left edge of its note, with a head.
+ * It leaves the ring a little above centre, rises into the gap between this
+ * line and the one above (just under the line box's top, clear of the
+ * descenders above and the capitals here) and runs along it to the margin,
+ * so it crosses no text.
+ */
+function arrowPath(p: Rect, n: Rect, u: number) {
   const cx = p.x + p.w / 2
   const cy = p.y + p.h / 2
-  const rx = p.w / 2 + u * 1.5
-  const ry = p.h / 2 + u * 0.8
-  const sx = cx + rx * 0.72
-  const sy = cy - ry * 1.02
+  const { rx, ry } = ringRadii(p, u)
+  const sx = cx + rx
+  const sy = cy - ry * 0.3
+  const gap = p.y + p.h * 0.08
   const ex = n.x - u * 1.2
   const ey = n.y + n.h * 0.42
-  const c1x = sx + (ex - sx) * 0.12
-  const c1y = Math.min(sy, ey) - u * lift
-  const c2x = ex - (ex - sx) * 0.34
-  const c2y = ey - u * 1.2
+  const c1x = sx + u * 1.2
+  // Controls sit 0.5u above the gap so the curve itself (which only
+  // approaches its controls) actually runs along it.
+  const c1y = gap - u * 0.5
+  const c2x = ex - (ex - sx) * 0.35
+  const c2y = gap - u * 0.5
   const line = `M ${sx} ${sy} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${ex} ${ey}`
   const a = Math.atan2(ey - c2y, ex - c2x)
   const L = u * 1.8
@@ -415,7 +442,7 @@ export function PenNote({
       aria-hidden
       data-on={isOn || undefined}
       className={cn(
-        "block font-pen leading-[0.98] whitespace-normal text-pen",
+        "pointer-events-none block font-pen leading-[0.98] whitespace-normal text-pen select-none",
         size === "ledger" && "text-pen-lg leading-[0.95]",
         variant === "write" && "pen-write -rotate-2",
         variant === "settle" && "pen-settle",
@@ -775,8 +802,10 @@ const TOGGLE: Record<Lang, { hide: string; show: string }> = {
 }
 
 /**
- * 23's one control: take the pen away, or give it back. A
- * `button[aria-pressed]` with a 7px dot, filled with the pen when on.
+ * 23's one control: take the pen away, or give it back. A plain button whose
+ * label says what it will do ("Hide the pen" / "Show the pen"), with a 7px
+ * dot filled with the pen when on. No `aria-pressed`: with a label that
+ * flips, it would announce the state twice ("Hide the pen, pressed").
  */
 export function PenToggle({
   lang,
@@ -789,7 +818,6 @@ export function PenToggle({
   return (
     <button
       type="button"
-      aria-pressed={visible}
       onClick={() => setVisible(!visible)}
       className={cn(
         "press hit pen-toggle flex items-center gap-[6px] text-ui text-ink",

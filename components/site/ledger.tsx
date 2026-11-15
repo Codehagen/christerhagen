@@ -63,7 +63,10 @@ export function Ledger({
 }) {
   const years = rows.some((r) => r.year !== undefined)
   const template = years ? `${yearWidth} ${columns}` : columns
-  const grid = "grid items-baseline gap-x-2 py-[var(--row-pad-y)] min-h-11"
+  // Cells share a baseline; the row's one track is centred in the 44px
+  // minimum, so a one-line row does not sit high.
+  const grid =
+    "grid content-center items-baseline gap-x-2 py-[var(--row-pad-y)] min-h-11"
 
   return (
     <div className={cn("ledger pen-scope tabular-nums", className)}>

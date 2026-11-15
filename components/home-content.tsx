@@ -151,7 +151,7 @@ export function HomeContent({ lang }: { lang: Lang }) {
           <TextLink
             href={localizedPath("/writing", lang)}
             variant="back"
-            className="hit text-ink-muted"
+            className="hit text-ink-interactive"
           >
             {writingCopy[lang].backLabel} →
           </TextLink>

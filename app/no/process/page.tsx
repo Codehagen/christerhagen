@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
+import { PenProvider } from "@/components/site/pen"
 import { ProcessContent } from "@/components/process-content"
 import { pageMetadata } from "@/lib/seo"
 
@@ -16,9 +17,11 @@ export const metadata: Metadata = pageMetadata({
 export default function ProcessPageNo() {
   return (
     <div lang="no" className="min-h-svh">
-      <SiteHeader lang="no" />
-      <ProcessContent lang="no" />
-      <SiteFooter lang="no" column="wide" />
+      <PenProvider color="rust">
+        <SiteHeader lang="no" />
+        <ProcessContent lang="no" />
+        <SiteFooter lang="no" column="wide" />
+      </PenProvider>
     </div>
   )
 }

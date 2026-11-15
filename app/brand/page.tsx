@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
+import { PenProvider } from "@/components/site/pen"
 import { BrandContent } from "@/components/brand-content"
 import { pageMetadata } from "@/lib/seo"
 
@@ -10,15 +11,17 @@ export const metadata: Metadata = pageMetadata({
   lang: "en",
   title: "Brand kit",
   description:
-    "The type, colour and voice behind christerhagen.com - editorial, restrained, bilingual.",
+    "The type, colour and voice behind christerhagen.com: editorial, restrained, bilingual.",
 })
 
 export default function BrandPage() {
   return (
     <div lang="en" className="min-h-svh">
-      <SiteHeader lang="en" />
-      <BrandContent lang="en" />
-      <SiteFooter lang="en" column="wide" />
+      <PenProvider color="rust">
+        <SiteHeader lang="en" />
+        <BrandContent lang="en" />
+        <SiteFooter lang="en" column="wide" />
+      </PenProvider>
     </div>
   )
 }

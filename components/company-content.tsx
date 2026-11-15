@@ -66,7 +66,7 @@ export function CompanyContent({
         <TextLink
           href={localizedPath("/portfolio", lang)}
           variant="back"
-          className="press inline-flex min-h-11 items-center text-small text-ink-muted no-underline"
+          className="press inline-flex min-h-11 items-center text-small text-ink-interactive no-underline"
         >
           <span aria-hidden>↩&nbsp;</span>
           {t.backLabel}
@@ -109,7 +109,7 @@ export function CompanyContent({
             <p className="mt-2.5">
               <TextLink
                 href={c.site}
-                className="inline-flex min-h-11 items-center"
+                className="inline-flex min-h-11 min-w-11 items-center"
               >
                 {t.visitLabel}
               </TextLink>

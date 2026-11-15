@@ -45,9 +45,9 @@ export function useBox(
 /**
  * The pen's loop round "where you are" (36/40): a hand-drawn ring sized to
  * the measured `box`, drawn in 560ms after a 90ms beat. When the box moves
- * (a new `k`), it slides there (420ms `--ease-loop`) and draws again. It
- * says where you are, so it stays when the pen is hidden. Place it inside the
- * `relative` container the box was measured against.
+ * (a new `k`), it slides there (420ms `--ease-loop`, on `transform` only) and
+ * draws again. It says where you are, so it stays when the pen is hidden.
+ * Place it inside the `relative` container the box was measured against.
  */
 export function TravelRing({
   box,
@@ -73,8 +73,7 @@ export function TravelRing({
       className="travel-ring"
       data-on
       style={{
-        left: box.x - px,
-        top: box.y - py,
+        transform: `translate(${box.x - px}px, ${box.y - py}px)`,
         width: box.w + px * 2,
         height: box.h + py * 2,
       }}

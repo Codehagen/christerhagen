@@ -18,7 +18,7 @@ const LINE = 0.34
 
 /**
  * benji's fixed left rail (DESIGN.md §4 Rail): a back link (`↩ Index`,
- * `↩ All writing`) above the page's sections, 13px, idle at `--ink-idle`.
+ * `↩ All writing`) above the page's sections, 13px, idle at `--ink-interactive`.
  * The section you are reading turns ink with `aria-current="location"`
  * (IntersectionObserver on the sections, read at a line 34% down; the last
  * item takes over at the bottom of the page). Clicking scrolls smoothly to
@@ -136,7 +136,13 @@ export function Rail({
           "rail-item hit shrink-0",
           strip ? "flex min-h-11 items-center whitespace-nowrap" : "py-[3px]"
         )}
-        style={{ "--hw": "44px" } as React.CSSProperties}
+        style={
+          {
+            "--hw": "44px",
+            // Stacked 5px apart: 44px targets would overlap by ~15px.
+            ...(strip ? null : { "--hh": "calc(100% + 5px)" }),
+          } as React.CSSProperties
+        }
       >
         {it.label}
       </a>
@@ -149,7 +155,7 @@ export function Rail({
         aria-label={label}
         data-site-rail
         className={cn(
-          "fixed top-[var(--rail-top)] left-[var(--rail-left)] z-[11] hidden w-[var(--rail-width)] flex-col items-start gap-[5px] text-ui leading-[var(--leading-ui)] tracking-[var(--tracking-ui)] lg:flex",
+          "fixed top-[var(--rail-top)] left-[var(--rail-left)] z-(--z-rail) hidden w-[var(--rail-width)] flex-col items-start gap-[5px] text-ui leading-[var(--leading-ui)] tracking-[var(--tracking-ui)] lg:flex",
           className
         )}
       >
@@ -157,7 +163,13 @@ export function Rail({
           <Link
             href={back.href}
             className="rail-item hit press mb-[9px]"
-            style={{ "--hw": "44px" } as React.CSSProperties}
+            // 14px to the first section: reach halfway minus its 2.5px.
+            style={
+              {
+                "--hw": "44px",
+                "--hh": "calc(100% + 23px)",
+              } as React.CSSProperties
+            }
           >
             ↩ {back.label}
           </Link>
@@ -169,11 +181,13 @@ export function Rail({
       {/* phone: one line under the header row, on the ground with a hairline
           under it (42), so the text scrolling up passes beneath it. A page
           whose column is padded can bleed it to the edges with
-          `[&>nav[data-site-rail]]:-mx-[var(--page-pad-x)]` + matching px. */}
+          `[&>nav[data-site-rail]]:-mx-[var(--page-pad-x)]` + matching px.
+          The strip scrolls sideways, so it clips anything outside it: focus
+          rings are drawn 2px inside each 44px item instead of 3px outside. */}
       <nav
         aria-label={label}
         data-site-rail
-        className="sticky top-[var(--header-row)] z-[11] flex bg-ground shadow-[0_1px_0_var(--hairline)] [scrollbar-width:none] items-center gap-4 overflow-x-auto text-ui lg:hidden [&::-webkit-scrollbar]:hidden"
+        className="sticky top-[var(--header-row)] z-(--z-rail) flex [scrollbar-width:none] items-center gap-4 overflow-x-auto bg-ground text-ui shadow-[0_1px_0_var(--hairline)] lg:hidden [&::-webkit-scrollbar]:hidden [&_:focus-visible]:outline-offset-[-2px]"
       >
         {back ? (
           <Link

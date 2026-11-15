@@ -142,14 +142,16 @@ export function PortfolioContent({ lang }: { lang: Lang }) {
             <span>{head[0]}</span>
             <span>{head[1]}</span>
             <span className="hidden md:block">{head[2]}</span>
-            <span className="text-right">{head[3]}</span>
+            {/* pr-1 matches the outcome cells' room for the ring, so the
+                header ends where the values do. */}
+            <span className="pr-1 text-right">{head[3]}</span>
           </div>
           <Ledger
             label={p.kicker}
             yearWidth="var(--pf-year)"
             columns="var(--pf-cols)"
             rows={rows}
-            className="[&_.ledger-row]:items-center max-md:[&_.ledger-row>span:nth-child(3)]:hidden"
+            className="max-md:[&_.ledger-row>span:nth-child(3)]:hidden"
           />
         </div>
       </div>

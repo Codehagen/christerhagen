@@ -4,6 +4,7 @@ import * as React from "react"
 
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
+import { PenProvider } from "@/components/site/pen"
 import { StatusContent } from "@/components/status-content"
 import { TextLink } from "@/components/site/link"
 
@@ -25,20 +26,26 @@ export default function Error({
 
   return (
     <div className="min-h-svh">
-      <SiteHeader lang="en" />
-      <StatusContent
-        kicker="Error"
-        head="Something went wrong."
-        body="This page ran into an unexpected problem. Trying again usually clears it — if it keeps happening, head back home."
-      >
-        <p className="mt-[26px] flex min-h-11 flex-wrap items-center gap-x-5">
-          <button type="button" onClick={reset} className="ink-link hit press">
-            Try again
-          </button>
-          <TextLink href="/">Back home</TextLink>
-        </p>
-      </StatusContent>
-      <SiteFooter lang="en" column="wide" />
+      <PenProvider color="rust">
+        <SiteHeader lang="en" />
+        <StatusContent
+          kicker="Error"
+          head="Something went wrong."
+          body="This page ran into an unexpected problem. Trying again usually clears it. If it keeps happening, head back home."
+        >
+          <p className="mt-[26px] flex min-h-11 flex-wrap items-center gap-x-5">
+            <button
+              type="button"
+              onClick={reset}
+              className="ink-link hit press"
+            >
+              Try again
+            </button>
+            <TextLink href="/">Back home</TextLink>
+          </p>
+        </StatusContent>
+        <SiteFooter lang="en" column="wide" />
+      </PenProvider>
     </div>
   )
 }

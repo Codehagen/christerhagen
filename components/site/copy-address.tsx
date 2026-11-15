@@ -111,7 +111,8 @@ export function CopyAddress({
           "flex flex-wrap",
           stacked
             ? "flex-col items-start gap-2"
-            : "items-center gap-x-3 gap-y-2"
+            : // `stacked` on a phone (DESIGN.md §4 Footer), a row from md up.
+              "flex-col items-start gap-2 md:flex-row md:items-center md:gap-x-3 md:gap-y-2"
         )}
       >
         <a
@@ -159,6 +160,9 @@ export function CopyAddress({
               </span>
             </span>
           </button>
+          {/* Beside the button. Below md the address is always stacked, so
+              the button starts the line and the note (≈60px) has the rest of
+              it: it can never widen the page. */}
           {pen ? (
             <span
               aria-hidden

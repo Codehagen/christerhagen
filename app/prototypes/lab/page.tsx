@@ -1,3 +1,5 @@
+import { deckFonts } from "@/app/fonts"
+
 import { Lab } from "./lab"
 
 /**
@@ -13,5 +15,11 @@ export const metadata = {
 }
 
 export default function LabPage() {
-  return <Lab />
+  // The lab draws today's site (Newsreader, JetBrains Mono) beside the
+  // redesign; the root layout no longer loads those faces.
+  return (
+    <div className={`contents ${deckFonts}`}>
+      <Lab />
+    </div>
+  )
 }

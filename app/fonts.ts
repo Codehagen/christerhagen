@@ -25,10 +25,10 @@ export const fontCaveat = Caveat({
 
 /*
  * Legacy faces. The Norwegian presentations (app/no/presentasjon, app/no/lab,
- * components/deck-*) are set in Newsreader and JetBrains Mono through
- * `font-serif` / `font-mono`, and the lab reads them from the root. They are
- * not preloaded: no page of the redesigned site uses them, so the files are
- * only fetched where a deck (or a not-yet-rebuilt page) actually sets them.
+ * components/deck-*) and the curation lab (app/prototypes) are set in
+ * Newsreader and JetBrains Mono through `font-serif` / `font-mono`. Only
+ * those layouts put `deckFonts` on the page (`--font-serif`, `--font-mono`),
+ * so the redesigned site never references or fetches them.
  */
 export const fontSerif = Newsreader({
   subsets: ["latin"],
@@ -46,3 +46,6 @@ export const fontMono = JetBrains_Mono({
   weight: ["400", "500"],
   preload: false,
 })
+
+/** The two legacy faces' CSS variables, for the presentation and lab layouts. */
+export const deckFonts = `${fontSerif.variable} ${fontMono.variable}`

@@ -13,7 +13,7 @@ export const metadata: Metadata = pageMetadata({
   lang: "no",
   title: "Om",
   description:
-    "Christer Hagen er en norsk seriegründer og programvareutvikler i Bodø — grunnlegger av Codebase og Not Another VC, som solgte Docdir til Visma i 2026.",
+    "Christer Hagen er en norsk seriegründer og programvareutvikler i Bodø, grunnlegger av Codebase og Not Another VC, som solgte Docdir til Visma i 2026.",
 })
 
 export default function AboutPageNo() {

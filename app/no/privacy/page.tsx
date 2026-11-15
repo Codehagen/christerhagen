@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
+import { PenProvider } from "@/components/site/pen"
 import { PrivacyContent } from "@/components/privacy-content"
 import { pageMetadata } from "@/lib/seo"
 
@@ -10,15 +11,17 @@ export const metadata: Metadata = pageMetadata({
   lang: "no",
   title: "Personvern",
   description:
-    "Ingen analyse, ingen informasjonskapsler, ingen sporing. Hva denne siden gjør — og ikke gjør — med dataene dine.",
+    "Ingen analyse, ingen informasjonskapsler, ingen sporing. Hva denne siden gjør, og ikke gjør, med dataene dine.",
 })
 
 export default function PrivacyPageNo() {
   return (
     <div lang="no" className="min-h-svh">
-      <SiteHeader lang="no" />
-      <PrivacyContent lang="no" />
-      <SiteFooter lang="no" column="wide" />
+      <PenProvider color="rust">
+        <SiteHeader lang="no" />
+        <PrivacyContent lang="no" />
+        <SiteFooter lang="no" column="wide" />
+      </PenProvider>
     </div>
   )
 }

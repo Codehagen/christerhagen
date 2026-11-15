@@ -13,7 +13,9 @@ const LINKS = {
   no: { process: "Slik jobber jeg", brand: "Brand kit", privacy: "Personvern" },
 }
 
-const quiet = "hit transition-colors duration-[var(--dur-color)] hover:text-ink"
+// Links rest at the interactive grey (AA), not the line's faint grey.
+const quiet =
+  "hit text-ink-interactive transition-colors duration-[var(--dur-color)] hover:text-ink"
 
 /**
  * The footer (DESIGN.md §4 Footer): the address with its copy button and the
@@ -67,10 +69,14 @@ export function SiteFooter({
         <div
           className={cn(
             address && "mt-6",
-            "flex flex-wrap items-center justify-between gap-x-6 gap-y-3 text-small text-ink-faint"
+            "flex flex-wrap items-center justify-between gap-x-6 gap-y-7 text-small text-ink-faint"
           )}
         >
-          <ul className="flex flex-wrap items-center gap-x-4 gap-y-1">
+          {/* Targets reach halfway across the 16px gap between links. On a
+              phone the line wraps: rows (and EN / NO under them) sit 28px
+              apart, so each keeps its full 44px target (17px line + 28px)
+              without colliding. One line on desktop, so no change there. */}
+          <ul className="flex flex-wrap items-center gap-x-4 gap-y-7 [--hw:calc(100%+16px)]">
             {socials.map((s) => (
               <li key={s.label}>
                 <a

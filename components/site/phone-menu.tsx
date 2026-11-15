@@ -113,7 +113,7 @@ export function PhoneMenu({
         aria-label={t.nav}
         data-open={open || undefined}
         inert={!open || undefined}
-        className="phone-menu fixed inset-x-0 top-[var(--header-row)] bottom-0 z-10 overflow-y-auto bg-ground px-[var(--page-pad-x)] pt-2 pb-8"
+        className="phone-menu fixed inset-x-0 top-[var(--header-row)] bottom-0 overflow-y-auto bg-ground px-[var(--page-pad-x)] pt-2 pb-8"
       >
         <ul ref={list} className="relative">
           {NAV_KEYS.map((k, i) => {

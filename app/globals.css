@@ -39,10 +39,15 @@
   /* ink */
   --ink: var(--black-111);
   --ink-muted: rgb(var(--ink-rgb) / 0.5);
-  --ink-idle: rgb(var(--ink-rgb) / 0.4);
+  --ink-idle: rgb(var(--ink-rgb) / 0.4); /* benji's idle grey; clickable text uses --ink-interactive */
   --ink-faint: rgb(var(--ink-rgb) / 0.3);
   --ink-stepped-back: rgb(var(--ink-rgb) / 0.32);
   --ink-ledger-dim: rgb(var(--ink-rgb) / 0.78);
+  /* Anything you can click or activate that rests in grey: idle nav, rail,
+     EN / NO, footer links, back links, the copy button, stepped-back titles.
+     0.6 on --ground is ≈4.9:1 (WCAG AA). The 0.3–0.5 greys above are for
+     text you only read (dates, labels, column heads, captions). */
+  --ink-interactive: rgb(var(--ink-rgb) / 0.6);
 
   /* lines */
   --hairline: rgb(var(--ink-rgb) / 0.09);
@@ -116,6 +121,15 @@
   --margin-gap: 22px;
   --margin-note-w: 230px;
   --target: 44px;
+
+  /* stacking: the only z-index steps on the site. The fade's 9 is benji's
+     (DESIGN.md §2); the rail and the header sit over it, and the header is
+     above the rail so the phone menu (inside the header) covers the strip. */
+  --z-raised: 1;  /* the preview card, over the prose after it */
+  --z-fade: 9;    /* body::before, the top fade */
+  --z-rail: 10;   /* the fixed rail, the phone strip */
+  --z-header: 11; /* the header row and the phone menu inside it */
+  --z-skip: 100;  /* the skip link, when focused */
 
   /* spacing */
   --space-1: 4px;
@@ -227,6 +241,7 @@
   --color-ink-faint: var(--ink-faint);
   --color-ink-stepped-back: var(--ink-stepped-back);
   --color-ink-ledger-dim: var(--ink-ledger-dim);
+  --color-ink-interactive: var(--ink-interactive);
   --color-hairline: var(--hairline);
   --color-rule: var(--rule);
   --color-underline: var(--underline);
@@ -320,6 +335,10 @@
     font-family: var(--font-sans);
     font-feature-settings: "cv11", "ss01";
     -webkit-tap-highlight-color: transparent;
+    /* Keep whatever the browser scrolls to (hash jumps, Tab / Shift+Tab to
+       an off-screen element) clear of the 128px top fade, so a focused
+       element never sits dissolved under it. */
+    scroll-padding-top: var(--top-fade-h);
   }
   body {
     margin: 0;
@@ -331,7 +350,7 @@
     letter-spacing: var(--tracking-body);
   }
   /* benji's top fade: fixed, eased, 128px, no edge line. Content scrolls up
-     and dissolves under it; the header row sits inside it (z-index 10). */
+     and dissolves under it; the header row and the rail sit over it. */
   body::before {
     content: "";
     position: fixed;
@@ -339,7 +358,7 @@
     height: var(--top-fade-h);
     background: var(--top-fade);
     pointer-events: none;
-    z-index: 9;
+    z-index: var(--z-fade);
   }
   a {
     color: inherit;
@@ -364,10 +383,6 @@
     outline: 2px solid var(--ink);
     outline-offset: 3px;
     border-radius: 0.3em;
-  }
-  /* Clear the header row when jumping to in-page anchors. */
-  :where([id]) {
-    scroll-margin-top: 4rem;
   }
   ::selection {
     background: rgb(var(--ink-rgb) / 0.1);
@@ -418,7 +433,9 @@ body:has(.deck-legacy)::before {
    The shared parts in components/site/*. Hover only under a fine pointer;
    transitions name their properties; reduced motion is handled at the end. */
 @layer components {
-  /* An invisible 44px-tall target around a small visible word. */
+  /* An invisible 44px-tall target around a small visible word. Where
+     neighbours sit closer than that, shrink it to the largest size that does
+     not collide: `--hw` / `--hh`, e.g. `calc(100% + <gap>)`. */
   .hit {
     position: relative;
   }
@@ -428,7 +445,7 @@ body:has(.deck-legacy)::before {
     left: 50%;
     top: 50%;
     width: max(100%, var(--hw, 0px));
-    height: max(100%, var(--target));
+    height: max(100%, var(--hh, var(--target)));
     transform: translate(-50%, -50%);
   }
   /* The control gives under the finger. */
@@ -461,15 +478,17 @@ body:has(.deck-legacy)::before {
     text-decoration-color: var(--ink-faint);
     text-underline-offset: 0.22em;
   }
+  /* Placed with `transform` (set inline, not animated); it rises in on
+     `translate` and fades on opacity. No layout property moves. */
   .preview-card {
-    transition-property: left, top, opacity, translate;
-    transition-duration: 220ms, 220ms, 160ms, 160ms;
+    transition-property: opacity, translate;
+    transition-duration: 160ms, 220ms;
     transition-timing-function: var(--ease-card);
   }
 
   /* Nav, rail, EN / NO: idle grey, the current one in ink. */
   .nav-item {
-    color: var(--ink-idle);
+    color: var(--ink-interactive);
     transition-property: color, transform;
     transition-duration: var(--dur-color), var(--dur-press);
     transition-timing-function: ease, var(--ease-press);
@@ -478,7 +497,7 @@ body:has(.deck-legacy)::before {
     color: var(--ink);
   }
   .rail-item {
-    color: var(--ink-idle);
+    color: var(--ink-interactive);
     text-align: left;
     transition-property: color;
     transition-duration: var(--dur-rail);
@@ -488,7 +507,7 @@ body:has(.deck-legacy)::before {
     color: var(--ink);
   }
   .lang-item {
-    color: var(--ink-faint);
+    color: var(--ink-interactive);
     font-weight: var(--weight-strong);
     transition-property: color;
     transition-duration: var(--dur-color);
@@ -503,9 +522,14 @@ body:has(.deck-legacy)::before {
     position: absolute;
     display: block;
     pointer-events: none;
-    transition-property: left, top, width, height, opacity;
-    transition-duration: var(--dur-travel), var(--dur-travel),
-      var(--dur-travel), var(--dur-travel), 160ms;
+    /* Placed and slid with `transform: translate()` only. Its size is set
+       directly: the path is keyed on the target, so it is undrawn while the
+       box changes and the snap never shows, and a scale would thicken the
+       stroke (non-scaling-stroke ignores CSS transforms on HTML ancestors). */
+    left: 0;
+    top: 0;
+    transition-property: transform, opacity;
+    transition-duration: var(--dur-travel), 160ms;
     transition-timing-function: var(--ease-loop);
     opacity: 0;
   }
@@ -620,7 +644,7 @@ body:has(.deck-legacy)::before {
     height: 2.2em;
     padding: 0 0.7em 0 0.6em;
     border-radius: 0.6em;
-    color: var(--ink-muted);
+    color: var(--ink-interactive);
     box-shadow: inset 0 0 0 1px var(--hairline);
     transition-property: transform, color, background-color, box-shadow;
     transition-duration: var(--dur-press), 160ms, 160ms, 160ms;
@@ -935,6 +959,12 @@ body:has(.deck-legacy)::before {
   transition-duration: 480ms;
   transition-delay: 760ms;
 }
+/* A stepped-back title is still a link: it steps back only as far as the
+   interactive grey, so it keeps AA contrast. */
+.pen-scope[data-stepped] .pen-rest .ledger-title,
+.pen-scope[data-stepped] .pen-rest .ledger-title * {
+  color: var(--ink-interactive);
+}
 
 @keyframes site-ring-draw {
   from {
@@ -1159,11 +1189,28 @@ body:has(.deck-legacy)::before {
   html {
     scroll-behavior: auto;
     }
+  /* The catch-all. It spares the fades DESIGN.md §3 keeps under reduced
+     motion: those elements are switched to opacity-only transitions in the
+     reduced-motion block above, so nothing on them moves either way. */
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+    }
+  *:not(
+      .travel-ring,
+      .pen-settle,
+      .pen-slide,
+      .pen-loop path,
+      .preview-card,
+      .ledger-preview,
+      .ledger-note,
+      .copy-pen,
+      .phone-menu
+    ),
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
     }
 }
 

@@ -60,14 +60,18 @@ export function LangSwitch({
               href={href}
               hrefLang={l.hrefLang}
               lang={l.hrefLang}
-              aria-label={l.name}
               aria-current={on ? "true" : undefined}
               onClick={onNavigate}
               data-on={on || undefined}
               className="lang-item hit press"
-              style={{ "--hw": "30px" } as React.CSSProperties}
+              // EN and NO are 12px apart (gap, slash, gap): each target
+              // reaches halfway, so the two never overlap.
+              style={{ "--hw": "calc(100% + 12px)" } as React.CSSProperties}
             >
               {l.label}
+              {/* The name read out starts with the visible letters (WCAG
+                  2.5.3): "EN English", "NO Norsk". */}
+              <span className="sr-only"> {l.name}</span>
             </Link>
           </span>
         )

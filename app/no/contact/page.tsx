@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
+import { PenProvider } from "@/components/site/pen"
 import { ContactContent } from "@/components/contact-content"
 import { pageMetadata } from "@/lib/seo"
 
@@ -16,9 +17,11 @@ export const metadata: Metadata = pageMetadata({
 export default function ContactPageNo() {
   return (
     <div lang="no" className="min-h-svh">
-      <SiteHeader active="contact" lang="no" />
-      <ContactContent lang="no" />
-      <SiteFooter lang="no" column="wide" address={false} />
+      <PenProvider color="rust">
+        <SiteHeader active="contact" lang="no" />
+        <ContactContent lang="no" />
+        <SiteFooter lang="no" column="wide" address={false} />
+      </PenProvider>
     </div>
   )
 }

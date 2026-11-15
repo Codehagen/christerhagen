@@ -2,8 +2,12 @@ import type { Metadata } from "next"
 import { ViewTransitions } from "next-view-transitions"
 
 import "./globals.css"
-import { fontCaveat, fontInter, fontMono, fontSerif } from "./fonts"
-import { LanguageProvider, HtmlLang } from "@/components/language-provider"
+import { fontCaveat, fontInter } from "./fonts"
+import {
+  HtmlLang,
+  LanguageProvider,
+  SkipLink,
+} from "@/components/language-provider"
 import { cn } from "@/lib/utils"
 import { SITE_URL } from "@/lib/seo"
 
@@ -45,21 +49,10 @@ export default function RootLayout({
     <ViewTransitions>
       <html
         lang="en"
-        className={cn(
-          "antialiased",
-          fontInter.variable,
-          fontCaveat.variable,
-          fontSerif.variable,
-          fontMono.variable
-        )}
+        className={cn("antialiased", fontInter.variable, fontCaveat.variable)}
       >
         <body>
-          <a
-            href="#main"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-4 focus:z-50 focus:rounded-[0.3em] focus:bg-ink focus:px-3 focus:py-2 focus:text-ui focus:text-ground"
-          >
-            Skip to content
-          </a>
+          <SkipLink className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-4 focus:z-(--z-skip) focus:rounded-[0.3em] focus:bg-ink focus:px-3 focus:py-2 focus:text-ui focus:text-ground" />
           <HtmlLang />
           <LanguageProvider>{children}</LanguageProvider>
         </body>

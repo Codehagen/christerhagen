@@ -48,17 +48,19 @@ export function RecoveryLinks({ lang }: { lang: Lang }) {
       <Rule id="recovery-head">{t.head}</Rule>
       <ul className="flex flex-wrap gap-x-5 gap-y-1">
         {links.map(([href, label]) => (
-          <li key={href} className="flex min-h-11 items-center">
-            <TextLink href={href}>{label}</TextLink>
+          <li key={href} className="flex min-h-11">
+            <TextLink href={href} className="flex items-center">
+              {label}
+            </TextLink>
           </li>
         ))}
-        <li className="flex min-h-11 items-center">
-          <a href="/sitemap.xml" className="ink-link">
+        <li className="flex min-h-11">
+          <a href="/sitemap.xml" className="ink-link flex items-center">
             {t.sitemap}
           </a>
         </li>
-        <li className="flex min-h-11 items-center">
-          <a href="/llms.txt" className="ink-link">
+        <li className="flex min-h-11">
+          <a href="/llms.txt" className="ink-link flex items-center">
             {t.guide}
           </a>
         </li>
